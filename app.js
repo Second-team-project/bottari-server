@@ -15,12 +15,12 @@ app.use(express.json());
 
 // 개발 환경에서만 CORS 허용
 // TODO 클라이언트 프록시로 변경할 것
-if (process.env.APP_MODE === 'dev') {
-  app.use(cors({
-  origin: 'http://localhost:5173',  // 프론트 주소 명시
-  credentials: true                 // 쿠기 정보 주고 받음
-  }));
-}
+// if (process.env.APP_MODE === 'dev') {
+//   app.use(cors({
+//   origin: 'http://localhost:5173',  // 프론트 주소 명시
+//   credentials: true                 // 쿠기 정보 주고 받음
+//   }));
+// }
 
 // ------------------------------------------
 // ||     DB 연결 확인
@@ -38,7 +38,7 @@ db.sequelize.authenticate()
 // ||     라우터 정의
 // ------------------------------------------
 // 테스트 라우트
-app.use('/test', testRouter);
+app.use('/api/test', testRouter);
 
 // ------------------------------------------
 // ||     404 처리
