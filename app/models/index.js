@@ -11,6 +11,13 @@ import { Sequelize } from 'sequelize';
 import Driver from './Driver.js';
 import DriverAssignment from './DriverAssignment.js';
 import DriverAttendanceLog from './DriverAttendanceLog.js';
+import Delivery from './Delivery.js';
+import Guest from './Guest.js';
+import Luggage from './Luggage.js';
+import Push from './Push.js';
+import Reservation from './Reservation.js';
+import Review from './Review.js';
+import Storage from './Storage.js';
 import User from './User.js';
 
 const db = {}; // 생성할 모델들 모두 담음
@@ -45,13 +52,13 @@ db.Driver = Driver.init(sequelize);
 db.DriverAssignment = DriverAssignment.init(sequelize);
 db.DriverAttendanceLog = DriverAttendanceLog.init(sequelize);
 // User
-db.User = User.init(sequelize)
-db.User = User.init(sequelize)
-db.User = User.init(sequelize)
-db.User = User.init(sequelize)
-db.User = User.init(sequelize)
-db.User = User.init(sequelize)
-db.User = User.init(sequelize)
+db.Delivery = Delivery.init(sequelize)
+db.Guest = Guest.init(sequelize)
+db.Luggage = Luggage.init(sequelize)
+db.Push = Push.init(sequelize)
+db.Reservation = Reservation.init(sequelize)
+db.Review = Review.init(sequelize)
+db.Storage = Storage.init(sequelize)
 db.User = User.init(sequelize)
 
 
