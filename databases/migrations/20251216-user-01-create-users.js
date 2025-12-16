@@ -42,14 +42,14 @@ const attributes = {
   provider: {
     field: 'provider',
     type: DataTypes.STRING(10),
-    allowNull: true,
+    allowNull: false,
     comment: '로그인 제공자 : KAKAO, GOOGLE',
   },
   refreshToken: {
     field: 'refresh_token',
     type: DataTypes.STRING(255),
     allowNull: true,
-    comment: '리프레쉬 토큰',
+    comment: '리프레시 토큰',
   },
   createdAt: {
     field: 'created_at',

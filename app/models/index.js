@@ -6,9 +6,12 @@
 
 import '../../configs/env.config.js';
 import { Sequelize } from 'sequelize';
+
+// 모델 import
 import Driver from './Driver.js';
 import DriverAssignment from './DriverAssignment.js';
 import DriverAttendanceLog from './DriverAttendanceLog.js';
+import User from './User.js';
 
 const db = {}; // 생성할 모델들 모두 담음
 
@@ -37,9 +40,22 @@ const sequelize = new Sequelize(
 db.sequelize = sequelize;
 
 // TODO 모델 초기화
+// Driver
 db.Driver = Driver.init(sequelize);
 db.DriverAssignment = DriverAssignment.init(sequelize);
 db.DriverAttendanceLog = DriverAttendanceLog.init(sequelize);
+// User
+db.User = User.init(sequelize)
+db.User = User.init(sequelize)
+db.User = User.init(sequelize)
+db.User = User.init(sequelize)
+db.User = User.init(sequelize)
+db.User = User.init(sequelize)
+db.User = User.init(sequelize)
+db.User = User.init(sequelize)
+
+
+
 
 // TODO 모델 관계 설정
 
