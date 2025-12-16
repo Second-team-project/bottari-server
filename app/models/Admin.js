@@ -39,6 +39,7 @@ const attributes = {
   },
   passwordHash: {
     field: 'password_hash',
+    type: DataTypes.STRING(255),
     allowNull: false,
     comment: '비밀번호'
   },
