@@ -19,6 +19,12 @@ import Reservation from './Reservation.js';
 import Review from './Review.js';
 import Storage from './Storage.js';
 import User from './User.js';
+import Admin from './Admin.js';
+import Notice from './Notice.js';
+import FAQ from './FAQ.js';
+import GuideImg from './GuideImg.js';
+import Pricing from './Pricing.js';
+import Store from './Store.js';
 
 const db = {}; // 생성할 모델들 모두 담음
 
@@ -60,7 +66,13 @@ db.Reservation = Reservation.init(sequelize)
 db.Review = Review.init(sequelize)
 db.Storage = Storage.init(sequelize)
 db.User = User.init(sequelize)
-
+// Admin
+db.Admin = Admin.init(sequelize)
+db.Notice = Notice.init(sequelize)
+db.FAQ = FAQ.init(sequelize)
+db.GuideImg = GuideImg.init(sequelize)
+db.Pricing = Pricing.init(sequelize)
+db.Store = Store.init(sequelize)
 
 
 
