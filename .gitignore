@@ -1,0 +1,43 @@
+# ===================================
+# 공통
+# ===================================
+# OS 파일
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
+node_modules
+
+# ===================================
+# Server
+# ===================================
+# 환경 변수 (절대 커밋 금지!)
+.env
+
+# 업로드 파일 (storage 폴더)
+storage/*
+storage/**/*
+storage/**/.gitkeep
+
+# 빌드/배포 파일
+dist
+build
