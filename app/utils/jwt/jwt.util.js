@@ -34,7 +34,7 @@ function generateToken(payload, ttl) {
 // --------------------
 /**
  * 엑세스 토큰 생성
- * @param {import('../../models/index.js').User} user - user model
+ * @param {{ id: number, type: string }} user - user 정보 객체 (id: PK, type: 'guest' | 'meber')
  * @returns {string} JWT
  */
 function generateAccessToken(user) {

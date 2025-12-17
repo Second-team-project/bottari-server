@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
+//
 import './configs/env.config.js';
 import db from './app/models/index.js';
 
@@ -13,6 +15,7 @@ import errorHandler from './app/errors/error.hander.js';
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());  // cookie 파서
 
 // 개발 환경에서만 CORS 허용
 // TODO 클라이언트 프록시로 변경할 것
