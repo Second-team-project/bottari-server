@@ -1,7 +1,7 @@
 /**
  * @file app/models/Admin.js
  * @description Admin model
- * 251216 v1.0.0 김민현 초기 작성
+ * 251216 v1.0.0 김민현 init
  */
 import dayjs from "dayjs";
 import { DataTypes } from "sequelize";
@@ -49,12 +49,6 @@ const attributes = {
     unique: true,
     allowNull: true,
     comment: '이메일'
-  },
-  refreshToken: {
-    field: 'refresh_token',
-    type: DataTypes.STRING(225),
-    allowNull: true,
-    comment: '리프래쉬 토큰'
   },
   code: {
     field: 'code',
