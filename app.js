@@ -5,6 +5,7 @@ import db from './app/models/index.js';
 
 // ===== 라우터 import
 import testRouter from './routes/test.route.js'
+import authRouter from './routes/auth.router.js';
 
 // ===== handler import
 import errorHandler from './app/errors/error.hander.js';
@@ -39,6 +40,8 @@ db.sequelize.authenticate()
 // ------------------------------------------
 // 테스트 라우트
 app.use('/api/test', testRouter);
+// 소셜 로그인
+app.use('/api/auth', authRouter);
 
 // ------------------------------------------
 // ||     404 처리
