@@ -1,7 +1,7 @@
 /**
  * @file app/models/Pricing.js
  * @description Pricing model
- * 251216 v1.0.0 김민현 초기 작성
+ * 251216 v1.0.0 김민현 init
  */
 import dayjs from "dayjs";
 import { DataTypes } from "sequelize";

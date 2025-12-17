@@ -49,12 +49,6 @@ const attributes = {
     allowNull: true,
     comment: '이메일'
   },
-  refreshToken: {
-    field: 'refresh_token',
-    type: DataTypes.STRING(225),
-    allowNull: true,
-    comment: '리프래쉬 토큰'
-  },
   code: {
     field: 'code',
     type: DataTypes.STRING(10),
