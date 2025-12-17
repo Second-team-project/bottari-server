@@ -24,7 +24,8 @@ function setCookie(res, cookieName, cookieValue, ttl, httpOnlyFlg = true, secure
     expires: dayjs().add(ttl, 'second').toDate(),
     httpOnly: httpOnlyFlg,
     secure: secureFlg,
-    sameSite: 'none'
+    sameSite: 'lax'  // TODO : secure: false + sameSite: lax 같이 써야 함
+    // sameSite: 'none'
   }
 
   if(path) {
@@ -88,8 +89,8 @@ function setCookieRefreshToken(res, refreshToken) {
     refreshToken,
     parseInt(process.env.JWT_REFRESH_TOKEN_COOKIE_EXPIRY),
     true,
-    true,
-    process.env.JWT_REISS_URI
+    false,  // TODO : secure: false (http 개발환경)
+    // process.env.JWT_REISS_URI
   )
 }
 
@@ -111,7 +112,7 @@ function clearCookieRefreshToken(res) {
     res,
     process.env.JWT_REFRESH_TOKEN_COOKIE_NAME,
     true,
-    true,
+    false,  // TODO : secure: false (http 개발환경)
     process.env.JWT_REISS_URI
   );
 }

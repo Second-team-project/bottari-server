@@ -8,7 +8,7 @@
  * 카카오 인가 코드 발급 URL 생성
  * @returns {string} URL
  */
-function getAuthrizeURL() {
+function getAuthorizeURL() {
   const params = {
     client_id: process.env.SOCIAL_KAKAO_REST_API_KEY,
     redirect_uri: `${process.env.APP_URL}${process.env.SOCIAL_KAKAO_CALLBACK_URL}`,
@@ -69,7 +69,7 @@ function getLogoutRequest(id, token) {
 
 
 export default {
-  getAuthrizeURL,
+  getAuthorizeURL,
   getTokenRequest,
   getUserRequest,
   getLogoutRequest,

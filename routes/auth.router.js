@@ -10,6 +10,7 @@ import authController from '../app/controllers/auth.controller.js'
 
 const authRouter = express.Router();
 
+authRouter.post('/reissue', authController.reissue);
 authRouter.get('/social/:provider', authController.social);
 authRouter.get('/callback/:provider', authController.socialCallback);
 
