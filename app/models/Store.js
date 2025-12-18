@@ -100,6 +100,9 @@ const Store = {
     const define = sequelize.define(modelName, attributes, options);
 
     return define;
+  },
+  associate: (db) => {
+    db.Store.hasMany(db.Storage, { sourceKey: 'id', foreignKey: 'store_id', as: 'storeIdStores' });
   }
 }
 

@@ -52,11 +52,7 @@ const sequelize = new Sequelize(
 
 db.sequelize = sequelize;
 
-// TODO 모델 초기화
-// Driver
-db.Driver = Driver.init(sequelize);
-db.DriverAssignment = DriverAssignment.init(sequelize);
-db.DriverAttendanceLog = DriverAttendanceLog.init(sequelize);
+// 모델 초기화
 // User
 db.Delivery = Delivery.init(sequelize)
 db.Guest = Guest.init(sequelize)
@@ -66,6 +62,10 @@ db.Reservation = Reservation.init(sequelize)
 db.Review = Review.init(sequelize)
 db.Storage = Storage.init(sequelize)
 db.User = User.init(sequelize)
+// Driver
+db.Driver = Driver.init(sequelize);
+db.DriverAssignment = DriverAssignment.init(sequelize);
+db.DriverAttendanceLog = DriverAttendanceLog.init(sequelize);
 // Admin
 db.Admin = Admin.init(sequelize)
 db.Notice = Notice.init(sequelize)
@@ -76,7 +76,25 @@ db.Store = Store.init(sequelize)
 
 
 
-// TODO 모델 관계 설정
+// 모델 관계 설정
+// User
+User.associate(db);
+Guest.associate(db);
+Reservation.associate(db);
+Delivery.associate(db);
+Storage.associate(db);
+Luggage.associate(db);
+Push.associate(db);
+Review.associate(db);
+// Driver
+Driver.associate(db);
+DriverAssignment.associate(db);
+DriverAttendanceLog.associate(db);
+// Admin
+Admin.associate(db);
+Notice.associate(db);
+FAQ.associate(db);
+Store.associate(db);
 
 
 export default db;

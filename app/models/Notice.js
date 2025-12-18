@@ -97,6 +97,9 @@ const Notice = {
     const define = sequelize.define(modelName, attributes, options);
 
     return define;
+  },
+  associate: (db) => {
+    db.Notice.belongsTo(db.Admin, { targetKey: 'id', foreignKey: 'admin_id', as: 'admin' });
   }
 }
 
