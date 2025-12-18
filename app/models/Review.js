@@ -103,7 +103,10 @@ const Review = {
     return define;
   },
   // 관계
-
+  associate: (db) => {
+    db.Review.belongsTo(db.User, { targetKey: 'id', foreignKey: 'user_id', as: 'user' });
+    db.Review.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reserv_id', as: 'reservation' });
+  }
 }
 
 export default Review;
