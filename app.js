@@ -1,10 +1,13 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
+//
 import './configs/env.config.js';
 import db from './app/models/index.js';
 
 // ===== 라우터 import
 import testRouter from './routes/test.route.js'
+import authRouter from './routes/auth.router.js';
 
 // ===== handler import
 import errorHandler from './app/errors/error.hander.js';
@@ -12,6 +15,7 @@ import errorHandler from './app/errors/error.hander.js';
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());  // cookie 파서
 
 // 개발 환경에서만 CORS 허용
 // TODO 클라이언트 프록시로 변경할 것
@@ -39,6 +43,8 @@ db.sequelize.authenticate()
 // ------------------------------------------
 // 테스트 라우트
 app.use('/api/test', testRouter);
+// 소셜 로그인
+app.use('/api/auth', authRouter);
 
 // ------------------------------------------
 // ||     404 처리

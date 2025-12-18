@@ -1,16 +1,17 @@
 /**
  * @file routes/auth.router.js
  * @description 인증 관련 라우터
- * 251217 v1.0.0 김민현 init
+ * 251217 v1.0.0 N init
  */
+
 import express from 'express';
-import { adminAuthController } from '../app/controllers/admin.auth.controller.js';
+
+import authController from '../app/controllers/auth.controller.js'
 
 const authRouter = express.Router();
 
-// 관리자 인증
-authRouter.post('/login', adminAuthController.login);
-authRouter.post('/logout', adminAuthController.logout);
-authRouter.post('/reissue', adminAuthController.reissue);
+authRouter.post('/reissue', authController.reissue);
+authRouter.get('/social/:provider', authController.social);
+authRouter.get('/callback/:provider', authController.socialCallback);
 
 export default authRouter;
