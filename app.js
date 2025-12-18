@@ -7,7 +7,7 @@ import db from './app/models/index.js';
 
 // ===== 라우터 import
 import testRouter from './routes/test.route.js'
-import authRouter from './routes/user/auth.router.js';
+import userAuthRouter from './routes/user/user.auth.router.js';
 
 // ===== handler import
 import errorHandler from './app/errors/error.hander.js';
@@ -46,7 +46,7 @@ app.use('/api/test', testRouter);
 
 // ===== user용
 // 소셜 로그인
-app.use('/api/user/auth', authRouter);
+app.use('/api/user/auth', userAuthRouter);
 
 // ------------------------------------------
 // ||     404 처리
