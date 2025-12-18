@@ -91,7 +91,7 @@ function getBearerToken(req) {
  * @param {string} token 
  * @returns {jwt.Jwt} claims
  */
-function getClaimswithVerifyToken(token) {
+function getClaimsWithVerifyToken(token) {
   try {
     return jwt.verify(token, process.env.JWT_SECRET);
   } catch(error) {
@@ -110,5 +110,5 @@ export default {
   generateAccessToken,
   generateRefreshToken,
   getBearerToken,
-  getClaimswithVerifyToken,
+  getClaimsWithVerifyToken,
 }

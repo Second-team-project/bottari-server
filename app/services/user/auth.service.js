@@ -37,7 +37,7 @@ async function logout(id) {
 async function reissue(token) {
   // 토큰 검증 및 유저 id 획득
   //     ↱ payload 반환
-  const claims = jwtUtil.getClaimswithVerifyToken(token)
+  const claims = jwtUtil.getClaimsWithVerifyToken(token)
   const userId = claims.sub;
 
   return await db.sequelize.transaction(async t => {
