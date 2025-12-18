@@ -111,7 +111,9 @@ const Guest = {
     return define;
   },
   // 관계
-
+  associate: (db) => {
+    db.Luggage.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reserv_id', as: 'reservation' });
+  }
 }
 
 export default Guest;
