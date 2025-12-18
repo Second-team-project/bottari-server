@@ -99,7 +99,7 @@ const FAQ = {
     return define;
   },
   associate: (db) => {
-    db.FAQ.belongsTo(db.Admin, { targetKey: 'id', foreignKey: 'admin_id', as: 'admin' });
+    db.FAQ.belongsTo(db.Admin, { targetKey: 'id', foreignKey: 'admin_id', as: 'FAQAdmin' });
   }
 }
 

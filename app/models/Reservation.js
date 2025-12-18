@@ -101,7 +101,7 @@ const Reservation = {
     db.Reservation.hasMany(db.Delivery, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdDeliveries' });
     db.Reservation.hasMany(db.Luggage, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdLuggages' });
     db.Reservation.hasMany(db.DriverAssignment, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdDriverAssignments' });
-    db.Reservation.belongsTo(db.User, { targetKey: 'id', foreignKey: 'user_id', as: 'user' });
+    db.Reservation.belongsTo(db.User, { targetKey: 'id', foreignKey: 'user_id', as: 'reservationUser' });
   }
 }
 
