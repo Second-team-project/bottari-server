@@ -55,6 +55,12 @@ const attributes = {
     allowNull: false,
     comment: '보관소 코드/본사 코드'
   },
+  refreshToken: {
+    field: 'refresh_token',
+    type: DataTypes.STRING(255),
+    allowNull: true,
+    comment: '리프레쉬 토큰'
+  },
   createdAt: {
     field: 'created_at',
     type: DataTypes.DATE,
