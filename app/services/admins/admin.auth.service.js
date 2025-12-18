@@ -3,6 +3,7 @@
  * @description 관리자 인증 Service
  * 251217 v1.0.0 김민현 init
  */
+import customError from '../../errors/custom.error.js';
 import jwtUtil from '../../utils/jwt/jwt.util.js';
 import db from '../models/index.js';
 import adminRepository from '../repositories/admin.repository.js';
@@ -14,6 +15,7 @@ import bcrypt from 'bcrypt';
  * @returns {Promise<import("../models/Admin.js").Admin>}
  */
 async function login(body) {
+  // 트랜잭션 처리
   return await db.sequelize.transaction(async t => {
     const { accountId, password } = body;
 
@@ -21,13 +23,13 @@ async function login(body) {
     const admin = await adminRepository.findByAccountId(t, accountId);
 
     // 관리자 존재 여부 체크
-    if(!user) {
-      throw myError('유저 미존재', NOT_REGISTERED_ERROR);
+    if(!admin) {
+      throw customError('해당 관리자 없음', NOT_REGISTERED_ERROR);
     }
 
     // 비밀 번호 체크
     if(!bcrypt.compareSync(password, user.password)) {
-      throw myError('비밀번호 틀림', NOT_REGISTERED_ERROR);
+      throw customError('비밀번호 틀림', NOT_REGISTERED_ERROR);
     }
 
     // JWT 생성(accessToken)
