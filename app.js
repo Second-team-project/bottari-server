@@ -10,7 +10,7 @@ import testRouter from './routes/test.route.js'
 import userAuthRouter from './routes/user/user.auth.router.js';
 
 // ===== handler import
-import errorHandler from './app/errors/error.hander.js';
+import errorHandler from './app/errors/error.handler.js';
 
 const app = express();
 
