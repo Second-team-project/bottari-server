@@ -111,7 +111,7 @@ const Luggage = {
   },
   // 관계
   associate: (db) => {
-    db.Luggage.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reserv_id', as: 'reservation' });
+    db.Luggage.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reserv_id', as: 'luggageReservation' });
   }
 }
 

@@ -110,8 +110,8 @@ const Storage = {
   },
   // 관계
   associate: (db) => {
-    db.Storage.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reserv_id', as: 'reservation' });
-    db.Storage.belongsTo(db.Store, { targetKey: 'id', foreignKey: 'store_id', as: 'store' });
+    db.Storage.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reserv_id', as: 'storageReservation' });
+    db.Storage.belongsTo(db.Store, { targetKey: 'id', foreignKey: 'store_id', as: 'storageStore' });
   }
 }
 

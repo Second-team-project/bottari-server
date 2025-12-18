@@ -104,8 +104,8 @@ const DriverAssignment = {
     return define;
   },
   associate: (db) => {
-    db.DriverAssignment.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reserv_id', as: 'reservation' });
-    db.DriverAssignment.belongsTo(db.Driver, { targetKey: 'id', foreignKey: 'driver_id', as: 'driver' });
+    db.DriverAssignment.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reserv_id', as: 'driverAssignmentReservation' });
+    db.DriverAssignment.belongsTo(db.Driver, { targetKey: 'id', foreignKey: 'driver_id', as: 'driverAssignmentDriver' });
   }
 }
 
