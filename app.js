@@ -7,7 +7,7 @@ import db from './app/models/index.js';
 
 // ===== 라우터 import
 import testRouter from './routes/test.route.js'
-import authRouter from './routes/auth.router.js';
+import authRouter from './routes/user/auth.router.js';
 
 // ===== handler import
 import errorHandler from './app/errors/error.hander.js';
