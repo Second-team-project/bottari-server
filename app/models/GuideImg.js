@@ -6,8 +6,9 @@
 import dayjs from "dayjs";
 import { DataTypes } from "sequelize";
 
-const modelName = 'GuideImg';
+const modelName = 'GuideImg'; // 모델명(JS 내부에서 사용)
 
+// 컬럼 정의
 const attributes = {
   id: {
     field: 'id',
@@ -83,10 +84,21 @@ const attributes = {
   }
 }
 
+// 옵션 정의
 const options = {
   tableName: 'guide_img',
   timestamps: true,
   paranoid: true
+}
+
+// 모델 정의
+const GuideImg = {
+  // 초기화
+  init: (sequelize) => {
+    const define = sequelize.define(modelName, attributes, options);
+
+    return define;
+  }
 }
 
 export default GuideImg;
