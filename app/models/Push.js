@@ -105,7 +105,7 @@ const Push = {
   },
   // 관계
   associate: (db) => {
-    db.Push.belongsTo(db.User, { targetKey: 'id', foreignKey: 'user_id', as: 'user' });
+    db.Push.belongsTo(db.User, { targetKey: 'id', foreignKey: 'user_id', as: 'pushUser' });
   }
 }
 

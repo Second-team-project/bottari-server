@@ -98,7 +98,7 @@ const DriverAttendanceLog = {
     return define;
   },
   associate: (db) => {
-    db.DriverAttendanceLog.belongsTo(db.Driver, { targetKey: 'id', foreignKey: 'driver_id', as: 'driver' });
+    db.DriverAttendanceLog.belongsTo(db.Driver, { targetKey: 'id', foreignKey: 'driver_id', as: 'driverAttendanceLogDriver' });
   }
 }
 

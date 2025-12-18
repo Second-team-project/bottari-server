@@ -104,8 +104,8 @@ const Review = {
   },
   // 관계
   associate: (db) => {
-    db.Review.belongsTo(db.User, { targetKey: 'id', foreignKey: 'user_id', as: 'user' });
-    db.Review.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reserv_id', as: 'reservation' });
+    db.Review.belongsTo(db.User, { targetKey: 'id', foreignKey: 'user_id', as: 'reviewUser' });
+    db.Review.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reserv_id', as: 'reviewReservation' });
   }
 }
 
