@@ -94,7 +94,15 @@ const Reservation = {
   },
 
   // 관계
-
+  associate: (db) => {
+    db.Reservation.hasMany(db.Guest, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdGuests' });
+    db.Reservation.hasMany(db.Review, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdReviews' });
+    db.Reservation.hasMany(db.Storage, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdStorages' });
+    db.Reservation.hasMany(db.Delivery, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdDeliveries' });
+    db.Reservation.hasMany(db.Luggage, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdLuggages' });
+    db.Reservation.hasMany(db.DriverAssignment, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdDriverAssignments' });
+    db.Reservation.belongsTo(db.User, { targetKey: 'id', foreignKey: 'user_id', as: 'user' });
+  }
 }
 
 export default Reservation;

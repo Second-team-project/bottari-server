@@ -19,6 +19,12 @@ import Reservation from './Reservation.js';
 import Review from './Review.js';
 import Storage from './Storage.js';
 import User from './User.js';
+import Admin from './Admin.js';
+import Notice from './Notice.js';
+import FAQ from './FAQ.js';
+import GuideImg from './GuideImg.js';
+import Pricing from './Pricing.js';
+import Store from './Store.js';
 
 const db = {}; // 생성할 모델들 모두 담음
 
@@ -46,11 +52,7 @@ const sequelize = new Sequelize(
 
 db.sequelize = sequelize;
 
-// TODO 모델 초기화
-// Driver
-db.Driver = Driver.init(sequelize);
-db.DriverAssignment = DriverAssignment.init(sequelize);
-db.DriverAttendanceLog = DriverAttendanceLog.init(sequelize);
+// 모델 초기화
 // User
 db.Delivery = Delivery.init(sequelize)
 db.Guest = Guest.init(sequelize)
@@ -60,11 +62,39 @@ db.Reservation = Reservation.init(sequelize)
 db.Review = Review.init(sequelize)
 db.Storage = Storage.init(sequelize)
 db.User = User.init(sequelize)
+// Driver
+db.Driver = Driver.init(sequelize);
+db.DriverAssignment = DriverAssignment.init(sequelize);
+db.DriverAttendanceLog = DriverAttendanceLog.init(sequelize);
+// Admin
+db.Admin = Admin.init(sequelize)
+db.Notice = Notice.init(sequelize)
+db.FAQ = FAQ.init(sequelize)
+db.GuideImg = GuideImg.init(sequelize)
+db.Pricing = Pricing.init(sequelize)
+db.Store = Store.init(sequelize)
 
 
 
-
-// TODO 모델 관계 설정
+// 모델 관계 설정
+// User
+User.associate(db);
+Guest.associate(db);
+Reservation.associate(db);
+Delivery.associate(db);
+Storage.associate(db);
+Luggage.associate(db);
+Push.associate(db);
+Review.associate(db);
+// Driver
+Driver.associate(db);
+DriverAssignment.associate(db);
+DriverAttendanceLog.associate(db);
+// Admin
+Admin.associate(db);
+Notice.associate(db);
+FAQ.associate(db);
+Store.associate(db);
 
 
 export default db;

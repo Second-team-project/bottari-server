@@ -114,7 +114,11 @@ const User = {
     return define;
   },
   // 관계
-
+  associate: (db) => {
+    db.User.hasMany(db.Reservation, { sourceKey: 'id', foreignKey: 'user_id', as: 'userIdReservations' });
+    db.User.hasMany(db.Review, { sourceKey: 'id', foreignKey: 'user_id', as: 'userIdReviews' });
+    db.User.hasMany(db.Push, { sourceKey: 'id', foreignKey: 'user_id', as: 'userIdPushes' });
+  }
 }
 
 export default User;
