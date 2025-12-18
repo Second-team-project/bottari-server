@@ -1,13 +1,12 @@
 /**
- * @file app/models/Push.js
- * @description Push model
- * 251216 v1.0.0 N init
+ * @file app/models/GuideImg.js
+ * @description GuideImg model
+ * 251216 v1.0.0 김민현 init
  */
+import dayjs from "dayjs";
+import { DataTypes } from "sequelize";
 
-import dayjs from 'dayjs';
-import { DataTypes } from 'sequelize';
-
-const modelName = 'Push'; // 모델명(JS 내부에서 사용)
+const modelName = 'GuideImg'; // 모델명(JS 내부에서 사용)
 
 // 컬럼 정의
 const attributes = {
@@ -17,43 +16,38 @@ const attributes = {
     primaryKey: true,
     allowNull: false,
     autoIncrement: true,
-    comment: '푸시 PK',
+    comment: '공지사항 PK'
   },
-  userId: {
-    field: 'user_id',
-    type: DataTypes.BIGINT.UNSIGNED,
-    allowNull: true,
-    comment: '유저 번호 (users)',
-  },
-  endpoint: {
-    field: 'endpoint',
-    type: DataTypes.STRING(500),
+  title: {
+    field: 'title',
+    type: DataTypes.STRING(100),
     allowNull: false,
-    unique: true,
-    comment: '엔드포인트',  // push server와 user 연결
+    comment: '배너=BANNER / 요금안내=PRICE / 사용안내=USE / 팝업=POPUP'
   },
-  p256dh: {
-    field: 'p256dh',
+  img: {
+    field: 'img',
     type: DataTypes.STRING(255),
     allowNull: false,
-    comment: '공개키',
+    comment: '이미지',
   },
-  auth: {
-    field: 'auth',
+  imgEng: {
+    field: 'img_eng',
     type: DataTypes.STRING(255),
     allowNull: false,
-    comment: '인증키',
+    comment: '이미지eng',
   },
-  device: {
-    field: 'device',
-    type: DataTypes.STRING(500),
+  active: {
+    field: 'active',
+    type: DataTypes.CHAR(1),
     allowNull: false,
-    comment: '디바이스',
+    defaultValue: 'T',
+    comment: '활성화=T / 비활성화=F'
   },
   createdAt: {
     field: 'created_at',
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
+    comment: '작성일',
     get() {
       const val = this.getDataValue('createdAt');
       if(!val) {
@@ -65,7 +59,8 @@ const attributes = {
   updatedAt: {
     field: 'updated_at',
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
+    comment: '수정일',
     get() {
       const val = this.getDataValue('updatedAt');
       if(!val) {
@@ -78,6 +73,7 @@ const attributes = {
     field: 'deleted_at',
     type: DataTypes.DATE,
     allowNull: true,
+    comment: '삭제일',
     get() {
       const val = this.getDataValue('deletedAt');
       if(!val) {
@@ -86,27 +82,23 @@ const attributes = {
       return dayjs(val).format('YYYY-MM-DD HH:mm:ss');
     }
   }
-};
+}
 
 // 옵션 정의
 const options = {
-  tableName: 'pushes', // 실제 DB 테이블명
-  timestamps: true,   // createdAt, updatedAt를 자동 관리
-  paranoid: true,     // soft delete 설정 (deletedAt 자동 관리)
+  tableName: 'guide_img',
+  timestamps: true,
+  paranoid: true
 }
 
 // 모델 정의
-const Push = {
+const GuideImg = {
   // 초기화
   init: (sequelize) => {
     const define = sequelize.define(modelName, attributes, options);
 
     return define;
-  },
-  // 관계
-  associate: (db) => {
-    db.Push.belongsTo(db.User, { targetKey: 'id', foreignKey: 'user_id', as: 'user' });
   }
 }
 
-export default Push;
+export default GuideImg;

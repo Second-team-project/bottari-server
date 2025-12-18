@@ -116,7 +116,9 @@ const Delivery = {
     return define;
   },
   // 관계
-
+  associate: (db) => {
+    db.Delivery.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reserv_id', as: 'reservation' });
+  }
 }
 
 export default Delivery;

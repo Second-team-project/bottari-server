@@ -1,12 +1,12 @@
 /**
- * @file app/models/Admin.js
- * @description Admin model
+ * @file app/models/Pricing.js
+ * @description Pricing model
  * 251216 v1.0.0 김민현 init
  */
 import dayjs from "dayjs";
 import { DataTypes } from "sequelize";
 
-const modelName = 'Admin'; // 모델명(JS 내부에서 사용)
+const modelName = 'Pricing'; // 모델명(JS 내부에서 사용)
 
 // 컬럼 정의
 const attributes = {
@@ -16,46 +16,58 @@ const attributes = {
     primaryKey: true,
     allowNull: false,
     autoIncrement: true,
-    comment: '관리자 PK'
+    comment: '요금 PK'
   },
-  adminName: {
-    field: 'admin_name',
-    type: DataTypes.STRING(50),
-    allowNull: false,
-    comment: '관리자 이름'
-  },
-  phone: {
-    field: 'phone',
-    type: DataTypes.STRING(25),
-    unique: true,
-    allowNull: false,
-    comment: '연락처'
-  },
-  accountId: {
-    field: 'account_id',
-    type: DataTypes.STRING(50),
-    unique: true,
-    allowNull: false,
-    comment: '아이디'
-  },
-  passwordHash: {
-    field: 'password_hash',
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    comment: '비밀번호'
-  },
-  email: {
-    field: 'email',
-    type: DataTypes.STRING(50),
-    unique: true,
-    allowNull: true,
-    comment: '이메일'
-  },
-  code: {
-    field: 'code',
+  itemType: {
+    field: 'item_type',
     type: DataTypes.STRING(10),
     allowNull: false,
-    comment: '보관소 코드/본사 코드'
+    comment: '캐리어=CARRIER / 가방=BAG / 상자=BOX / 골프가방=GOLF'
+  },
+  itemSize: {
+    field: 'item_size',
+    type: DataTypes.STRING(5),
+    allowNull: true,
+    comment: 'CARRIER:21,24,32,OVER / BAG,BOX: S,M,L,XL / GOLF=null'
+  },
+  itemWeight: {
+    field: 'item_weight',
+    type: DataTypes.STRING(10),
+    allowNull: false,
+    comment: 'UNDER_10, UNDER_20, UNDER_30, OVER_30'
+  },
+  serviceType: {
+    field: 'service_type',
+    type: DataTypes.STRING(255),
+    allowNull: false,
+    comment: '배송=D, 보관=S'
+  },
+  basePrice: {
+    field: 'base_price',
+    type: DataTypes.BIGINT,
+    allowNull: false,
+    comment: '기본 가격'
+  },
+  minKm: {
+    field: 'min_km',
+    type: DataTypes.BIGINT,
+    allowNull: true,
+    defaultValue: null,
+    comment: '최소 거리'
+  },
+  maxKm: {
+    field: 'max_km',
+    type: DataTypes.BIGINT,
+    allowNull: true,
+    defaultValue: null,
+    comment: '최대 거리'
+  },
+  addPrice: {
+    field: 'add_price',
+    type: DataTypes.BIGINT,
+    allowNull: true,
+    defaultValue: null,
+    comment: '추가 비용'
   },
   createdAt: {
     field: 'created_at',
@@ -100,23 +112,19 @@ const attributes = {
 
 // 옵션 정의
 const options = {
-  tableName: 'admins',
+  tableName: 'pricing',
   timestamps: true,
   paranoid: true
 }
 
 // 모델 정의
-const Admin = {
+const Pricing = {
   // 초기화
   init: (sequelize) => {
     const define = sequelize.define(modelName, attributes, options);
 
     return define;
-  },
-  associate: (db) => {
-    db.Admin.hasMany(db.Notice, { sourceKey: 'id', foreignKey: 'admin_id', as: 'adminIdNotices' });
-    db.Admin.hasMany(db.FAQ, { sourceKey: 'id', foreignKey: 'admin_id', as: 'adminIdFAQ' });
   }
 }
 
-export default Admin;
+export default Pricing;

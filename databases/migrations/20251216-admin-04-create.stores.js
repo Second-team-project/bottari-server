@@ -1,11 +1,11 @@
 /**
- * @file databases/migrations/251216-admin-01-create.admins.js
- * @description admins migration file
+ * @file databases/migrations/20251216-admin-04-create.stores.js
+ * @description stores migration file
  * 251216 v1.0.0 김민현 init
  */
 import { DataTypes } from 'sequelize';
 
-const tableName = 'admins';
+const tableName = 'stores';
 
 const attributes = {
   id: {
@@ -14,46 +14,34 @@ const attributes = {
     primaryKey: true,
     allowNull: false,
     autoIncrement: true,
-    comment: '관리자 PK'
+    comment: '보관소 PK'
   },
-  adminName: {
-    field: 'admin_name',
-    type: DataTypes.STRING(50),
-    allowNull: false,
-    comment: '관리자 이름'
-  },
-  phone: {
-    field: 'phone',
-    type: DataTypes.STRING(25),
+  storeName: {
+    field: 'store_name',
+    type: DataTypes.STRING(20),
     unique: true,
     allowNull: false,
-    comment: '연락처'
-  },
-  accountId: {
-    field: 'account_id',
-    type: DataTypes.STRING(50),
-    unique: true,
-    allowNull: false,
-    comment: '아이디'
-  },
-  passwordHash: {
-    field: 'password_hash',
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    comment: '비밀번호'
-  },
-  email: {
-    field: 'email',
-    type: DataTypes.STRING(50),
-    unique: true,
-    allowNull: true,
-    comment: '이메일'
+    comment: '보관소 이름'
   },
   code: {
     field: 'code',
     type: DataTypes.STRING(10),
+    unique: true,
     allowNull: false,
-    comment: '보관소 코드/본사 코드'
+    comment: '보관소 코드'
+  },
+  addr: {
+    field: 'addr',
+    type: DataTypes.STRING(255),
+    allowNull: false,
+    comment: '주소'
+  },
+  tel: {
+    field: 'tel',
+    type: DataTypes.STRING(25),
+    unique: true,
+    allowNull: false,
+    comment: '전화번호'
   },
   createdAt: {
     field: 'created_at',
