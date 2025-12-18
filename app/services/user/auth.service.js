@@ -6,17 +6,17 @@
 
 import axios from 'axios';
 import bcrypt from 'bcrypt';
-import db from '../models/index.js';
+import db from '../../models/index.js';
 // config
-import { NOT_REGISTERED_ERROR, REISSUE_ERROR } from '../../configs/responseCode.config.js';
-import PROVIDER from '../middlewares/auth/configs/provider.enum.js';
-import USER_TYPE from '../../configs/user.type.enum.js';
+import { NOT_REGISTERED_ERROR, REISSUE_ERROR } from '../../../configs/responseCode.config.js';
+import PROVIDER from '../../middlewares/auth/configs/provider.enum.js';
+import USER_TYPE from '../../../configs/user.type.enum.js';
 // repository
-import userRepository from "../repositories/user.repository.js";
+import userRepository from "../../repositories/user.repository.js";
 // util
-import customError from '../errors/custom.error.js';
-import jwtUtil from '../utils/jwt/jwt.util.js';
-import socialKakaoUtil from '../utils/social/social.kakao.util.js';
+import customError from '../../errors/custom.error.js';
+import jwtUtil from '../../utils/jwt/jwt.util.js';
+import socialKakaoUtil from '../../utils/social/social.kakao.util.js';
 
 // TODO : LOGIN
 

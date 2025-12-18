@@ -113,7 +113,7 @@ function clearCookieRefreshToken(res) {
     process.env.JWT_REFRESH_TOKEN_COOKIE_NAME,
     true,
     false,  // TODO : secure: false (http 개발환경)
-    process.env.JWT_REISS_URI
+    // process.env.JWT_REISS_URI
   );
 }
 

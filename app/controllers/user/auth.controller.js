@@ -5,15 +5,15 @@
  */
 
 // config
-import { BAD_REQUEST_ERROR, REISSUE_ERROR, SUCCESS } from "../../configs/responseCode.config.js";
-import customError from "../errors/custom.error.js";
-import PROVIDER from "../middlewares/auth/configs/provider.enum.js";
+import { BAD_REQUEST_ERROR, REISSUE_ERROR, SUCCESS } from "../../../configs/responseCode.config.js";
+import customError from "../../errors/custom.error.js";
+import PROVIDER from "../../middlewares/auth/configs/provider.enum.js";
 // service
-import authService from "../services/auth.service.js";
+import authService from "../../services/user/auth.service.js";
 // util
-import cookieUtil from "../utils/cookie/cookie.util.js";
-import customResponse from "../utils/custom.response.util.js";
-import socialKakaoUtil from "../utils/social/social.kakao.util.js";
+import cookieUtil from "../../utils/cookie/cookie.util.js";
+import customResponse from "../../utils/custom.response.util.js";
+import socialKakaoUtil from "../../utils/social/social.kakao.util.js";
 
 /**
  * 토큰 재발급 컨트롤러

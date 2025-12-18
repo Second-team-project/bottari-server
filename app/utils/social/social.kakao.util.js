@@ -1,7 +1,7 @@
 /**
  * @file app/utils/social/social.kakao.util
  * @description 카카오 소셜 로그인 유틸리티 
- * 251204 v1.0.0 mastercat init
+ * 251217 v1.0.0 N init
  */
 
 /**
