@@ -43,8 +43,10 @@ db.sequelize.authenticate()
 // ------------------------------------------
 // 테스트 라우트
 app.use('/api/test', testRouter);
+
+// ===== user용
 // 소셜 로그인
-app.use('/api/auth', authRouter);
+app.use('/api/user/auth', authRouter);
 
 // ------------------------------------------
 // ||     404 처리
