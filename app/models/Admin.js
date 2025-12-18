@@ -6,8 +6,9 @@
 import dayjs from "dayjs";
 import { DataTypes } from "sequelize";
 
-const modelName = 'Admin';
+const modelName = 'Admin'; // 모델명(JS 내부에서 사용)
 
+// 컬럼 정의
 const attributes = {
   id: {
     field: 'id',
@@ -97,10 +98,21 @@ const attributes = {
   }
 }
 
+// 옵션 정의
 const options = {
   tableName: 'admins',
   timestamps: true,
   paranoid: true
+}
+
+// 모델 정의
+const Admin = {
+  // 초기화
+  init: (sequelize) => {
+    const define = sequelize.define(modelName, attributes, options);
+
+    return define;
+  }
 }
 
 export default Admin;
