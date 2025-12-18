@@ -99,7 +99,7 @@ const Notice = {
     return define;
   },
   associate: (db) => {
-    db.Notice.belongsTo(db.Admin, { targetKey: 'id', foreignKey: 'admin_id', as: 'admin' });
+    db.Notice.belongsTo(db.Admin, { targetKey: 'id', foreignKey: 'admin_id', as: 'noticeAdmin' });
   }
 }
 
