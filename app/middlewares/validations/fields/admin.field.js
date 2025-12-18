@@ -10,6 +10,8 @@ export const accountId = body('account_id')
   .notEmpty()
   .withMessage('아이디는 필수입니다.')
   .bail()
+  .isLength({ min: 8, max: 20 })
+  .withMessage('아이디는 최소 8자리 이상이어야 합니다.')
   
 // 비밀번호 필드
 export const password = body('password')
@@ -18,3 +20,4 @@ export const password = body('password')
   .withMessage('비밀번호는 필수입니다.')
   .bail()
   .matches(/^[a-zA-Z0-9!@#$]{8,20}$/)
+  .withMessage('아이디 또는 비밀번호가 일치하지 않습니다.')
