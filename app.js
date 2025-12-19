@@ -11,6 +11,7 @@ import userAuthRouter from './routes/user/user.auth.router.js';
 
 // ===== handler import
 import errorHandler from './app/errors/error.handler.js';
+import userSearchRouter from './routes/user/user.search.router.js';
 
 const app = express();
 
@@ -47,6 +48,8 @@ app.use('/api/test', testRouter);
 // ===== user용
 // 소셜 로그인
 app.use('/api/user/auth', userAuthRouter);
+// 주소 검색
+app.use('/api/user/search', userSearchRouter);
 
 // ------------------------------------------
 // ||     404 처리

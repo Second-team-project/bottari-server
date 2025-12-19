@@ -1,5 +1,5 @@
 /**
- * @file routes/auth.router.js
+ * @file routes/user/auth.router.js
  * @description 인증 관련 라우터
  * 251217 v1.0.0 N init
  */
