@@ -1,13 +1,11 @@
 /**
- * @file app/middlewares/auth/configs/role.enum.js
+ * @file app/configs/role.enum.js
  * @description 권한 상수 설정 파일
  * 251218 v1.0.0 김민현 init
  */
 
 const ROLE = {
   ADMIN: 'ADMIN',
-  SUPER: 'SUPER',
-  NORMAL: 'NORMAL'
 }
 Object.freeze(ROLE);
 

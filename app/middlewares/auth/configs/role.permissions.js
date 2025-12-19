@@ -3,9 +3,9 @@
  * @description 요청별 접근 권한 설정
  * 251218 v1.0.0 김민현 init
  */
-import ROLE from "./role.enum.js";
+import ROLE from "../../../../configs/admin.role.enum.js";
 
-const { ADMIN, SUPER, NORMAL } = ROLE;
+const { ADMIN } = ROLE;
 
 // 인증 및 인가가 필요한 요청만 정의해야 함
 const ROLE_PERMISSIONS = {
@@ -13,12 +13,12 @@ const ROLE_PERMISSIONS = {
 
   ],
   POST: [
-    { path: /^\/api\/auth\/logout$/, roles: [NORMAL, SUPER] },
-    { path: /^\/api\/auth\/reissue$/, roles: [NORMAL, SUPER] },
+    { path: /^\/api\/admin\/auth\/logout$/, roles: [ADMIN] },
+    { path: /^\/api\/admin\/auth\/reissue$/, roles: [ADMIN] },
 
   ],
   PUT: [
-    { path: /^\/api\/users$/, roles: [NORMAL, SUPER] }
+
   ],
   DELETE: [
 
