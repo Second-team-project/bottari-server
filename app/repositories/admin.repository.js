@@ -34,7 +34,39 @@ async function save(t = null, admin) {
   return await admin.save({ transaction: t });
 }
 
+/**
+ * 관리자 id로 조회
+ * @param {import("sequelize").Transaction} t 
+ * @param {number} id
+ * @returns {Promise<import("../models/Admin.js").Admin>}
+ */
+async function findByPk(t = null, id) {
+  return await Admin.findByPk(id, { transaction:t });
+}
+
+async function create(t = null, data) {
+  return await Admin.create(data, { transaction: t });
+}
+
+async function logout(t = null, id) {
+  // 특정 유저 리프래쉬토큰 null로 갱신
+  return await Admin.update(
+    {
+      refreshToken: null,
+    },
+    {
+      where: {
+        id: id // 앞 id는 컬럼, 뒤 id는 파라미터로 받은 id
+      },
+      transaction: t
+    }
+  );
+}
+
 export default {
   findByAccountId,
   save,
+  findByPk,
+  create,
+  logout,
 }
