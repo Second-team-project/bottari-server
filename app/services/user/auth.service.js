@@ -1,5 +1,5 @@
 /**
- * @file app/sevices/auth.service.js
+ * @file app/sevices/user/auth.service.js
  * @description auth Service
  * 251217 N init
  */

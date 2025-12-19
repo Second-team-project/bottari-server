@@ -1,5 +1,5 @@
 /**
- * @file app/controllers/auth.controller.js
+ * @file app/controllers/user/auth.controller.js
  * @description 인증 관련 컨트롤러
  * 20251217 N init
  */
