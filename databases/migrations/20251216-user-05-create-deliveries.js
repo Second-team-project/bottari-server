@@ -35,19 +35,13 @@ const attributes = {
     field: 'started_at',
     type: DataTypes.DATE,
     allowNull: false,
-    comment: '배송 시작',
-  },
-  endedAt: {
-    field: 'ended_at',
-    type: DataTypes.DATE,
-    allowNull: false,
-    comment: '배송 도착',
+    comment: '픽업 일시',
   },
   startedAddr: {
     field: 'started_addr',
     type: DataTypes.STRING(225),
     allowNull: false,
-    comment: '출발 장소',
+    comment: '픽업 장소',
   },
   endedAddr: {
     field: 'ended_addr',
