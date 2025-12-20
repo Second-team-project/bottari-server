@@ -5,13 +5,16 @@
  */
 
 import express from 'express';
-
+// ===== controllers
 import authController from '../../app/controllers/user/auth.controller.js'
+// ===== validators
+import socialValidator from '../../app/middlewares/validations/validators/auth/user.social.validator.js';
+import validationHandler from '../../app/middlewares/validation.handler.js';
 
 const userAuthRouter = express.Router();
 
 userAuthRouter.post('/reissue', authController.reissue);
-userAuthRouter.get('/social/:provider', authController.social);
+userAuthRouter.get('/social/:provider', socialValidator, validationHandler, authController.social);
 userAuthRouter.get('/callback/:provider', authController.socialCallback);
 
 export default userAuthRouter;
