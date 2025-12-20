@@ -5,11 +5,14 @@
  */
 
 import express from 'express';
-
+// ===== validators
+import locationValidator from '../../app/middlewares/validations/validators/search/location.validator.js';
+import validationHandler from '../../app/middlewares/validation.handler.js';
+// ===== controllers
 import searchController from '../../app/controllers/user/search.controller.js'
 
 const userSearchRouter = express.Router();
 
-userSearchRouter.get('/location', searchController.location);
+userSearchRouter.get('/location', locationValidator, validationHandler, searchController.location);
 
 export default userSearchRouter;
