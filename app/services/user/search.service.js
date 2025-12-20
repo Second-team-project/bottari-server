@@ -20,11 +20,14 @@ async function location({keyword, page}) {
       }
     }
   )
-  // 2. 필요한 데이터만 추출 : 번지주소, 도로명주소
-  const locationList = result.data.documents.map(item => ({
-    address_name: item.address_name,
-    road_address_name: item.road_address_name,
-  }));
+  // 2. 필요한 데이터만 추출 : '대구'로 시작 -> 번지주소, 도로명주소
+  const locationList = result.data.documents
+    .filter(item => item.address_name.startsWith('대구'))
+    .map(item => ({
+      address_name: item.address_name,
+      road_address_name: item.road_address_name,
+    }
+  ));
 
   // 3. 중복 주소 제거 address_name 기준
   const uniqueList = locationList.filter((item, index, self) =>
