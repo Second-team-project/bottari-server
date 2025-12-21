@@ -45,11 +45,11 @@ const attributes = {
     unique: true,
     comment: '이메일',
   },
-  provider: {
-    field: 'provider',
-    type: DataTypes.STRING(10),
-    allowNull: true,
-    comment: '로그인 제공자(KAKAO, GOOGLE)',
+  passwordHash: {
+    field: 'password_hash',
+    type: DataTypes.STRING(255),
+    allowNull: false,
+    comment: '조회용 비밀번호',
   },
   refreshToken: {
     field: 'refresh_token',
