@@ -5,11 +5,13 @@ import cookieParser from 'cookie-parser';
 import './configs/env.config.js';
 import db from './app/models/index.js';
 
-// ===== 라우터 import
+// ===== routers import
+// === user
 import testRouter from './routes/test.route.js'
 import userAuthRouter from './routes/user/user.auth.router.js';
+import userReserveRouter from './routes/user/user.reserve.router.js';
 
-// ===== handler import
+// ===== handlers import
 import errorHandler from './app/errors/error.handler.js';
 import userSearchRouter from './routes/user/user.search.router.js';
 
@@ -50,6 +52,8 @@ app.use('/api/test', testRouter);
 app.use('/api/user/auth', userAuthRouter);
 // 주소 검색
 app.use('/api/user/search', userSearchRouter);
+// 예약
+// app.use('/api/user/reserve', userReserveRouter);
 
 // ------------------------------------------
 // ||     404 처리
