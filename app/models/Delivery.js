@@ -26,7 +26,7 @@ const attributes = {
     comment: '예약 번호 (reservations)',
   },
   price: {
-    field: 'total_price',
+    field: 'price',
     type: DataTypes.BIGINT,
     allowNull: false,
     comment: '결제 금액',
