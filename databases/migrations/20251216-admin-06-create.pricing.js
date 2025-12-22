@@ -60,6 +60,20 @@ const attributes = {
     defaultValue: null,
     comment: '최대 거리'
   },
+  minValue: {
+    field: 'min_value',
+    type: DataTypes.BIGINT,
+    allowNull: true,
+    defaultValue: null,
+    comment: '최소 거리/시간'
+  },
+  maxValue: {
+    field: 'max_value',
+    type: DataTypes.BIGINT,
+    allowNull: true,
+    defaultValue: null,
+    comment: '최대 거리/시간'
+  },
   addPrice: {
     field: 'add_price',
     type: DataTypes.BIGINT,
