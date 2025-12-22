@@ -18,7 +18,7 @@ export default {
         password: await bcrypt.hash('administer', 10), // bcrypt: 단방향 암호화 문법. 복호화 안 됨. 비동기 처리라 await 필요.
         nick: '보따리',
         provider: 'NONE',
-        role: 'SUPER',
+        role: 'ADMIN',
         profile: '',
         created_at: new Date(),
         updated_at: new Date()

@@ -25,7 +25,7 @@ function authenticate(req) {
   // Request 객체에 사용자 정보를 추가
   req.user = {
     id: parseInt(claims.sub),
-    role: claims.role
+    type: claims.type
   }
 }
 
@@ -54,8 +54,8 @@ function authorize(req) {
     authenticate(req);
 
     // 권한 체크
-    const userRole = req.user?.role;
-    if(!userRole || !matchRole.roles.includes(userRole)) {
+    const userRole = req.user?.type;
+    if(!userRole || !matchRole.types.includes(userRole)) {
       throw customError('권한 부족', FORBIDDEN_ERROR);
     }
   }

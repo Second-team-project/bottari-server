@@ -5,8 +5,8 @@
  */
 import customError from '../../errors/custom.error.js';
 import jwtUtil from '../../utils/jwt/jwt.util.js';
-import db from '../models/index.js';
-import adminRepository from '../repositories/admin.repository.js';
+import db from '../../models/index.js';
+import adminRepository from '../../repositories/admin.repository.js';
 import bcrypt from 'bcrypt';
 
 /**

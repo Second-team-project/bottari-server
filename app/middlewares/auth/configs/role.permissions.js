@@ -3,25 +3,25 @@
  * @description 요청별 접근 권한 설정
  * 251218 v1.0.0 김민현 init
  */
-import ROLE from "../../../../configs/admin.role.enum.js";
+import USER_TYPE from "../../../../configs/user.type.enum.js";
 
-const { ADMIN } = ROLE;
+const { ADMIN } = USER_TYPE;
 
 // 인증 및 인가가 필요한 요청만 정의해야 함
 const ROLE_PERMISSIONS = {
   GET: [
-
+    { path: /^\/api\/admin\/notices\/[0-9]+$/, roles: [ADMIN] },
   ],
   POST: [
     { path: /^\/api\/admin\/auth\/logout$/, roles: [ADMIN] },
     { path: /^\/api\/admin\/auth\/reissue$/, roles: [ADMIN] },
-
+    { path: /^\/api\/admin\/notices$/, roles: [ADMIN] },
   ],
   PUT: [
 
   ],
   DELETE: [
-
+    { path: /^\/api\/admin\/notices\/[0-9]+$/, roles: [ADMIN] }
   ]
 }
 Object.freeze(ROLE_PERMISSIONS);
