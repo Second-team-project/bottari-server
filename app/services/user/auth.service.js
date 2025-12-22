@@ -54,7 +54,10 @@ async function reissue(token) {
       id: user.id,
       type: USER_TYPE.MEMBER  // reissue 는 member만 사용
     });
-    const refreshToken = jwtUtil.generateRefreshToken(user);
+    const refreshToken = jwtUtil.generateRefreshToken({
+      id: user.id,
+      type: USER_TYPE.MEMBER  // reissue 는 member만 사용
+    });
 
     // 리프레시 토큰 DB 에 저장 - 기존 user 모델에 새로 발급한 리프레시 토큰으로 교체
     user.refreshToken = refreshToken;
@@ -125,7 +128,10 @@ async function socialKakao(code) {
     }
     
     // 3-3. 우리 리프레시 토큰 생성 (카카오로는 토큰 체크 및 정보 추출 불가)
-    const refreshToken = jwtUtil.generateRefreshToken(user);
+    const refreshToken = jwtUtil.generateRefreshToken({
+      id: user.id,
+      type: USER_TYPE.MEMBER  // reissue 는 member만 사용
+    });
     
     // 리프레시 토큰 저장 및 리턴
     user.refreshToken = refreshToken;
