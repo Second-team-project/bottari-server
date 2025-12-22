@@ -41,7 +41,7 @@ function generateAccessToken(user) {
   // 페이로드 설정 -> payload : 서버가 JWT 토큰 안에 담고 싶은 데이터
   const payload = {
     sub: user.id,    // payload.sub set (value: user pk)
-    type: user.type  // 유저 타입 담을 것 : guest / member
+    type: user.type  // 유저 타입 담을 것 : guest / member / admin / driver
   }
 
   // 엑세스 토큰 생성
@@ -57,6 +57,7 @@ function generateRefreshToken(user) {
   // 페이로드 설정
   const payload = {
     sub: user.id,    // payload.sub set (value: user pk)
+    type: user.type  // 유저 타입 담을 것 : guest / member / admin / driver
   }
 
   // 리프레쉬 토큰 생성
