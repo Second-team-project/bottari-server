@@ -66,21 +66,6 @@ async function logout(t = null, id) {
       transaction: t
     }
   );
-
-  // // 특정 유저 리프래시토큰 null로 갱신
-  // // UPDATE users SET refresh_token = null, updated_at = NOW() WHERE id = ?
-  // const query = 
-  //       ' UPDATE users ' 
-  //     + ' SET '
-  //     + '   refresh_token = null '
-  //     + '   ,updated_at = NOW() ' // v1.1.0 add
-  //     // + '   ,updated_at = NOW() ' // v1.1.0 del
-  //     + ' WHERE '
-  //     + '   id = ? '
-  //   ;
-  // const values = [id];
-
-  // db.sequelize.query({query, values});
 }
 
 export default {
