@@ -6,7 +6,9 @@
 
 const USER_TYPE = {
   GUEST: 'GUEST',
-  MEMBER: 'MEMBER'
+  MEMBER: 'MEMBER',
+  ADMIN: 'ADMIN',
+  DRIVER: 'DRIVER'
 };
 
 Object.freeze(USER_TYPE);
