@@ -48,19 +48,19 @@ const attributes = {
     allowNull: false,
     comment: '기본 가격'
   },
-  minKm: {
-    field: 'min_km',
+  minValue: {
+    field: 'min_value',
     type: DataTypes.BIGINT,
     allowNull: true,
     defaultValue: null,
-    comment: '최소 거리'
+    comment: '최소 거리/시간'
   },
-  maxKm: {
-    field: 'max_km',
+  maxValue: {
+    field: 'max_value',
     type: DataTypes.BIGINT,
     allowNull: true,
     defaultValue: null,
-    comment: '최대 거리'
+    comment: '최대 거리/시간'
   },
   addPrice: {
     field: 'add_price',
