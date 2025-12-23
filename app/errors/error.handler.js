@@ -4,7 +4,7 @@
  * 251213 v1.0.0 N init
  */
 
-import { BaseError } from "sequelize";
+import { BaseError, UniqueConstraintError } from "sequelize";
 import { DB_ERROR, SYSTEM_ERROR } from "../../configs/responseCode.config.js";
 import customResponse from "../utils/custom.response.util.js";
 

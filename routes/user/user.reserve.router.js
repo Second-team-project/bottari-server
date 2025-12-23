@@ -9,6 +9,8 @@ import reserveController from '../../app/controllers/user/reserve.controller.js'
 
 const userReserveRouter = express.Router();
 
-userReserveRouter.post('/draft', reserveController.draft);
+userReserveRouter.post('/draft/delivery', reserveController.deliveryDraft);
+userReserveRouter.post('/draft/storage', reserveController.storageDraft);
+userReserveRouter.post('/confirm/payment', reserveController.confirmPayment);
 
 export default userReserveRouter;

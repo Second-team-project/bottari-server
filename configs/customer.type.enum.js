@@ -4,11 +4,18 @@
  * 251222 v1.0.0 N init
  */
 
-const CUSTOMER_TYPE = {
-  GUEST: 'G',
-  MEMBER: 'M',
+
+export const CUSTOMER_TYPE = {
+  GUEST: 'GUEST',
+  MEMBER: 'MEMBER',
 };
 
 Object.freeze(CUSTOMER_TYPE);
 
-export default CUSTOMER_TYPE;
+export const CUSTOMER_CODE = {
+  GUEST: 'G',
+  MEMBER: 'M',
+};
+
+Object.freeze(CUSTOMER_CODE);
+

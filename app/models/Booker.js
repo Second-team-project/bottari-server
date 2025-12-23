@@ -7,7 +7,7 @@
 import dayjs from 'dayjs';
 import { DataTypes } from 'sequelize';
 
-const modelName = 'Guest'; // 모델명(JS 내부에서 사용)
+const modelName = 'Booker'; // 모델명(JS 내부에서 사용)
 
 // 컬럼 정의
 const attributes = {
@@ -18,6 +18,12 @@ const attributes = {
     allowNull: false,
     autoIncrement: true,
     comment: '비회원 PK',
+  },
+  userId: {
+    field: 'user_id',
+    type: DataTypes.BIGINT.UNSIGNED,
+    allowNull: true,
+    comment: '유저 번호 (users)',
   },
   reservId: {
     field: 'reserv_id',
@@ -48,7 +54,7 @@ const attributes = {
   passwordHash: {
     field: 'password_hash',
     type: DataTypes.STRING(255),
-    allowNull: false,
+    allowNull: true,
     comment: '조회용 비밀번호',
   },
   refreshToken: {
@@ -97,13 +103,13 @@ const attributes = {
 
 // 옵션 정의
 const options = {
-  tableName: 'guests', // 실제 DB 테이블명
+  tableName: 'bookers', // 실제 DB 테이블명
   timestamps: true,   // createdAt, updatedAt를 자동 관리
   paranoid: true,     // soft delete 설정 (deletedAt 자동 관리)
 }
 
 // 모델 정의
-const Guest = {
+const Booker = {
   // 초기화
   init: (sequelize) => {
     const define = sequelize.define(modelName, attributes, options);
@@ -112,8 +118,8 @@ const Guest = {
   },
   // 관계
   associate: (db) => {
-    db.Guest.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reserv_id', as: 'luggageReservation' });
+    db.Booker.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reserv_id', as: 'luggageReservation' });
   }
 }
 
-export default Guest;
+export default Booker;
