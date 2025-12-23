@@ -58,7 +58,6 @@ app.use('/api/user/auth', userAuthRouter);
 // === 주소 검색
 app.use('/api/user/search', userSearchRouter);
 // === 예약
-// 임시 저장
 app.use('/api/user/reserve', userReserveRouter);
 
 
