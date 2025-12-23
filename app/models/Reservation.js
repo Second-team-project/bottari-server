@@ -95,7 +95,7 @@ const Reservation = {
 
   // 관계
   associate: (db) => {
-    db.Reservation.hasMany(db.Guest, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdGuests' });
+    db.Reservation.hasMany(db.Booker, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdBookers' });
     db.Reservation.hasMany(db.Review, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdReviews' });
     db.Reservation.hasMany(db.Storage, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdStorages' });
     db.Reservation.hasMany(db.Delivery, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdDeliveries' });
