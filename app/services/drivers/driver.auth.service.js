@@ -21,7 +21,7 @@ async function driverLogin(body) {
     const { id, password } = body;
   
     // id로 유저 정보 획득
-    const driver = await driverRepository.findById(t, id);
+    const driver = await driverRepository.findByAccountId(t, id);
   
     //유저 존재 여부 체크
     if(!driver) {
@@ -30,7 +30,7 @@ async function driverLogin(body) {
   
     // 비밀번호 체크
     // compare : 비동기 처리 / compareSync : 동기 처리
-    if(!bcrypt.compareSync(password, driver.password)) {
+    if(!bcrypt.compareSync(password, driver.passwordHash)) {
       throw customError('비밀번호 틀림', NOT_REGISTERED_ERROR);
     }
   

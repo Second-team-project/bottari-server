@@ -10,14 +10,14 @@ const { Driver } = db;
 /**
  * id로 유저 검색
  * @param {import("sequelize").Transaction} t 
- * @param {string} id 
+ * @param {string} accountId 
  * @returns {Promise<import("../models/Driver.js").Driver>}
 */
-async function findById(t = null, id) {
+async function findByAccountId(t = null, id) {
   return await Driver.findOne(
     {
       where: {
-        id: id,
+        accountId: id,
       },
       transaction: t
     }
@@ -27,7 +27,7 @@ async function findById(t = null, id) {
 /**
  * 유저 모델 인스턴스로 save 처리
  * @param {import("sequelize").Transaction} t 
- * @param {import("../models/index.js")} user 
+ * @param {import("../models/index.js")} driver 
  * @returns {Promise<import("../models/Driver.js").Driver>}
  */
 async function save(t = null, driver) {
@@ -45,7 +45,7 @@ async function findByPk(t = null, id) {
 }
 
 export default {
-  findById,
+  findByAccountId,
   save,
   findByPk,
 }
