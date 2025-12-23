@@ -12,7 +12,7 @@ import Driver from './Driver.js';
 import DriverAssignment from './DriverAssignment.js';
 import DriverAttendanceLog from './DriverAttendanceLog.js';
 import Delivery from './Delivery.js';
-import Guest from './Guest.js';
+import Booker from './Booker.js';
 import Luggage from './Luggage.js';
 import Push from './Push.js';
 import Reservation from './Reservation.js';
@@ -55,7 +55,7 @@ db.sequelize = sequelize;
 // 모델 초기화
 // User
 db.Delivery = Delivery.init(sequelize)
-db.Guest = Guest.init(sequelize)
+db.Booker = Booker.init(sequelize)
 db.Luggage = Luggage.init(sequelize)
 db.Push = Push.init(sequelize)
 db.Reservation = Reservation.init(sequelize)
@@ -79,7 +79,7 @@ db.Store = Store.init(sequelize)
 // 모델 관계 설정
 // User
 User.associate(db);
-Guest.associate(db);
+Booker.associate(db);
 Reservation.associate(db);
 Delivery.associate(db);
 Storage.associate(db);
