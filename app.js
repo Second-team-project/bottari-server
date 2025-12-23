@@ -49,12 +49,13 @@ db.sequelize.authenticate()
 app.use('/api/test', testRouter);
 
 // ===== user용
-// 소셜 로그인
+// === 소셜 로그인
 app.use('/api/user/auth', userAuthRouter);
-// 주소 검색
+// === 주소 검색
 app.use('/api/user/search', userSearchRouter);
-// 예약
-// app.use('/api/user/reserve', userReserveRouter);
+// === 예약
+// 임시 저장
+app.use('/api/user/reserve', userReserveRouter);
 
 // ===== driver용
 // 로그인
