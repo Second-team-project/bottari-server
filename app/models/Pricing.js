@@ -20,19 +20,19 @@ const attributes = {
   },
   itemType: {
     field: 'item_type',
-    type: DataTypes.STRING(10),
+    type: DataTypes.STRING(255),
     allowNull: false,
     comment: '캐리어=CARRIER / 가방=BAG / 상자=BOX / 골프가방=GOLF'
   },
   itemSize: {
     field: 'item_size',
-    type: DataTypes.STRING(5),
+    type: DataTypes.STRING(255),
     allowNull: true,
     comment: 'CARRIER:21,24,32,OVER / BAG,BOX: S,M,L,XL / GOLF=null'
   },
   itemWeight: {
     field: 'item_weight',
-    type: DataTypes.STRING(10),
+    type: DataTypes.STRING(255),
     allowNull: false,
     comment: 'UNDER_10, UNDER_20, UNDER_30, OVER_30'
   },
