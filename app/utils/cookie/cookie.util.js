@@ -95,7 +95,7 @@ function setCookieRefreshToken(res, refreshToken) {
 }
 
 /**
- * 쿠키에tj RefreshToken 획득
+ * 쿠키에서 RefreshToken 획득
  * @param {import("express").Response} res 
  * @param {string} refreshToken 
  */
@@ -105,7 +105,7 @@ function getCookieRefreshToken(req) {
 }
 
 /**
- * 리프래시 토큰 쿠키 제거
+ * 쿠키에서 리프레시 토큰 제거
  */
 function clearCookieRefreshToken(res) {
   clearCookie(

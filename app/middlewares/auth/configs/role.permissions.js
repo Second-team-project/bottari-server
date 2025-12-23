@@ -3,7 +3,9 @@
  * @description 요청별 접근 권한 설정
  * 251218 v1.0.0 김민현 init
  */
+
 import ROLE from "./role.enum.js";
+import USER_TYPE from "../../../../configs/user.type.enum.js"
 
 const { ADMIN, SUPER, NORMAL } = ROLE;
 
@@ -15,6 +17,8 @@ const ROLE_PERMISSIONS = {
   POST: [
     { path: /^\/api\/auth\/logout$/, roles: [NORMAL, SUPER] },
     { path: /^\/api\/auth\/reissue$/, roles: [NORMAL, SUPER] },
+    // ===== user Page
+    { path: /^\/api\/user\/auth\/logout$/, roles: [USER_TYPE.MEMBER, USER_TYPE.GUEST] },
 
   ],
   PUT: [
