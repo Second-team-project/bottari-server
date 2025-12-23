@@ -1,13 +1,14 @@
 /**
- * @file databases/migrations/20251216-user-03-create.guests.js
- * @description guests migration file
+ * @file databases/migrations/20251216-user-03-create.bookers.js
+ * @description bookers migration file
  * 251216 v1.0.0 N init
+ * 251223 guests -> bookers
  */
 
 import { DataTypes } from 'sequelize';
 
 // 테이블명
-const tableName = 'guests';
+const tableName = 'bookers';
 
 // 컬럼 정의
 const attributes = {
@@ -18,6 +19,12 @@ const attributes = {
     allowNull: false,
     autoIncrement: true,
     comment: '비회원 PK',
+  },
+  userId: {
+    field: 'user_id',
+    type: DataTypes.BIGINT.UNSIGNED,
+    allowNull: true,
+    comment: '유저 번호 (users)',
   },
   reservId: {
     field: 'reserv_id',
@@ -48,7 +55,7 @@ const attributes = {
   passwordHash: {
     field: 'password_hash',
     type: DataTypes.STRING(255),
-    allowNull: false,
+    allowNull: true,
     comment: '조회용 비밀번호',
   },
   refreshToken: {
