@@ -89,13 +89,13 @@ Object.freeze(INVALID_TOKEN_ERROR);
  * 중복 가입 에러 코드 설정
  * @type {ResponseCodeConfig}
  */
-const CONFLICT_ERROR = {
+const CONFLICT_REGIST_ERROR = {
   code: 'E07',
-  msg: 'Conflict Error',
+  msg: 'Conflict Regist Error',
   info: '이미 가입 된 회원입니다.',
   status: 409
 };
-Object.freeze(CONFLICT_ERROR);
+Object.freeze(CONFLICT_REGIST_ERROR);
 
 /**
  * 권한 부족 에러 코드 설정
@@ -156,6 +156,29 @@ const BAD_FILE_ERROR = {
   status: 400
 };
 Object.freeze(BAD_FILE_ERROR);
+
+/**
+ * 예약 코드 충돌로 진행 불가
+ */
+const RESERVE_CONFLICT_ERROR = {
+  code: 'E30',
+  msg: 'Reserve Conflict Error',
+  info: '예약 처리 중 문제가 발생했습니다. 다시 시도해주세요.',
+  status: 409
+};
+Object.freeze(RESERVE_CONFLICT_ERROR);
+
+/**
+ * 데이터 충돌 에러
+ */
+const CONFLICT_ERROR = {
+  code: 'E31',
+  msg: 'Conflict Error',
+  info: '이미 존재하는 데이터입니다. 다시 시도해주세요.',
+  status: 409
+};
+Object.freeze(CONFLICT_ERROR);
+
 
 /**
  * 시스템 에러 응답 코드 설정

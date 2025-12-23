@@ -16,6 +16,8 @@ const ROLE_PERMISSIONS = {
     { path: /^\/api\/admin\/auth\/logout$/, roles: [ADMIN] },
     { path: /^\/api\/admin\/auth\/reissue$/, roles: [ADMIN] },
     { path: /^\/api\/admin\/notices$/, roles: [ADMIN] },
+    // ===== user Page
+    { path: /^\/api\/user\/auth\/logout$/, roles: [USER_TYPE.MEMBER, USER_TYPE.GUEST] },
   ],
   PUT: [
 
