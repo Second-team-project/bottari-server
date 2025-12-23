@@ -6,13 +6,13 @@
 import { body } from "express-validator";
 
 // 아이디 필드
-const accountId = body('account_id')
+const accountId = body('accountId')
   .trim()
   .notEmpty()
   .withMessage('아이디는 필수입니다.')
   .bail()
-  .isLength({ min: 8, max: 20 })
-  .withMessage('아이디는 최소 8자리 이상이어야 합니다.')
+  .isLength({ min: 4, max: 20 })
+  .withMessage('아이디는 최소 4자리 이상이어야 합니다.')
   
 // 비밀번호 필드
 const password = body('password')
