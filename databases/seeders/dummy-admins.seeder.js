@@ -1,6 +1,6 @@
 /**
- * @file databases/seeders/init-admins.seeder.js
- * @description admins table initial data create
+ * @file databases/seeders/dummy-admins.seeder.js
+ * @description admins table dummy data create
  * 251217 v1.0.0 김민현 init
  */
 import bcrypt from 'bcrypt';
@@ -14,12 +14,12 @@ export default {
     // 레코드 정보
     const records = [
       {
+        admin_name: '보따리',
+        phone: '010-0000-0000',
+        account_id: 'ADMIN',
+        password_hash: await bcrypt.hash('administer', 10), // bcrypt: 단방향 암호화 문법. 복호화 안 됨. 비동기 처리라 await 필요.
+        code: 'D08',
         email: 'admin@admin.com',
-        password: await bcrypt.hash('administer', 10), // bcrypt: 단방향 암호화 문법. 복호화 안 됨. 비동기 처리라 await 필요.
-        nick: '보따리',
-        provider: 'NONE',
-        role: 'ADMIN',
-        profile: '',
         created_at: new Date(),
         updated_at: new Date()
       },

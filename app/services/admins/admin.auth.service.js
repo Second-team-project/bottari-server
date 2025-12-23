@@ -8,6 +8,7 @@ import jwtUtil from '../../utils/jwt/jwt.util.js';
 import db from '../../models/index.js';
 import adminRepository from '../../repositories/admin.repository.js';
 import bcrypt from 'bcrypt';
+import { NOT_REGISTERED_ERROR, REISSUE_ERROR } from '../../../configs/responseCode.config.js';
 
 /**
  * 로그인
@@ -28,7 +29,7 @@ async function login(body) {
     }
 
     // 비밀 번호 체크
-    if(!bcrypt.compareSync(password, admin.password)) {
+    if(!bcrypt.compareSync(password, admin.passwordHash)) {
       throw customError('비밀번호 틀림', NOT_REGISTERED_ERROR);
     }
 
@@ -38,7 +39,7 @@ async function login(body) {
       type: 'ADMIN'
     }
     const accessToken = jwtUtil.generateAccessToken(data);
-    const refreshToken = jwtUtil.generateRefreshToken(admin);
+    const refreshToken = jwtUtil.generateRefreshToken(data);
 
     return {
       admin,
@@ -67,7 +68,7 @@ async function reissue(token) {
 
   return await db.sequelize.transaction(async t => {
     // 유저 정보 획득
-    const admin = await adminRepository.findByPk(t, id);
+    const admin = await adminRepository.findByPk(t, accountId);
 
     // 토큰 일치 검증
     if(token !== admin.refreshToken) {
@@ -75,8 +76,13 @@ async function reissue(token) {
     }
 
     // JWT 생성
-    const accessToken = jwtUtil.generateAccessToken(admin);
-    const refreshToken = jwtUtil.generateRefreshToken(admin);
+    const data = {
+      id: admin.accountId,
+      type: 'ADMIN'
+    }
+
+    const accessToken = jwtUtil.generateAccessToken(data);
+    const refreshToken = jwtUtil.generateRefreshToken(data);
 
     // 리프래쉬 토큰 DB에 저장
     admin.refreshToken = refreshToken; // <= 이전 리프래쉬 토큰을 갱신
