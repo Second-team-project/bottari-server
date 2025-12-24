@@ -5,7 +5,7 @@
  */
 import express from 'express';
 import adminNoticesController from '../../app/controllers/admins/admin.notices.controller.js';
-import validationHandler from '../../app/middlewares/validation.handler.js';
+import validationHandler from '../../app/middlewares/validations/validation.handler.js';
 import indexValidator from '../../app/middlewares/validations/validators/notices/index.validator.js';
 import showValidator from '../../app/middlewares/validations/validators/notices/show.validator.js';
 import storeValidator from '../../app/middlewares/validations/validators/notices/store.validator.js';
@@ -14,10 +14,9 @@ import authMiddleware from '../../app/middlewares/auth/auth.middleware.js';
 
 const adminNoticesRouter = express.Router();
 
-// TODO : authMiddleware 추가
 adminNoticesRouter.get('/', indexValidator, validationHandler, adminNoticesController.index);
-adminNoticesRouter.get('/:id', showValidator, validationHandler, adminNoticesController.show);
-adminNoticesRouter.post('/', storeValidator, validationHandler, adminNoticesController.store);
-adminNoticesRouter.delete('/:id', deleteValidator, validationHandler, adminNoticesController.destroy);
+adminNoticesRouter.get('/:id', authMiddleware, showValidator, validationHandler, adminNoticesController.show);
+adminNoticesRouter.post('/', authMiddleware, storeValidator, validationHandler, adminNoticesController.store);
+adminNoticesRouter.delete('/:id', authMiddleware, deleteValidator, validationHandler, adminNoticesController.destroy);
 
 export default adminNoticesRouter;

@@ -1,14 +1,14 @@
 /**
- * @file app/controllers/admin.notices.controller.js
- * @description 공지사항 관련 컨트롤러
- * 251222 v1.0.0 김민현 init
+ * @file app/controllers/reservations.controller.js
+ * @description 관리자 예약 관리 관련 컨트롤러
+ * 251224 v1.0.0 김민현 init
  */
 import { SUCCESS } from '../../../configs/responseCode.config.js';
-import adminNoticesService from '../../services/admins/admin.notices.service.js';
+import adminReservationsService from '../../services/admins/admin.reservations.service.js';
 import customResponse from '../../utils/custom.response.util.js';
 
 /**
- * 공지사항 게시글 조회
+ * 예약 관리 목록 조회
  * @param {import("express").Request} req - Request 객체
  * @param {import("express").Response} res - Response 객체
  * @param {import("express").NextFunction} next - NextFunction 객체 
@@ -18,7 +18,7 @@ async function index(req, res, next) {
   try {
     const page = req.query?.page ? parseInt(req.query?.page) : 1; // 쿼리든 세그먼트는 기본적으로 문자열로 옴.
 
-    const { count, rows } = await adminNoticesService.pagination(page);
+    const { count, rows } = await adminReservationsService.pagination(page);
 
     const responseData = {
       page: page,
@@ -34,7 +34,7 @@ async function index(req, res, next) {
 }
 
 /**
- * 공지사항 게시글 상세 조회
+ * 예약 목록 상세 조회
  * @param {import("express").Request} req - Request 객체
  * @param {import("express").Response} res - Response 객체
  * @param {import("express").NextFunction} next - NextFunction 객체 
@@ -42,7 +42,7 @@ async function index(req, res, next) {
  */
 async function show(req, res, next) {
   try {
-    const result = await adminNoticesService.show(req.params.id);
+    const result = await adminReservationsService.show(req.params.id);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch(error) {
@@ -51,7 +51,7 @@ async function show(req, res, next) {
 }
 
 /**
- * 공지사항 게시글 작성
+ * 예약 등록
  * @param {import("express").Request} req - Request 객체
  * @param {import("express").Response} res - Response 객체
  * @param {import("express").NextFunction} next - NextFunction 객체 
@@ -60,10 +60,9 @@ async function show(req, res, next) {
 async function store(req, res, next) {
   try {
     const data = {
-      adminId: req.user.id, // <= auth middleware에서 세팅한 값
-      title: req.body.title,
+      adminId: req.admin.id, // <= auth middleware에서 세팅한 값
       content: req.body.content,
-      // image: req.body.image,
+      image: req.body.image,
     };
 
     const result = await adminNoticesService.create(data);
@@ -75,7 +74,7 @@ async function store(req, res, next) {
 }
 
 /**
- * 공지사항 게시글 삭제
+ * 예약 삭제
  * @param {import("express").Request} req - Request 객체
  * @param {import("express").Response} res - Response 객체
  * @param {import("express").NextFunction} next - NextFunction 객체 
@@ -84,7 +83,7 @@ async function store(req, res, next) {
 async function destroy(req, res, next) {
   try {
     const data = {
-      adminId: req.user.id, // <= auth middleware에서 세팅한 값
+      adminId: req.admin.id, // <= auth middleware에서 세팅한 값
       noticeId: req.params.id
     };
 
