@@ -41,6 +41,10 @@ async function login(body) {
     const accessToken = jwtUtil.generateAccessToken(data);
     const refreshToken = jwtUtil.generateRefreshToken(data);
 
+    // refreshToken 저장
+    admin.refreshToken = refreshToken;
+    await adminRepository.save(t, admin);
+
     return {
       admin,
       accessToken,
@@ -68,7 +72,7 @@ async function reissue(token) {
 
   return await db.sequelize.transaction(async t => {
     // 유저 정보 획득
-    const admin = await adminRepository.findByPk(t, accountId);
+    const admin = await adminRepository.findByAccountId(t, accountId);
 
     // 토큰 일치 검증
     if(token !== admin.refreshToken) {

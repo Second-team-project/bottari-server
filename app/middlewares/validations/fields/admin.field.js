@@ -13,7 +13,8 @@ const accountId = body('accountId')
   .bail()
   .isLength({ min: 4, max: 20 })
   .withMessage('아이디는 최소 4자리 이상이어야 합니다.')
-  
+;
+
 // 비밀번호 필드
 const password = body('password')
   .trim()
@@ -22,6 +23,7 @@ const password = body('password')
   .bail()
   .matches(/^[a-zA-Z0-9!@#$]{8,20}$/)
   .withMessage('아이디 또는 비밀번호가 일치하지 않습니다.')
+;
 
 export default {
   accountId,

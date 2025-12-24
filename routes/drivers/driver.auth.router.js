@@ -6,7 +6,7 @@
 
 import express from 'express';
 import driverLoginValidator from '../../app/middlewares/validations/validators/auth/driver.login.validator.js';
-import validationHandler from '../../app/middlewares/validation.handler.js';
+import validationHandler from '../../app/middlewares/validations/validation.handler.js';
 import driverAuthController from '../../app/controllers/drivers/driver.auth.controller.js';
 
 const driverAuthRouter = express.Router();

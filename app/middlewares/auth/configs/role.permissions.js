@@ -10,12 +10,11 @@ const { ADMIN } = USER_TYPE;
 // 인증 및 인가가 필요한 요청만 정의해야 함
 const ROLE_PERMISSIONS = {
   GET: [
-    { path: /^\/api\/admin\/notices\/[0-9]+$/, roles: [ADMIN] },
+    { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] },
   ],
   POST: [
-    { path: /^\/api\/admin\/auth\/logout$/, roles: [ADMIN] },
-    { path: /^\/api\/admin\/auth\/reissue$/, roles: [ADMIN] },
-    { path: /^\/api\/admin\/notices$/, roles: [ADMIN] },
+    { path: /^\/api\/admin\/auth\/logout$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/notices$/, types: [ADMIN] },
     // ===== user Page
     { path: /^\/api\/user\/auth\/logout$/, roles: [USER_TYPE.MEMBER, USER_TYPE.GUEST] },
   ],
@@ -23,7 +22,7 @@ const ROLE_PERMISSIONS = {
 
   ],
   DELETE: [
-    { path: /^\/api\/admin\/notices\/[0-9]+$/, roles: [ADMIN] }
+    { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] }
   ]
 }
 Object.freeze(ROLE_PERMISSIONS);
