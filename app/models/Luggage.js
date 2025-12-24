@@ -43,6 +43,12 @@ const attributes = {
     allowNull: false,
     comment: '짐 크기 : CARRIER:21,24,32,OVER / BAG,BOX: S,M,L,XL / GOLF=null',    
   },
+  count: {
+    field: 'count',
+    type: DataTypes.STRING(10),
+    allowNull: false,
+    comment: '짐 개수',    
+  },
   notes: {
     field: 'notes',
     type: DataTypes.STRING(255),
