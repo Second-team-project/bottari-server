@@ -7,7 +7,7 @@
 import express from 'express';
 // ===== validators
 import locationValidator from '../../app/middlewares/validations/validators/search/location.validator.js';
-import validationHandler from '../../app/middlewares/validation.handler.js';
+import validationHandler from '../../app/middlewares/validations/validation.handler.js';
 // ===== controllers
 import searchController from '../../app/controllers/user/search.controller.js'
 

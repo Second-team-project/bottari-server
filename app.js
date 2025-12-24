@@ -12,6 +12,11 @@ import userAuthRouter from './routes/user/user.auth.router.js';
 import userReserveRouter from './routes/user/user.reserve.router.js';
 import driverAuthRouter from './routes/drivers/driver.auth.router.js';
 
+// === admin
+import adminAuthRouter from './routes/admin/admin.auth.router.js';
+import adminNoticesRouter from './routes/admin/admin.notices.router.js';
+import adminFAQRouter from './routes/admin/admin.FAQ.router.js';
+
 // ===== handlers import
 import errorHandler from './app/errors/error.handler.js';
 import userSearchRouter from './routes/user/user.search.router.js';
@@ -59,6 +64,15 @@ app.use('/api/user/reserve', userReserveRouter);
 // ===== driver용
 // 로그인
 app.use('/api/driver/auth', driverAuthRouter);
+
+
+// ===== admin용
+// 로그인
+app.use('/api/admin/auth', adminAuthRouter);
+// 공지사항
+app.use('/api/admin/notices', adminNoticesRouter);
+// FAQ
+app.use('/api/admin/FAQ', adminFAQRouter);
 
 // ------------------------------------------
 // ||     404 처리
