@@ -6,11 +6,15 @@ import './configs/env.config.js';
 import db from './app/models/index.js';
 
 // ===== routers import
-// === user
 import testRouter from './routes/test.route.js'
+// === user
 import userAuthRouter from './routes/user/user.auth.router.js';
+import userSearchRouter from './routes/user/user.search.router.js';
 import userReserveRouter from './routes/user/user.reserve.router.js';
+// === driver
 import driverAuthRouter from './routes/drivers/driver.auth.router.js';
+// === All
+import pricingRouter from './routes/pricing.router.js';
 
 // === admin
 import adminAuthRouter from './routes/admin/admin.auth.router.js';
@@ -19,12 +23,12 @@ import adminFAQRouter from './routes/admin/admin.FAQ.router.js';
 
 // ===== handlers import
 import errorHandler from './app/errors/error.handler.js';
-import userSearchRouter from './routes/user/user.search.router.js';
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());  // cookie 파서
+app.use(express.urlencoded({ extended: true }));  // toss
 
 // 개발 환경에서만 CORS 허용
 // TODO 클라이언트 프록시로 변경할 것
@@ -53,12 +57,16 @@ db.sequelize.authenticate()
 // 테스트 라우트
 app.use('/api/test', testRouter);
 
+// ===== 공용
+// 요금
+app.use('/api/common/pricing', pricingRouter);
+
 // ===== user용
-// === 소셜 로그인
+// 소셜 로그인
 app.use('/api/user/auth', userAuthRouter);
-// === 주소 검색
+// 주소 검색
 app.use('/api/user/search', userSearchRouter);
-// === 예약
+// 예약
 app.use('/api/user/reserve', userReserveRouter);
 
 // ===== driver용
