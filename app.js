@@ -10,6 +10,7 @@ import db from './app/models/index.js';
 import testRouter from './routes/test.route.js'
 import userAuthRouter from './routes/user/user.auth.router.js';
 import userReserveRouter from './routes/user/user.reserve.router.js';
+import driverAuthRouter from './routes/drivers/driver.auth.router.js';
 
 // === admin
 import adminAuthRouter from './routes/admin/admin.auth.router.js';
@@ -59,6 +60,10 @@ app.use('/api/user/auth', userAuthRouter);
 app.use('/api/user/search', userSearchRouter);
 // === 예약
 app.use('/api/user/reserve', userReserveRouter);
+
+// ===== driver용
+// 로그인
+app.use('/api/driver/auth', driverAuthRouter);
 
 
 // ===== admin용
