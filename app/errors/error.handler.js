@@ -5,7 +5,7 @@
  */
 
 import { BaseError, UniqueConstraintError } from "sequelize";
-import { DB_ERROR, SYSTEM_ERROR } from "../../configs/responseCode.config.js";
+import { CONFLICT_ERROR, DB_ERROR, SYSTEM_ERROR } from "../../configs/responseCode.config.js";
 import customResponse from "../utils/custom.response.util.js";
 
 /**
