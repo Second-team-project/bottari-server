@@ -9,7 +9,7 @@ import express from 'express';
 import authController from '../../app/controllers/user/auth.controller.js'
 // ===== validators
 import socialValidator from '../../app/middlewares/validations/validators/auth/user.social.validator.js';
-import validationHandler from '../../app/middlewares/validation.handler.js';
+import validationHandler from '../../app/middlewares/validations/validation.handler.js';
 import authMiddleware from '../../app/middlewares/auth/auth.middleware.js';
 
 const userAuthRouter = express.Router();
