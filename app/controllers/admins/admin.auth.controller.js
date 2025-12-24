@@ -41,7 +41,7 @@ async function login(req, res, next) {
  */
 async function logout(req, res, next) {
   try {
-    const id = req.admin.id; // <= user = 우리가 만든 authMiddleware에서 생성되는 객체
+    const id = req.user?.id; // <= user = 우리가 만든 authMiddleware에서 생성되는 객체
 
     // 로그아웃 서비스 호출
     await adminAuthService.logout(id);
@@ -77,7 +77,7 @@ async function reissue(req, res, next) {
     // 쿠키에 리프래쉬 토큰 설정
     cookieUtil.setCookieRefreshToken(res, refreshToken);
 
-    return res.status(SUCCESS.status).send(createBaseResponse(SUCCESS, { accessToken, admin }));
+    return res.status(SUCCESS.status).send(customResponse(SUCCESS, { accessToken, admin }));
   } catch(error) {
     next(error);
   }

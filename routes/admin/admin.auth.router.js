@@ -6,7 +6,7 @@
 import express from 'express';
 import { adminAuthController } from '../../app/controllers/admins/admin.auth.controller.js';
 import loginValidator from '../../app/middlewares/validations/validators/auth/admin.login.validator.js';
-import validationHandler from '../../app/middlewares/validation.handler.js';
+import validationHandler from '../../app/middlewares/validations/validation.handler.js';
 import authMiddleware from '../../app/middlewares/auth/auth.middleware.js';
 
 const adminAuthRouter = express.Router();
