@@ -4,7 +4,7 @@
  * 251222 v1.0.0 김민현 init
  */
 import express from 'express';
-import validationHandler from '../../app/middlewares/validation.handler.js';
+import validationHandler from '../../app/middlewares/validations/validation.handler.js';
 import authMiddleware from '../../app/middlewares/auth/auth.middleware.js';
 import adminFAQController from '../../app/controllers/admins/admin.FAQ.controller.js';
 

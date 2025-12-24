@@ -56,7 +56,7 @@ async function create(t = null, data) {
  * @param {import("../services/admins/notices.service.type.js").Id} id 
  * @returns {Promise<number>}
  */
-async function destroy(t = null, id) {
+async function destroy(t = null, noticeId) {
   return await Notice.destroy(
     {
       where: { id : id },

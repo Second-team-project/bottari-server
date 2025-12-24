@@ -25,6 +25,12 @@ const id = param('id')
   .withMessage('숫자만 허용합니다.')
   .toInt();
 
+// 제목
+const title = body('title')
+  .trim()
+  .notEmpty()
+  .withMessage('내용은 필수 항목입니다.');
+
 // 게시글 내용
 const content = body('content')
   .trim()

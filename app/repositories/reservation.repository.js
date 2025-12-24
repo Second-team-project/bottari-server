@@ -5,7 +5,7 @@
  */
 
 import db from '../models/index.js';
-const { Reservation } = db;
+const { Reservation, User } = db;
 
 /**
  * 예약 정보 생성
@@ -24,6 +24,52 @@ async function create(t = null, data) {
   );
 }
 
+/**
+ * 예약 목록 페이지네이션
+ * @param {import("sequelize").Transaction|null} t 
+ * @param {{limit: number, offset: number}} data 
+ */
+async function pagination(t = null, data) {
+  // findAndCountAll: 데이터 목록(rows)과 전체 개수(count)를 동시에 가져옴
+  return await Reservation.findAndCountAll({
+    order: [['createdAt', 'DESC']],
+    limit: data.limit,
+    offset: data.offset,
+    include: [
+      {
+        model: User,
+        attributes: ['userName', 'email', 'phone'],
+        required: false, // 유저 탈퇴 등으로 정보 없어도 예약 내역은 보여줌
+      },
+    ],
+    transaction: t
+  });
+};
+
+/**
+ * 예약 ID로 조회
+ * @param {import("sequelize").Transaction|null} t 
+ * @param {import("../../app/models/Reservation.js").Id} id 
+ */
+async function findByPk(t = null, id) {
+  return await Reservation.findByPk(
+    id,
+    {
+      include: [
+        {
+          model: User,
+          attributes: ['name', 'email', 'phone'], // 필요한 유저 정보
+          required: false,
+        },
+      ],
+      transaction: t,
+    }
+  );
+}
+
+
 export default {
   create,
+  pagination,
+  findByPk,
 }
