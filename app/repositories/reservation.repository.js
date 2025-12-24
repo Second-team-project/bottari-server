@@ -11,7 +11,7 @@ const { Reservation } = db;
  * 예약 정보 생성
  */
 async function create(t = null, data) {
-  // SELECT * FROM users WHERE email = ? AND deleted_at IS NULL;
+  // CRATE * FROM reservation ;
   return await Reservation.create(
     {
       userId: data.userId,
@@ -24,6 +24,44 @@ async function create(t = null, data) {
   );
 }
 
+/**
+ * 예약코드로 테이블 찾기
+ * @returns 
+ */
+async function findByCode(t = null, orderId) {
+  return await Reservation.findOne(
+    {
+      where: {
+        code: orderId
+      },
+      transaction: t
+    }
+  )
+}
+
+/**
+ * 예약 상태 업데이트 : 
+ */
+async function update(t = null, data) {
+  // SELECT
+  return await Reservation.update(
+    {
+      state: data.state,
+      paymentKey: data.paymentKey,
+      paymentMethod: data.paymentMethod,
+      approvedAt: data.approvedAt,
+    },
+    {
+      where: {
+        code: data.code,
+      },
+      transaction: t,
+    }
+  )
+}
+
 export default {
   create,
+  update,
+  findByCode,
 }

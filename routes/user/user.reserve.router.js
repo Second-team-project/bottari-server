@@ -5,12 +5,17 @@
  */
 
 import express from 'express';
+// ===== controller
 import reserveController from '../../app/controllers/user/reserve.controller.js';
+// ===== validator
+import storageDraftValidator from '../../app/middlewares/validations/validators/reserve/storage.draft.validator.js';
+import validationHandler from '../../app/middlewares/validations/validation.handler.js';
+
 
 const userReserveRouter = express.Router();
 
 userReserveRouter.post('/draft/delivery', reserveController.deliveryDraft);
-userReserveRouter.post('/draft/storage', reserveController.storageDraft);
-userReserveRouter.post('/confirm/payment', reserveController.confirmPayment);
+userReserveRouter.post('/draft/storage', storageDraftValidator, validationHandler, reserveController.storageDraft);
+userReserveRouter.post('/confirm/payment', reserveController.confirmTossPayment);
 
 export default userReserveRouter;
