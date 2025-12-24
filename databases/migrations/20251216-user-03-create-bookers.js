@@ -42,14 +42,12 @@ const attributes = {
     field: 'phone',
     type: DataTypes.STRING(20),
     allowNull: true,
-    unique: true,
     comment: '연락처',
   },
   email: {
     field: 'email',
     type: DataTypes.STRING(100),
     allowNull: false,
-    unique: true,
     comment: '이메일',
   },
   passwordHash: {
