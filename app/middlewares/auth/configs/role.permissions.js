@@ -5,22 +5,28 @@
  */
 import USER_TYPE from "../../../../configs/user.type.enum.js";
 
-const { ADMIN } = USER_TYPE;
+const { ADMIN, DRIVER } = USER_TYPE;
 
 // 인증 및 인가가 필요한 요청만 정의해야 함
 const ROLE_PERMISSIONS = {
   GET: [
     { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] },
+    // ===== driver Page
+    { path: /^\/api\/driver\/attendance\/status$/, types: [DRIVER] },
   ],
   POST: [
     { path: /^\/api\/admin\/auth\/logout$/, types: [ADMIN] },
     { path: /^\/api\/admin\/notices$/, types: [ADMIN] },
     // ===== user Page
     { path: /^\/api\/user\/auth\/logout$/, types: [USER_TYPE.MEMBER, USER_TYPE.GUEST] },
-
+    // ===== driver Page
+    { path: /^\/api\/driver\/attendance\/toggle$/, types: [DRIVER] },
   ],
   PUT: [
 
+  ],
+  PATCH: [
+    { path: /^\/api\/driver\/profile\/edit$/, types: [DRIVER] },
   ],
   DELETE: [
     { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] }

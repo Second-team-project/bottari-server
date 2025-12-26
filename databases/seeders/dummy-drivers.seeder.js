@@ -16,7 +16,7 @@ export default {
     const records = [
       {
         driver_name: '김기사',
-        phone: '010-1111-0001',
+        phone: '01011110001',
         account_id: 'driver01',
         password_hash: await bcrypt.hash('dri12312', 10),
         email: 'driver01@test.com',
@@ -28,7 +28,7 @@ export default {
       },
       {
         driver_name: '이운전',
-        phone: '010-1111-0002',
+        phone: '01011110002',
         account_id: 'driver02',
         password_hash: await bcrypt.hash('dri12312', 10),
         email: 'driver02@test.com',
@@ -40,7 +40,7 @@ export default {
       },
       {
         driver_name: '박배송',
-        phone: '010-1111-0003',
+        phone: '01011110003',
         account_id: 'driver03',
         password_hash: await bcrypt.hash('dri12312', 10),
         email: null,
@@ -52,7 +52,7 @@ export default {
       },
       {
         driver_name: '최퀵',
-        phone: '010-1111-0004',
+        phone: '01011110004',
         account_id: 'driver04',
         password_hash: await bcrypt.hash('dri12312', 10),
         email: 'driver04@test.com',
@@ -64,7 +64,7 @@ export default {
       },
       {
         driver_name: '정라이더',
-        phone: '010-1111-0005',
+        phone: '01011110005',
         account_id: 'driver05',
         password_hash: await bcrypt.hash('dri12312', 10),
         email: 'driver05@test.com',

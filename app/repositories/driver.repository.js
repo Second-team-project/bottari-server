@@ -8,7 +8,7 @@ import db from '../models/index.js';
 const { Driver } = db;
 
 /**
- * id로 유저 검색
+ * 로그인 용 id로 유저 검색
  * @param {import("sequelize").Transaction} t 
  * @param {string} accountId 
  * @returns {Promise<import("../models/Driver.js").Driver>}
