@@ -6,6 +6,7 @@
 
 import { SUCCESS } from "../../../configs/responseCode.config.js";
 import driverProfileService from "../../services/drivers/driver.profile.service.js";
+import cookieUtil from "../../utils/cookie/cookie.util.js";
 import customResponse from "../../utils/custom.response.util.js";
 
 // ----------------
@@ -24,8 +25,11 @@ async function driverEditProfile(req, res, next) {
     const updatedData = req.body;
     
     const result = await driverProfileService.updateProfile(driverId, updatedData);
+    const { accessToken, refreshToken, driver } = result; // 구조 분해 할당으로 꺼내기
 
-    cookieUtil.setCookieRefreshToken(res, refreshToken);
+    if (refreshToken) {
+      cookieUtil.setCookieRefreshToken(res, refreshToken);
+    }
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));   
   } catch(error) {
