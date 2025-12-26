@@ -33,9 +33,30 @@ const userType = body('userType')
   .withMessage('유효하지 않은 유저 타입니다.')
 ;
 
+const price = body('price')
+  .trim()
+  .notEmpty()
+  .withMessage('결제 금액은 필수 항목입니다.')
+  .bail()
+  .isInt()
+  .withMessage('결제 금액은 숫자여야 합니다.')
+;
+
+const notes = body('notes')
+  .optional({ nullable: true, checkFalsy: true })
+  .isString()
+  .withMessage('요청사항은 문자열이어야 합니다.')
+  .isLength({ max: 200 })
+  .withMessage('요청사항은 최대 200자 까지 입력 가능합니다.')
+  .trim()
+  .customSanitizer(value => value === '' ? null : value)  // '' -> null 용
+;
+
 
 export default {
   type,
   userId,
   userType,
+  price,
+  notes,
 }
