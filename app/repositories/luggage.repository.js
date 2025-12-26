@@ -21,6 +21,18 @@ async function bulkCreate(t = null, data) {
   );
 }
 
+async function findByReservId(t = null, reservId) {
+  return await Luggage.findAll(
+    {
+      where: {
+        reservId: reservId
+      },
+      transaction: t
+    }
+  )
+}
+
 export default {
   bulkCreate,
+  findByReservId,
 }

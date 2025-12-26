@@ -11,11 +11,11 @@ import storageField from "../../fields/storage.field.js";
 
 export default [
   // 예약
-  reservationField.type, reservationField.userId, reservationField.userType, 
+  reservationField.type, reservationField.userId, reservationField.userType, reservationField.price, reservationField.notes,
   // 예약자
   bookerField.phone, bookerField.email, bookerField.password, bookerField.userName,
   // 짐
   luggageField.luggageList, 
   // 보관
-  storageField.price, storageField.startedAt, storageField.endedAt, storageField.storeId, storageField.notes,
+ storageField.startedAt, storageField.endedAt, storageField.storeId,
 ];
