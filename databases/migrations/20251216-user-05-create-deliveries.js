@@ -25,12 +25,6 @@ const attributes = {
     allowNull: false,
     comment: '예약 번호 (reservations)',
   },
-  price: {
-    field: 'price',
-    type: DataTypes.BIGINT,
-    allowNull: false,
-    comment: '결제 금액',
-  },
   startedAt: {
     field: 'started_at',
     type: DataTypes.DATE,
@@ -48,13 +42,6 @@ const attributes = {
     type: DataTypes.STRING(225),
     allowNull: false,
     comment: '도착 장소',
-  },
-  notes: {
-    field: 'notes',
-    type: DataTypes.STRING(500),
-    allowNull: true,
-    defaultValue: null,
-    comment: '요청 사항',
   },
   createdAt: {
     field: 'created_at',
