@@ -13,6 +13,8 @@ import userSearchRouter from './routes/user/user.search.router.js';
 import userReserveRouter from './routes/user/user.reserve.router.js';
 // === driver
 import driverAuthRouter from './routes/drivers/driver.auth.router.js';
+import driverProfileRouter from './routes/drivers/driver.profile.router.js';
+import driverAttendanceRouter from './routes/drivers/driver.Attendance.router.js';
 // === All
 import pricingRouter from './routes/pricing.router.js';
 
@@ -72,6 +74,10 @@ app.use('/api/user/reserve', userReserveRouter);
 // ===== driver용
 // 로그인
 app.use('/api/driver/auth', driverAuthRouter);
+// 개인정보 수정
+app.use('/api/driver/profile', driverProfileRouter);
+// 출퇴근 상태 수정
+app.use('/api/driver/attendance', driverAttendanceRouter);
 
 
 // ===== admin용
