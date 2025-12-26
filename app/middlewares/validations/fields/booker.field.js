@@ -9,10 +9,11 @@ import { body } from "express-validator";
 // ===== 객체 export =====
 
 const phone = body('phone')
-  .optional({ nullable: true })
+  .optional({ nullable: true, checkFalsy: true })  // null & '' 통과
   .trim()
   .isInt()
   .withMessage('연락처는 숫자여야 합니다.')
+  .customSanitizer(value => value === '' ? null : value)  // '' -> null 용
 ;
 
   const email = body('email')
