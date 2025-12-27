@@ -9,7 +9,7 @@ import { body } from "express-validator";
 // ===== 객체 export =====
 
 const phone = body('phone')
-  .optional()
+  .optional({ nullable: true })
   .trim()
   .isInt()
   .withMessage('연락처는 숫자여야 합니다.')
@@ -46,15 +46,15 @@ const passwordChk = body('passwordChk')
   .withMessage('비밀번호가 다릅니다.')
 ;
 
-// 닉네임
+// 이름
 const userName = body('userName')
   .trim()
   .notEmpty()
   .withMessage('예약자 이름은 필수 항목입니다.')
   .bail()
   .isString()
-  .isLength({ min: 4, max: 20 })
-  .withMessage('이름은 2자에서 20자까지 입력 가능합니다.')
+  .isLength({ min: 1, max: 20 })
+  .withMessage('이름은 1자에서 20자까지 입력 가능합니다.')
 ;
 
 export default {

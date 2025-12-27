@@ -19,7 +19,7 @@ const type = body('type')
 ;
 
 const userId = body('userId')
-  .optional()
+  .optional({ nullable: true })
   .isInt()
   .withMessage('회원 ID는 숫자여야 합니다')
 ;

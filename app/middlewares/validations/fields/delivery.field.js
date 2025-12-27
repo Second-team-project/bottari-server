@@ -51,7 +51,7 @@ const endedAddr = body('endedAddr')
 ;
 
 const notes = body('notes')
-  .optional()
+  .optional({ nullable: true })
   .isString()
   .withMessage('요청사항은 문자열이어야 합니다.')
   .isLength({ max: 200 })
