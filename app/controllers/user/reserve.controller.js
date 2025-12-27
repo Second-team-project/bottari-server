@@ -56,14 +56,18 @@ async function storageDraft(req, res, next) {
   }
 }
 
-async function confirmPayment(req, res, next) {
+async function confirmTossPayment(req, res, next) {
   try {
     // 클라이언트 데이터로 서비스 호출
 
     // 결과 받기
+    // 클라이언트에서 받은 JSON 요청 바디입니다.
+    const { paymentKey, orderId, amount } = req.body;
 
+    const result = await reserveService.confirmTossPayment({ paymentKey, orderId, amount });
+    console.log('controller-toss: ', result)
 
-
+    return res.status(SUCCESS.status).send(customResponse(SUCCESS, result))
     
   } catch (error) {
     return next(error)
@@ -73,5 +77,5 @@ async function confirmPayment(req, res, next) {
 export default {
   deliveryDraft,
   storageDraft,
-  confirmPayment,
+  confirmTossPayment,
 }

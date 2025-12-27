@@ -39,6 +39,24 @@ const attributes = {
     defaultValue: 'RESERVED',
     comment: '예약 상태: 결제대기=PENDING_PAYMENT / 예약중=RESERVED / 진행중=IN_PROGRESS / 완료=COMPLETED / 취소=CANCELLED',
   },
+  paymentKey: {
+    field: 'payment_key',
+    type: DataTypes.STRING(200),
+    allowNull: true,
+    comment: 'Toss 결제 키 (취소/조회용)'
+  },
+  paymentMethod: {
+    field: 'payment_method',
+    type: DataTypes.STRING(20),
+    allowNull: true,
+    comment: '결제 수단'
+  },
+  approvedAt: {
+    field: 'approved_at',
+    type: DataTypes.DATE,
+    allowNull: true,
+    comment: '결제 승인 시각 (ISO 8601)'
+  },
   createdAt: {
     field: 'created_at',
     type: DataTypes.DATE,
