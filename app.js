@@ -7,6 +7,9 @@ import db from './app/models/index.js';
 
 // ===== routers import
 import testRouter from './routes/test.route.js'
+// === common
+import pricingRouter from './routes/pricing.router.js';
+import storeRouter from './routes/store.router.js';
 // === user
 import userAuthRouter from './routes/user/user.auth.router.js';
 import userSearchRouter from './routes/user/user.search.router.js';
@@ -15,8 +18,6 @@ import userReserveRouter from './routes/user/user.reserve.router.js';
 import driverAuthRouter from './routes/drivers/driver.auth.router.js';
 import driverProfileRouter from './routes/drivers/driver.profile.router.js';
 import driverAttendanceRouter from './routes/drivers/driver.Attendance.router.js';
-// === All
-import pricingRouter from './routes/pricing.router.js';
 
 // === admin
 import adminAuthRouter from './routes/admin/admin.auth.router.js';
@@ -62,6 +63,8 @@ app.use('/api/test', testRouter);
 // ===== 공용
 // 요금
 app.use('/api/common/pricing', pricingRouter);
+// 보관소
+app.use('/api/common/store', storeRouter);
 
 // ===== user용
 // 소셜 로그인
