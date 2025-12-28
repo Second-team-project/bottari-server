@@ -8,7 +8,7 @@
 import { SERVICE_TYPE } from "../../../configs/service.type.enum.js";
 import reserveCodeUtil from "../../utils/reserveCode/reserve.code.util.js";
 // ===== errors
-import { BAD_REQUEST_ERROR, GUEST_AUTH_ERROR } from "../../../configs/responseCode.config.js";
+import { BAD_REQUEST_ERROR, GUEST_AUTH_ERROR, MEMBER_RESERVATION_ERROR } from "../../../configs/responseCode.config.js";
 import customError from "../../errors/custom.error.js";
 // ===== repository
 import reservationRepository from "../../repositories/reservation.repository.js";
@@ -211,9 +211,9 @@ async function confirmTossPayment(data) {
 
 // =============================
 // ||     결제 완료 후 조회     ||
-// ========================================================
-// ||   분리 로직 : 배송/보관 타입에 따라 조회 후 데이터 담기   ||
-// ========================================================
+// ========================================================================
+// ||   분리 로직 : 배송/보관 타입에 따라 조회 후 데이터 담기, 짐 정보 담기   ||
+// ========================================================================
 
 /**
  * 예약코드의 첫글자로 구분 -> 배송/보관(보관소) 테이블 조회 및 데이터 반환
@@ -227,7 +227,7 @@ async function getDetailByReservId(t, code, reservId) {
     const data = await deliveryRepository.findByReservId(t, reservId)
     return {
       startedAt: data.startedAt,
-      endedAt: data.endedAt,
+      startedAddr: data.startedAddr,
       endedAddr: data.endedAddr,
     }
   }
@@ -240,6 +240,24 @@ async function getDetailByReservId(t, code, reservId) {
       storeName: store.storeName,
     }
   }
+}
+
+/**
+ * 예약 번호로 luggages 조회 후, 필요한 정보만 담기
+ * @param {*} t 
+ * @param {*} reservId 
+ * @returns 
+ */
+async function getLuggageList(t, reservId) {
+  const luggages = await luggageRepository.findByReservId(t, reservId);
+  if (!luggages) return [];
+  
+  return luggages.map(item => ({
+    itemType: item.itemType,
+    itemSize: item.itemSize,
+    itemWeight: item.itemWeight,
+    count: item.count,
+  }));
 }
 
 // ========================================================
@@ -262,13 +280,14 @@ async function completePayment(reserveCode) {
   const detail = await getDetailByReservId(null, reserveCode, reservation.id);
 
   // 4. 짐 정보 조회 : reservId 사용
-  const luggage = await luggageRepository.findByReservId(null, reservation.id);
+  const luggages = await getLuggageList(null, reservation.id);
   
   return {
+    id: reservation.id,
     code: reservation.code,
     notes: reservation.notes,
     ...detail,
-    luggageList: luggage,
+    luggageList: luggages,
   }
 }
 
@@ -286,7 +305,7 @@ async function userReservation(id) {
   // Promise.all - 병렬처리
   return await Promise.all(reservations.map(async (resv) => {
     const detail = await getDetailByReservId(null, resv.code, resv.id);
-    const luggage = await luggageRepository.findByReservId(null, resv.id);
+    const luggages = await getLuggageList(null, resv.id);
 
     return {
       id: resv.id,
@@ -295,7 +314,7 @@ async function userReservation(id) {
       price: resv.price,
       notes: resv.notes,
       ...detail,
-      luggageList: luggage
+      luggageList: luggages
     };
   }))
 }
@@ -305,26 +324,36 @@ async function guestReservation(data) {
   // 1. reserveCode 조회
   const reservation = await reservationRepository.findByCode(null, data.code);
   if(!reservation) {
-      throw customError('예약 코드 미존재', GUEST_AUTH_ERROR)
+    throw customError('예약 코드 미존재', GUEST_AUTH_ERROR)
   }
+  if (reservation.userId) {
+    throw customError('회원 예약 내역입니다', MEMBER_RESERVATION_ERROR)
+  }
+  console.log('service-reservation: ', reservation);
 
   // 2. 예약자 정보 조회 : reservId 사용
   const booker = await bookerRepository.findByReservId(null, reservation.id);
   if(!bcrypt.compareSync(data.password, booker.passwordHash)) {
     throw customError('비밀번호 틀림', GUEST_AUTH_ERROR);
   }
+  console.log('service-booker: ', booker);
 
   // 3. 배송/보관 정보 조회 : reservId 사용
   const detail = await getDetailByReservId(null, data.code, reservation.id);
+  console.log('service-detail: ', detail);
 
   // 4. 짐 정보 조회 : reservId 사용
-  const luggage = await luggageRepository.findByReservId(null, reservation.id);
+  const luggages = await getLuggageList(null, reservation.id);
+  console.log('service-luggages: ', luggages);
   
   return {
-    code: reservation.code,
+    id: reservation.id,
+    code: data.code,
+    price: reservation.price,
+    state: reservation.state,
     notes: reservation.notes,
     ...detail,
-    luggageList: luggage,
+    luggageList: luggages,
   }
 }
 

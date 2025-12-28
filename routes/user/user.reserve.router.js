@@ -13,6 +13,7 @@ import validationHandler from '../../app/middlewares/validations/validation.hand
 import deliveryDraftValidator from '../../app/middlewares/validations/validators/reserve/delivery.draft.validator.js';
 // ===== middleware
 import authMiddleware from '../../app/middlewares/auth/auth.middleware.js';
+import guestLookupValidator from '../../app/middlewares/validations/validators/reserve/guest.lookup.validator.js';
 
 
 const userReserveRouter = express.Router();
@@ -26,6 +27,6 @@ userReserveRouter.post('/confirm/payment', reserveController.confirmTossPayment)
 userReserveRouter.get('/complete/:reserveCode', reserveController.completePayment);
 // 예약 조회
 userReserveRouter.get('/', authMiddleware, reserveController.userReservation);
-userReserveRouter.post('/guest', reserveController.guestReservation);
+userReserveRouter.post('/guest', guestLookupValidator, validationHandler, reserveController.guestReservation);
 
 export default userReserveRouter;
