@@ -52,6 +52,17 @@ const notes = body('notes')
   .customSanitizer(value => value === '' ? null : value)  // '' -> null 용
 ;
 
+// 조회용
+
+const code = body('code')
+  .trim()
+  .notEmpty()
+  .withMessage('예약 코드는 필수 항목입니다.')
+  .bail()
+  .matches(/^[DS][MG]\d{6}[2-9A-Z]{5}$/)
+  .withMessage('유효하지 않은 예약 코드 형식입니다.')
+;
+
 
 export default {
   type,
@@ -59,4 +70,6 @@ export default {
   userType,
   price,
   notes,
+  // 조회용
+  code,
 }

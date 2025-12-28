@@ -1,12 +1,12 @@
 /**
- * @file databases/seeders/dummy-stores.seeder.js
- * @description create stores dummy data
+ * @file databases/seeders/dummy-users.seeder.js
+ * @description create users dummy data
  * 251222 v1.0.0 N init
  */
 
 
 // 테이블명
-const tableName = 'stores';
+const tableName = 'users';
 
 /** @type {import('sequelize-cli').Migration} */
 export default {
@@ -17,31 +17,12 @@ export default {
     const records = [
       {
         id: 1,
-        store_name: "대구역",
-        code: "BS001",
-        addr: "대구 북구 태평로 161",
-        tel: "053-000-0001",
-      },
-      {
-        id: 2,
-        store_name: "동대구역",
-        code: "BS002",
-        addr: "대구 동구 동대구로 550 , 3층",
-        tel: "053-000-0002",
-      },
-      {
-        id: 3,
-        store_name: "반월당역",
-        code: "BS003",
-        addr: "대구 중구 덕산동",
-        tel: "053-000-0003",
-      },
-      {
-        id: 4,
-        store_name: "서대구역",
-        code: "BS004",
-        addr: "대구 서구 와룡로 527",
-        tel: "053-000-0004",
+        user_name: '김단골',
+        phone: '01011112222',
+        email: 'user1@test.com',
+        provider: 'KAKAO', // 또는 사용 중인 provider 명칭
+        created_at: new Date(),
+        updated_at: new Date()
       },
     ]
 

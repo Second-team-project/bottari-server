@@ -11,6 +11,8 @@ const { ADMIN, DRIVER } = USER_TYPE;
 const ROLE_PERMISSIONS = {
   GET: [
     { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] },
+    // ===== user Page
+    { path: /^\/api\/user\/reserve$/, types: [USER_TYPE.MEMBER] },
     // ===== driver Page
     { path: /^\/api\/driver\/attendance\/status$/, types: [DRIVER] },
   ],

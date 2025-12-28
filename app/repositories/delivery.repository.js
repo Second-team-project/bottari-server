@@ -31,7 +31,7 @@ async function findByReservId(t = null, id) {
   return await Delivery.findOne(
     {
       where: {
-        reserveId: id
+        reservId: id
       },
       transaction: t
     }

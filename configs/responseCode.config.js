@@ -181,6 +181,9 @@ const RESERVE_CONFLICT_ERROR = {
 };
 Object.freeze(RESERVE_CONFLICT_ERROR);
 
+/**
+ * 비회원 예약 조회 시 예약코드/비밀번호 매칭 실패
+ */
 const GUEST_AUTH_ERROR = {
   code: 'E41',
   msg: 'Not Reservation Error',
@@ -188,6 +191,17 @@ const GUEST_AUTH_ERROR = {
   status: 400
 };
 Object.freeze(GUEST_AUTH_ERROR);
+
+/**
+ * 비회원으로 회원예약 조회 시도 시 에러
+ */
+const MEMBER_RESERVATION_ERROR = {
+  code: 'E42',
+  msg: 'Member Reservation Error',
+  info: '회원 예약 내역입니다. 로그인 후 이용해주세요.',
+  status: 401
+}
+Object.freeze(MEMBER_RESERVATION_ERROR);
 
 
 /**
@@ -216,7 +230,7 @@ Object.freeze(DB_ERROR);
 
 
 export {
-  // 01
+  // 01 - 로그인 관련
   SUCCESS,
   NOT_REGISTERED_ERROR,
   UNAUTHORIZED_ERROR,
@@ -227,15 +241,16 @@ export {
   UNMATCHING_USER_ERROR,
   REISSUE_ERROR,
 
-  // 20
+  // 20 - 전역
   NOT_FOUND_ERROR,
   BAD_REQUEST_ERROR,
   BAD_FILE_ERROR,
   CONFLICT_ERROR,
   
-  //40
+  //40 - 예약 관련
   RESERVE_CONFLICT_ERROR,
   GUEST_AUTH_ERROR,
+  MEMBER_RESERVATION_ERROR,
 
   SYSTEM_ERROR,
   DB_ERROR,
