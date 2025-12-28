@@ -27,6 +27,18 @@ async function create(t = null, data) {
   );
 }
 
+async function findByReservId(t = null, reservId) {
+  return await Booker.findOne(
+    {
+      where: {
+        reservId: reservId
+      },
+      transaction: t
+    }
+  )
+}
+
 export default {
   create,
+  findByReservId,
 }

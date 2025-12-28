@@ -33,10 +33,14 @@ async function driverLogin(body) {
     if(!bcrypt.compareSync(password, driver.passwordHash)) {
       throw customError('비밀번호 틀림', NOT_REGISTERED_ERROR);
     }
-  
+    
     // JWT 생성(accessToken, refreshToken)
-    const accessToken = jwtUtil.generateAccessToken(driver);
-    const refreshToken = jwtUtil.generateRefreshToken(driver);
+    const data = {
+      id: driver.id,
+      type: 'DRIVER'
+    }
+    const accessToken = jwtUtil.generateAccessToken(data);
+    const refreshToken = jwtUtil.generateRefreshToken(data);
   
     // refreshToken 저장
     driver.refreshToken = refreshToken;

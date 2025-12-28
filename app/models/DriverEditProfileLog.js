@@ -1,15 +1,14 @@
 /**
- * @file app/models/Storage.js
- * @description Storage model
- * 251216 v1.0.0 N init
+ * @file app/models/DriverEditProfileLog.js
+ * @description DriverEditProfileLog model
+ * 251226 v1.0.0 김위민 init
  */
 
 import dayjs from 'dayjs';
 import { DataTypes } from 'sequelize';
 
-const modelName = 'Storage'; // 모델명(JS 내부에서 사용)
+const modelName = 'DriverEditProfileLog'; // 모델명 (JS 내부에서 사용)
 
-// 컬럼 정의
 const attributes = {
   id: {
     field: 'id',
@@ -17,38 +16,39 @@ const attributes = {
     primaryKey: true,
     allowNull: false,
     autoIncrement: true,
-    comment: '보관 PK',
+    comment: '기사 개인정보 변경 이력 번호',
   },
-  reservId: {
-    field: 'reserv_id',
+  driverId: {
+    field: 'driver_id',
     type: DataTypes.BIGINT.UNSIGNED,
     allowNull: false,
-    comment: '예약 번호 (reservations)',
+    comment: '기사 번호 FK'
   },
-  startedAt: {
-    field: 'started_at',
-    type: DataTypes.DATE,
+  editFieldName: {
+    field: 'edit_field_name',
+    type: DataTypes.STRING(15),
     allowNull: false,
-    comment: '보관 시작',
+    comment: '변경된 필드명',
   },
-  endedAt: {
-    field: 'ended_at',
-    type: DataTypes.DATE,
+  oldValue: {
+    field: 'old_value',
+    type: DataTypes.STRING(50),
     allowNull: false,
-    comment: '보관 끝',
+    comment: '변경 전 값'
   },
-  storeId: {
-    field: 'store_id',
-    type: DataTypes.BIGINT,
+  newValue: {
+    field: 'new_value',
+    type: DataTypes.STRING(50),
     allowNull: false,
-    comment: '보관소 번호 (stores)',
+    comment: '변경 후 값',
   },
   createdAt: {
     field: 'created_at',
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
     get() {
       const val = this.getDataValue('createdAt');
+
       if(!val) {
         return null;
       }
@@ -58,9 +58,10 @@ const attributes = {
   updatedAt: {
     field: 'updated_at',
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
     get() {
       const val = this.getDataValue('updatedAt');
+
       if(!val) {
         return null;
       }
@@ -73,6 +74,7 @@ const attributes = {
     allowNull: true,
     get() {
       const val = this.getDataValue('deletedAt');
+
       if(!val) {
         return null;
       }
@@ -81,26 +83,21 @@ const attributes = {
   }
 };
 
-// 옵션 정의
 const options = {
-  tableName: 'storages', // 실제 DB 테이블명
-  timestamps: true,   // createdAt, updatedAt를 자동 관리
-  paranoid: true,     // soft delete 설정 (deletedAt 자동 관리)
+  tableName: 'driver_edit_profile_logs', // 실제 DB 테이블명
+  timestamps: true, // createdAt, updatedAt를 자동 관리
+  paranoid: true, // soft delete 설정 (deletedAt 자동 관리)
 }
 
-// 모델 정의
-const Storage = {
-  // 초기화
+const DriverEditProfileLog = {
   init: (sequelize) => {
     const define = sequelize.define(modelName, attributes, options);
 
     return define;
   },
-  // 관계
   associate: (db) => {
-    db.Storage.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reserv_id', as: 'storageReservation' });
-    db.Storage.belongsTo(db.Store, { targetKey: 'id', foreignKey: 'store_id', as: 'storageStore' });
+    db.DriverEditProfileLog.belongsTo(db.Driver, { targetKey: 'id', foreignKey: 'driver_id', as: 'driverEditProfileLogDriver' });
   }
 }
 
-export default Storage;
+export default DriverEditProfileLog;

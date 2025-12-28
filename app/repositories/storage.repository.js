@@ -27,6 +27,19 @@ async function create(t = null, data) {
   );
 }
 
+async function findByReservId(t = null, reservId) {
+  return await Storage.findOne(
+    {
+      where: {
+        reservId: reservId
+      },
+      transaction: t
+    }
+  )
+}
+
+
 export default {
   create,
+  findByReservId,
 }

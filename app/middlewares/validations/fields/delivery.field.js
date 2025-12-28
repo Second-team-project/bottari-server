@@ -5,16 +5,7 @@
  */
 
 import { body } from "express-validator";
-import customError from "../../../errors/custom.error.js";
 
-const price = body('price')
-  .trim()
-  .notEmpty()
-  .withMessage('결제 금액은 필수 항목입니다.')
-  .bail()
-  .isInt()
-  .withMessage('결제 금액은 숫자여야 합니다.')
-;
 
 const startedAt = body('startedAt')
   .trim()
@@ -50,19 +41,10 @@ const endedAddr = body('endedAddr')
   .withMessage('픽업 주소는 문자열이어야 합니다.')
 ;
 
-const notes = body('notes')
-  .optional({ nullable: true })
-  .isString()
-  .withMessage('요청사항은 문자열이어야 합니다.')
-  .isLength({ max: 200 })
-  .withMessage('요청사항은 최대 200자 까지 입력 가능합니다.')
-  .trim()
-;
+
 
 export default {
-  price,
   startedAt,
   startedAddr,
   endedAddr,
-  notes,
 }

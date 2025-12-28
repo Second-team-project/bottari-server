@@ -17,6 +17,7 @@ async function create(t = null, data) {
       userId: data.userId,
       code: data.code ,
       state: "PENDING_PAYMENT",
+      price: data.price
     },
     {
       transaction: t
@@ -25,23 +26,8 @@ async function create(t = null, data) {
 }
 
 /**
- * 예약코드로 테이블 찾기
- * @returns 
- */
-async function findByCode(t = null, orderId) {
-  return await Reservation.findOne(
-    {
-      where: {
-        code: orderId
-      },
-      transaction: t
-    }
-  )
-}
-
-/**
  * 예약 상태 업데이트 : 
- */
+*/
 async function update(t = null, data) {
   // SELECT
   return await Reservation.update(
@@ -56,6 +42,39 @@ async function update(t = null, data) {
         code: data.code,
       },
       transaction: t,
+    }
+  )
+}
+
+/**
+ * 예약코드로 테이블 찾기
+ * @returns 
+ */
+async function findByCode(t = null, reservId) {
+  return await Reservation.findOne(
+    {
+      where: {
+        code: reservId
+      },
+      transaction: t
+    }
+  )
+}
+
+/**
+ * 예약코드로 테이블 찾기
+ * @returns 
+ */
+async function findAllByUserId(t = null, userId) {
+  return await Reservation.findAll(
+    {
+      where: {
+        userId: userId,
+      },
+      order: [
+        ['createdAt', 'DESC']
+      ],
+      transaction: t
     }
   )
 }
@@ -108,6 +127,7 @@ export default {
   create,
   update,
   findByCode,
+  findAllByUserId,
   pagination,
   findByPk,
 }

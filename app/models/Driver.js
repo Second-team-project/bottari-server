@@ -136,6 +136,7 @@ const Driver = {
   associate: (db) => {
     db.Driver.hasMany(db.DriverAssignment, { sourceKey: 'id', foreignKey: 'driver_id', as: 'driverIdDriverAssignments' });
     db.Driver.hasMany(db.DriverAttendanceLog, { sourceKey: 'id', foreignKey: 'driver_id', as: 'driverIdDriverAttendanceLogs' });
+    db.Driver.hasMany(db.DriverEditProfileLog, { sourceKey: 'id', foreignKey: 'driver_id', as: 'driverIdDriverEditProfileLogs' });
   }
 }
 

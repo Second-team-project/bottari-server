@@ -27,6 +27,18 @@ async function create(t = null, data) {
   );
 }
 
+async function findByReservId(t = null, id) {
+  return await Delivery.findOne(
+    {
+      where: {
+        reserveId: id
+      },
+      transaction: t
+    }
+  )
+}
+
 export default {
   create,
+  findByReservId,
 }

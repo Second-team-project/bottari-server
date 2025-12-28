@@ -29,3 +29,38 @@ export const password = body('password')
   .isLength({ min: 8, max: 64 })
   .withMessage('비밀번호는 8~64글자로 입력해주세요.')
 ;
+
+export const driverName = body('driverName')
+  .trim()
+  .notEmpty()
+  .withMessage('이름은 필수 입력값입니다.')
+  .matches(/^[가-힣a-zA-Z\s]+$/)
+  .withMessage('이름은 한글과 영어만 입력 가능합니다.')
+  .isLength({ min: 2, max: 50 })
+  .withMessage('이름은 2자 이상 50자 이하로 입력해주세요.')
+;
+
+export const phone = body('phone')
+  .trim()
+  .notEmpty()
+  .withMessage('전화번호는 필수 입력값입니다.')
+  .matches(/^01[016789]\d{3,4}\d{4}$/)
+  .withMessage('올바른 휴대전화 번호 형식이 아닙니다.')
+;
+
+export const carNumber = body('carNumber')
+  .trim()
+  .notEmpty()
+  .withMessage('차량 번호는 필수 입력값입니다.')
+  .matches(/^(\d{2,3}[가-힣]\d{4}|[가-힣]\d{2}[가-힣]\d{4})$/)
+  .withMessage('올바른 차량 번호 형식이 아닙니다.')
+;
+
+export const email = body('email')
+  .optional({ checkFalsy: true }) // 비워도 통과
+  .trim()
+  .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+  .withMessage('올바른 이메일 형식이 아닙니다.')
+  .isLength({ max: 50 })
+  .withMessage('이메일은 50자 이하이어야 합니다.')
+;

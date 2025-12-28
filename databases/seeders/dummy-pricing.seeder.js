@@ -16,6 +16,8 @@ export default {
   async up (queryInterface, Sequelize) {
     // 레코드 정보
     const records = [
+      // ======================
+      // ||     DELIVERY     ||
       // ===== 캐리어 =====
       // 21인치
       {
@@ -373,9 +375,373 @@ export default {
       // 골프
       {
         item_type: 'GOLF',
-        item_size: 'L',
+        item_size: null,
         item_weight: 'OVER',
         service_type: 'D',
+        base_price: '49000',
+      },
+      // ======================
+      // ||     STORAGE     ||
+      // ===== 캐리어 =====
+      // 21인치
+      {
+        item_type: 'CARRIER',
+        item_size: '21',
+        item_weight: '~10kg',
+        service_type: 'S',
+        base_price: '9000',
+      },
+      {
+        item_type: 'CARRIER',
+        item_size: '21',
+        item_weight: '~20kg',
+        service_type: 'S',
+        base_price: '14000',
+      },
+      {
+        item_type: 'CARRIER',
+        item_size: '21',
+        item_weight: '~30kg',
+        service_type: 'S',
+        base_price: '19000',
+      },
+      {
+        item_type: 'CARRIER',
+        item_size: '21',
+        item_weight: 'OVER',
+        service_type: 'S',
+        base_price: '29000',
+      },
+      // 24인치
+      {
+        item_type: 'CARRIER',
+        item_size: '24',
+        item_weight: '~10kg',
+        service_type: 'S',
+        base_price: '14000',
+      },
+      {
+        item_type: 'CARRIER',
+        item_size: '24',
+        item_weight: '~20kg',
+        service_type: 'S',
+        base_price: '19000',
+      },
+      {
+        item_type: 'CARRIER',
+        item_size: '24',
+        item_weight: '~30kg',
+        service_type: 'S',
+        base_price: '21000',
+      },
+      {
+        item_type: 'CARRIER',
+        item_size: '24',
+        item_weight: 'OVER',
+        service_type: 'S',
+        base_price: '29000',
+      },
+      // 32인치
+      {
+        item_type: 'CARRIER',
+        item_size: '32',
+        item_weight: '~10kg',
+        service_type: 'S',
+        base_price: '19000',
+      },
+      {
+        item_type: 'CARRIER',
+        item_size: '32',
+        item_weight: '~20kg',
+        service_type: 'S',
+        base_price: '24000',
+      },
+      {
+        item_type: 'CARRIER',
+        item_size: '32',
+        item_weight: '~30kg',
+        service_type: 'S',
+        base_price: '29000',
+      },
+      {
+        item_type: 'CARRIER',
+        item_size: '32',
+        item_weight: 'OVER',
+        service_type: 'S',
+        base_price: '32000',
+      },
+      // 화물 캐리어 (XL)
+      {
+        item_type: 'CARRIER',
+        item_size: 'OVER',
+        item_weight: '~10kg',
+        service_type: 'S',
+        base_price: '29000',
+      },
+      {
+        item_type: 'CARRIER',
+        item_size: 'OVER',
+        item_weight: '~20kg',
+        service_type: 'S',
+        base_price: '32000',
+      },
+      {
+        item_type: 'CARRIER',
+        item_size: 'OVER',
+        item_weight: '~30kg',
+        service_type: 'S',
+        base_price: '39000',
+      },
+      {
+        item_type: 'CARRIER',
+        item_size: 'OVER',
+        item_weight: 'OVER',
+        service_type: 'S',
+        base_price: '49000',
+      },
+      //====================================================
+      // ===== 가방 =====
+      // S
+      {
+        item_type: 'BOX',
+        item_size: 'S',
+        item_weight: '~10kg',
+        service_type: 'S',
+        base_price: '9000',
+      },
+      {
+        item_type: 'BAG',
+        item_size: 'S',
+        item_weight: '~20kg',
+        service_type: 'S',
+        base_price: '14000',
+      },
+      {
+        item_type: 'BAG',
+        item_size: 'S',
+        item_weight: '~30kg',
+        service_type: 'S',
+        base_price: '19000',
+      },
+      {
+        item_type: 'BAG',
+        item_size: 'S',
+        item_weight: 'OVER',
+        service_type: 'S',
+        base_price: '29000',
+      },
+      // M
+      {
+        item_type: 'BAG',
+        item_size: 'M',
+        item_weight: '~10kg',
+        service_type: 'S',
+        base_price: '14000',
+      },
+      {
+        item_type: 'BAG',
+        item_size: 'M',
+        item_weight: '~20kg',
+        service_type: 'S',
+        base_price: '19000',
+      },
+      {
+        item_type: 'BAG',
+        item_size: 'M',
+        item_weight: '~30kg',
+        service_type: 'S',
+        base_price: '21000',
+      },
+      {
+        item_type: 'BAG',
+        item_size: 'M',
+        item_weight: 'OVER',
+        service_type: 'S',
+        base_price: '29000',
+      },
+      // L
+      {
+        item_type: 'BAG',
+        item_size: 'L',
+        item_weight: '~10kg',
+        service_type: 'S',
+        base_price: '19000',
+      },
+      {
+        item_type: 'BAG',
+        item_size: 'L',
+        item_weight: '~20kg',
+        service_type: 'S',
+        base_price: '24000',
+      },
+      {
+        item_type: 'BAG',
+        item_size: 'L',
+        item_weight: '~30kg',
+        service_type: 'S',
+        base_price: '29000',
+      },
+      {
+        item_type: 'BAG',
+        item_size: 'L',
+        item_weight: 'OVER',
+        service_type: 'S',
+        base_price: '32000',
+      },
+      // XL
+      {
+        item_type: 'BAG',
+        item_size: 'XL',
+        item_weight: '~10kg',
+        service_type: 'S',
+        base_price: '29000',
+      },
+      {
+        item_type: 'BAG',
+        item_size: 'XL',
+        item_weight: '~20kg',
+        service_type: 'S',
+        base_price: '32000',
+      },
+      {
+        item_type: 'BAG',
+        item_size: 'XL',
+        item_weight: '~30kg',
+        service_type: 'S',
+        base_price: '39000',
+      },
+      {
+        item_type: 'BAG',
+        item_size: 'XL',
+        item_weight: 'OVER',
+        service_type: 'S',
+        base_price: '49000',
+      },
+      // ===============================================
+      // ===== 박스
+      // s
+      {
+        item_type: 'BOX',
+        item_size: 'S',
+        item_weight: '~10kg',
+        service_type: 'S',
+        base_price: '9000',
+      },
+      {
+        item_type: 'BOX',
+        item_size: 'S',
+        item_weight: '~20kg',
+        service_type: 'S',
+        base_price: '14000',
+      },
+      {
+        item_type: 'BOX',
+        item_size: 'S',
+        item_weight: '~30kg',
+        service_type: 'S',
+        base_price: '19000',
+      },
+      {
+        item_type: 'BOX',
+        item_size: 'S',
+        item_weight: 'OVER',
+        service_type: 'S',
+        base_price: '29000',
+      },
+      // M
+      {
+        item_type: 'BOX',
+        item_size: 'M',
+        item_weight: '~10kg',
+        service_type: 'S',
+        base_price: '14000',
+      },
+      {
+        item_type: 'BOX',
+        item_size: 'M',
+        item_weight: '~20kg',
+        service_type: 'S',
+        base_price: '19000',
+      },
+      {
+        item_type: 'BOX',
+        item_size: 'M',
+        item_weight: '~30kg',
+        service_type: 'S',
+        base_price: '21000',
+      },
+      {
+        item_type: 'BOX',
+        item_size: 'M',
+        item_weight: 'OVER',
+        service_type: 'S',
+        base_price: '29000',
+      },
+      // L
+      {
+        item_type: 'BOX',
+        item_size: 'L',
+        item_weight: '~10kg',
+        service_type: 'S',
+        base_price: '19000',
+      },
+      {
+        item_type: 'BOX',
+        item_size: 'L',
+        item_weight: '~20kg',
+        service_type: 'S',
+        base_price: '24000',
+      },
+      {
+        item_type: 'BOX',
+        item_size: 'L',
+        item_weight: '~30kg',
+        service_type: 'S',
+        base_price: '29000',
+      },
+      {
+        item_type: 'BOX',
+        item_size: 'L',
+        item_weight: 'OVER',
+        service_type: 'S',
+        base_price: '32000',
+      },
+      // XL
+      {
+        item_type: 'BOX',
+        item_size: 'XL',
+        item_weight: '~10kg',
+        service_type: 'S',
+        base_price: '29000',
+      },
+      {
+        item_type: 'BOX',
+        item_size: 'XL',
+        item_weight: '~20kg',
+        service_type: 'S',
+        base_price: '32000',
+      },
+      {
+        item_type: 'BOX',
+        item_size: 'XL',
+        item_weight: '~30kg',
+        service_type: 'S',
+        base_price: '39000',
+      },
+      {
+        item_type: 'BOX',
+        item_size: 'XL',
+        item_weight: 'OVER',
+        service_type: 'S',
+        base_price: '49000',
+      },
+      // ===============================================
+      // 골프
+      {
+        item_type: 'GOLF',
+        item_size: null,
+        item_weight: 'OVER',
+        service_type: 'S',
         base_price: '49000',
       },
     ];
