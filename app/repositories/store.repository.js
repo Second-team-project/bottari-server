@@ -7,6 +7,21 @@
 import db from '../models/index.js';
 const { Store } = db;
 
+async function findAll(t = null) {
+  return await Store.findAll(
+    {
+      attributes: [
+        'id',
+        'storeName',
+        'code',
+        'addr',
+        'tel',
+      ],
+      transaction: t
+    }
+  )
+};
+
 /**
  * storeId로 테이블 찾기
  * @returns 
@@ -23,5 +38,6 @@ async function findByPk(t = null, storeId) {
 }
 
 export default {
+  findAll,
   findByPk,
 }
