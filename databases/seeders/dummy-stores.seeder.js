@@ -11,7 +11,6 @@ const tableName = 'stores';
 /** @type {import('sequelize-cli').Migration} */
 export default {
   // up ↔ down
-  
   //     ↱ 실행용 (ex.생성)
   async up (queryInterface, Sequelize) {
     // 레코드 정보
