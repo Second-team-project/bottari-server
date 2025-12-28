@@ -58,10 +58,22 @@ const userName = body('userName')
   .withMessage('이름은 1자에서 20자까지 입력 가능합니다.')
 ;
 
+// ===== 조회용 =====
+  const lookupPassword = body('password')
+  .trim()
+  .notEmpty()
+  .withMessage('비밀번호는 필수 항목입니다.')
+  .bail()
+  .isLength({ min: 4, max: 20 })
+  .withMessage('비밀번호는 4자에서 20자까지 입력 가능합니다.')
+;
+
 export default {
   phone,
   email,
   password,
   passwordChk,
   userName,
+  // 조회
+  lookupPassword,
 };
