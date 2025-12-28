@@ -4,8 +4,12 @@
  * 251221 N init
  */
 
+// ===== utils
 import { SERVICE_TYPE } from "../../../configs/service.type.enum.js";
 import reserveCodeUtil from "../../utils/reserveCode/reserve.code.util.js";
+// ===== errors
+import { BAD_REQUEST_ERROR, GUEST_AUTH_ERROR } from "../../../configs/responseCode.config.js";
+import customError from "../../errors/custom.error.js";
 // ===== repository
 import reservationRepository from "../../repositories/reservation.repository.js";
 import deliveryRepository from "../../repositories/delivery.repository.js";
@@ -17,8 +21,6 @@ import storeRepository from "../../repositories/store.repository.js";
 import db from '../../models/index.js';
 import bcrypt from 'bcrypt';
 import axios from "axios";
-import customError from "../../errors/custom.error.js";
-import { BAD_REQUEST_ERROR } from "../../../configs/responseCode.config.js";
 
 
 // =================
@@ -268,7 +270,62 @@ async function completePayment(reserveCode) {
     ...detail,
     luggageList: luggage,
   }
+}
 
+// ================================
+// ||     조회 페이지에서 조회     ||
+// ===== USER 조회
+async function userReservation(id) {
+  // 단순 조회 -> 트랜잭션 사용x
+
+  // 1. 예약 정보 조회 : userId 사용
+  const reservations = await reservationRepository.findAllByUserId(null, id);
+  if (!reservations || reservations.length === 0) return [];
+
+  // 2. 예약자 정보 조회 : reservId 사용
+  // Promise.all - 병렬처리
+  return await Promise.all(reservations.map(async (resv) => {
+    const detail = await getDetailByReservId(null, resv.code, resv.id);
+    const luggage = await luggageRepository.findByReservId(null, resv.id);
+
+    return {
+      id: resv.id,
+      code: resv.code,
+      state: resv.state,
+      price: resv.price,
+      notes: resv.notes,
+      ...detail,
+      luggageList: luggage
+    };
+  }))
+}
+
+// ===== GUEST 조회
+async function guestReservation(data) {
+  // 1. reserveCode 조회
+  const reservation = await reservationRepository.findByCode(null, data.code);
+  if(!reservation) {
+      throw customError('예약 코드 미존재', GUEST_AUTH_ERROR)
+  }
+
+  // 2. 예약자 정보 조회 : reservId 사용
+  const booker = await bookerRepository.findByReservId(null, reservation.id);
+  if(!bcrypt.compareSync(data.password, booker.passwordHash)) {
+    throw customError('비밀번호 틀림', GUEST_AUTH_ERROR);
+  }
+
+  // 3. 배송/보관 정보 조회 : reservId 사용
+  const detail = await getDetailByReservId(null, data.code, reservation.id);
+
+  // 4. 짐 정보 조회 : reservId 사용
+  const luggage = await luggageRepository.findByReservId(null, reservation.id);
+  
+  return {
+    code: reservation.code,
+    notes: reservation.notes,
+    ...detail,
+    luggageList: luggage,
+  }
 }
 
 export default {
@@ -276,4 +333,6 @@ export default {
   deliveryDraft,
   confirmTossPayment,
   completePayment,
+  userReservation,
+  guestReservation,
 }

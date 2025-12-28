@@ -98,9 +98,36 @@ async function completePayment(req, res, next) {
   }
 }
 
+async function userReservation(req, res, next) {
+  try {
+    const id = req.user.id;
+
+    const result = await reserveService.userReservation(id);
+    
+    return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
+  } catch (error) {
+    return next(error)
+  }
+}
+
+async function guestReservation(req, res, next) {
+  try {
+    const data = req.body;
+    console.log('contoller-guestData: ', data);
+
+    const result = await reserveService.guestReservation(data);
+    
+    return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
+  } catch (error) {
+    return next(error)
+  }
+}
+
 export default {
   deliveryDraft,
   storageDraft,
   confirmTossPayment,
   completePayment,
+  userReservation,
+  guestReservation,
 }
