@@ -35,7 +35,7 @@ const attributes = {
     field: 'item_weight',
     type: DataTypes.STRING(255),
     allowNull: false,
-    comment: '짐 무게 : UNDER_10, UNDER_20, UNDER_30, OVER_30',    
+    comment: '짐 무게 : ~10kg, ~20kg, ~30kg, OVER',    
   },
   itemSize: {
     field: 'item_size',

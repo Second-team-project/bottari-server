@@ -25,6 +25,7 @@ import FAQ from './FAQ.js';
 import GuideImg from './GuideImg.js';
 import Pricing from './Pricing.js';
 import Store from './Store.js';
+import DriverEditProfileLog from './DriverEditProfileLog.js';
 
 const db = {}; // 생성할 모델들 모두 담음
 
@@ -66,6 +67,7 @@ db.User = User.init(sequelize)
 db.Driver = Driver.init(sequelize);
 db.DriverAssignment = DriverAssignment.init(sequelize);
 db.DriverAttendanceLog = DriverAttendanceLog.init(sequelize);
+db.DriverEditProfileLog = DriverEditProfileLog.init(sequelize);
 // Admin
 db.Admin = Admin.init(sequelize)
 db.Notice = Notice.init(sequelize)
@@ -90,6 +92,7 @@ Review.associate(db);
 Driver.associate(db);
 DriverAssignment.associate(db);
 DriverAttendanceLog.associate(db);
+DriverEditProfileLog.associate(db);
 // Admin
 Admin.associate(db);
 Notice.associate(db);

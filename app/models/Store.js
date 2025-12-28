@@ -88,7 +88,7 @@ const attributes = {
 
 // 옵션 정의
 const options = {
-  tableName: 'admins',
+  tableName: 'stores',
   timestamps: true,
   paranoid: true
 }

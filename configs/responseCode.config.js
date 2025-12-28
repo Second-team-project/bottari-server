@@ -121,6 +121,7 @@ const REISSUE_ERROR = {
 };
 Object.freeze(REISSUE_ERROR);
 
+
 /**
  * 전역 응답 코드 설정
  * @type {ResponseCodeConfig}
@@ -158,26 +159,35 @@ const BAD_FILE_ERROR = {
 Object.freeze(BAD_FILE_ERROR);
 
 /**
+ * 데이터 충돌 에러
+ */
+const CONFLICT_ERROR = {
+  code: 'E23',
+  msg: 'Conflict Error',
+  info: '이미 존재하는 데이터입니다. 다시 시도해주세요.',
+  status: 409
+};
+Object.freeze(CONFLICT_ERROR);
+
+
+/**
  * 예약 코드 충돌로 진행 불가
  */
 const RESERVE_CONFLICT_ERROR = {
-  code: 'E30',
+  code: 'E40',
   msg: 'Reserve Conflict Error',
   info: '예약 처리 중 문제가 발생했습니다. 다시 시도해주세요.',
   status: 409
 };
 Object.freeze(RESERVE_CONFLICT_ERROR);
 
-/**
- * 데이터 충돌 에러
- */
-const CONFLICT_ERROR = {
-  code: 'E31',
-  msg: 'Conflict Error',
-  info: '이미 존재하는 데이터입니다. 다시 시도해주세요.',
-  status: 409
+const GUEST_AUTH_ERROR = {
+  code: 'E41',
+  msg: 'Not Reservation Error',
+  info: '예약코드 또는 비밀번호가 올바르지 않습니다.',
+  status: 400
 };
-Object.freeze(CONFLICT_ERROR);
+Object.freeze(GUEST_AUTH_ERROR);
 
 
 /**
@@ -206,18 +216,27 @@ Object.freeze(DB_ERROR);
 
 
 export {
+  // 01
   SUCCESS,
   NOT_REGISTERED_ERROR,
   UNAUTHORIZED_ERROR,
   FORBIDDEN_ERROR,
   EXPIRED_TOKEN_ERROR,
   INVALID_TOKEN_ERROR,
-  CONFLICT_ERROR,
+  CONFLICT_REGIST_ERROR,
   UNMATCHING_USER_ERROR,
   REISSUE_ERROR,
+
+  // 20
   NOT_FOUND_ERROR,
   BAD_REQUEST_ERROR,
   BAD_FILE_ERROR,
+  CONFLICT_ERROR,
+  
+  //40
+  RESERVE_CONFLICT_ERROR,
+  GUEST_AUTH_ERROR,
+
   SYSTEM_ERROR,
   DB_ERROR,
 };

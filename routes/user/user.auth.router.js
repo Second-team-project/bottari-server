@@ -14,9 +14,9 @@ import authMiddleware from '../../app/middlewares/auth/auth.middleware.js';
 
 const userAuthRouter = express.Router();
 
-userAuthRouter.post('/logout', authMiddleware, authController.logout);
-userAuthRouter.post('/reissue', authController.reissue);
 userAuthRouter.get('/social/:provider', socialValidator, validationHandler, authController.social);
 userAuthRouter.get('/callback/:provider', authController.socialCallback);
+userAuthRouter.post('/reissue', authController.reissue);
+userAuthRouter.post('/logout', authMiddleware, authController.logout);
 
 export default userAuthRouter;
