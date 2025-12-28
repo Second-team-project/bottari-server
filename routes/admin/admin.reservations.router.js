@@ -10,7 +10,7 @@ const adminReservationRouter = express.Router();
 
 adminReservationRouter.use('/', adminReservationsController.index);
 adminReservationRouter.use('/:id', adminReservationsController.show);
-adminReservationRouter.use('/', );
-adminReservationRouter.use('/:id', );
+adminReservationRouter.use('/', adminReservationsController.store);
+adminReservationRouter.use('/:id', adminReservationsController.destroy);
 
 export default adminReservationRouter;

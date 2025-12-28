@@ -59,13 +59,18 @@ async function show(req, res, next) {
  */
 async function store(req, res, next) {
   try {
+    const { userId, price, notes, items, serviceType, bookerInfo } = req.body;
+
     const data = {
-      adminId: req.admin.id, // <= auth middleware에서 세팅한 값
-      content: req.body.content,
-      image: req.body.image,
+      userId,
+      price,
+      notes, // 요청사항
+      items, // 짐 정보
+      serviceType, // 예약 종류 : 보관 | 배송
+      bookerInfo,
     };
 
-    const result = await adminNoticesService.create(data);
+    const result = await adminReservationsService.create(data);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch(error) {
@@ -83,11 +88,10 @@ async function store(req, res, next) {
 async function destroy(req, res, next) {
   try {
     const data = {
-      adminId: req.admin.id, // <= auth middleware에서 세팅한 값
-      noticeId: req.params.id
+      adminId: req.admin.id,
     };
 
-    await adminNoticesService.destroy(data);
+    await adminReservationsService.destroy(data);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS));
   } catch(error) {

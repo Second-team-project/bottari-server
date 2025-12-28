@@ -7,6 +7,9 @@ import { UNMATCHING_USER_ERROR } from "../../../configs/responseCode.config.js";
 import customError from "../../errors/custom.error.js";
 import db from "../../models/index.js";
 import reservationRepository from "../../repositories/reservation.repository.js";
+import luggageRepository from "../../repositories/luggage.repository.js";
+import reserveCodeUtil from "../../utils/reserveCode/reserve.code.util.js";
+import bookerRepository from "../../repositories/booker.repository.js";
 
 /**
  * 예약 목록 페이지네이션
@@ -30,29 +33,64 @@ async function show(id) {
 }
 
 /**
- * 공지사항 게시글 작성
- * @param {import("./notices.service.type.js").NoticeStoreData} data
- * @returns {Promise<import("../../models/Notice.js").Notice>}
+ * 예약 등록
+ * @returns {Promise<import("../../models/Reservation.js").Reservation>}
  */
 async function create(data) {
-  // return await db.sequelize.transaction(async t => {return await postRepository.create(t, data);})
-  // return await noticeRepository.create(null, data);
   const result = db.sequelize.transaction(async t => {
-    const newReservation = await reservationRepository.create(t, data);
-    await storageRepository.create(t, data2);
+    // 유저 타입
+    const userTypeKey = data.userId ? 'MEMBER' : 'GUEST';
+
+    // 예약 코드 생성
+    const codeData = {
+      type: data.serviceType,
+      userType: userTypeKey,
+    }
+
+    const reservationCode = reserveCodeUtil.createReserveCode(codeData);
+
+    // 예약 데이터 생성
+    const createData = {
+      userId: data.userId || null,
+      price: data.price,
+      notes: data.notes,
+      code: reservationCode,
+      state: 'PENDING_PAYMENT',
+    };
+      const newReservation = await reservationRepository.create(t, createData);
+
+      if(data.items && data.items.length > 0) {
+          const luggageList = data.items.map(item => ({
+          ...item,
+          reservId: newReservation.id,
+        }));
+
+        await luggageRepository.bulkCreate(t, luggageList);
+      }
+
+      // 비회원 저장
+      if (!data.userId && data.bookerInfo) {
+        await bookerRepository.create(t, {
+          reservId: newReservation.id,
+          userName: data.bookerInfo.userName,
+          email: data.bookerInfo.email,
+          phone: data.bookerInfo.phone,
+        });
+      }
+
+      return newReservation;
   });
 }
 
 /**
- * 공지사항 게시글 삭제
- * @param {import("./notices.service.type.js").NoticeDestroyData} data 
- * @returns {Promise<number>}
+ * 예약 삭제
+ *
  */
 async function destroy({ adminId, noticeId }) {
   // 트랜잭션 시작
   return await db.sequelize.transaction(async t => {
     // (게시글 작성자 일치 확인용)
-    const notice = await noticeRepository.findByPk(t, noticeId);
+    const notice = await reservationRepository.findByPk(t, noticeId);
 
     // 게시글 작성자 일치 확인
     if(notice.adminId !== adminId) {
