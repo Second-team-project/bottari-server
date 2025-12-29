@@ -59,7 +59,7 @@ async function create(t = null, data) {
 async function destroy(t = null, noticeId) {
   return await Notice.destroy(
     {
-      where: { id : id },
+      where: { id : noticeId },
       transaction: t
     }
   );

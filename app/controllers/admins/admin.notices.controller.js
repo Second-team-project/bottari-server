@@ -83,6 +83,11 @@ async function store(req, res, next) {
  */
 async function destroy(req, res, next) {
   try {
+    // [로그 추가] req.user 안에 실제로 무슨 키가 들어있는지 확인
+    console.log('--- USER CHECK ---');
+    console.log(req.user); 
+    console.log('------------------');
+
     const data = {
       adminId: req.user.id, // <= auth middleware에서 세팅한 값
       noticeId: req.params.id
