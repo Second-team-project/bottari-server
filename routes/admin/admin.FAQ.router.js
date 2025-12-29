@@ -11,6 +11,7 @@ import adminFAQController from '../../app/controllers/admins/admin.FAQ.controlle
 const adminFAQRouter = express.Router();
 
 // TODO : authMiddleware 추가
+// TODO : get은 권한 필요 없고, 쿼리 validator 추가해야할 것 같습니다.
 adminFAQRouter.get('/', adminFAQController.index);
 adminFAQRouter.get('/:id', adminFAQController.show);
 adminFAQRouter.post('/', adminFAQController.store);
