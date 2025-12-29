@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
 import cookieParser from 'cookie-parser';
 //
 import './configs/env.config.js';
@@ -56,6 +57,14 @@ db.sequelize.authenticate()
   });
 
 // ------------------------------------------
+// ||     정적 파일 제공 등록
+// ------------------------------------------
+// review 이미지
+app.use(process.env.ACCESS_FILE_REVIEW_IMAGE_PATH, express.static(path.resolve(process.env.FILE_REVIEW_IMAGE_PATH)));
+// 가이드 이미지
+app.use(process.env.ACCESS_FILE_GUIDE_IMAGE_PATH, express.static(path.resolve(process.env.FILE_GUIDE_IMAGE_PATH)));
+
+// ------------------------------------------
 // ||     라우터 정의
 // ------------------------------------------
 // 테스트 라우트
@@ -103,6 +112,17 @@ app.use((req, res) => {
     message: '제공되지 않는 서비스입니다.'
   });
 });
+
+// ------------------------------------------
+// ||     뷰 반환 처리
+// ------------------------------------------
+// 퍼블릭 정적 파일 제공 활성화
+app.use('/', express.static(process.env.APP_DIST_PATH));
+// Recat 뷰 반환
+//         ↱ (?!1) : 1제외하고 → ?!\/files : /files 제외하고
+app.get(/^(?!\/files).*/, (req, res) => {
+  return res.sendFile(pathUtil.getViewDirPath());
+})
 
 // ------------------------------------------
 // ||     등록
