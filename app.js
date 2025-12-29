@@ -26,6 +26,7 @@ import adminFAQRouter from './routes/admin/admin.FAQ.router.js';
 
 // ===== handlers import
 import errorHandler from './app/errors/error.handler.js';
+import adminReservationRouter from './routes/admin/admin.reservations.router.js';
 
 const app = express();
 
@@ -90,6 +91,8 @@ app.use('/api/admin/auth', adminAuthRouter);
 app.use('/api/admin/notices', adminNoticesRouter);
 // FAQ
 app.use('/api/admin/faq', adminFAQRouter);
+// 예약 관리
+app.use('/api/admin/reservations', adminReservationRouter)
 
 // ------------------------------------------
 // ||     404 처리

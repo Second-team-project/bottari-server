@@ -4,6 +4,7 @@
  * 251222 v1.0.0 N init
  */
 
+import { Op } from 'sequelize';
 import db from '../models/index.js';
 const { Reservation, User } = db;
 
@@ -80,23 +81,53 @@ async function findAllByUserId(t = null, userId) {
 }
 
 /**
- * 예약 목록 페이지네이션
+ * 예약 목록 페이지네이션(검색 및 필터 적용)
  * @param {import("sequelize").Transaction|null} t 
- * @param {{limit: number, offset: number}} data 
+ * @param {{limit: number, offset: number, filters: Object}} data
  */
-async function pagination(t = null, data) {
-  // findAndCountAll: 데이터 목록(rows)과 전체 개수(count)를 동시에 가져옴
+async function pagination(t = null, { limit, offset, filters }) {
+  // 1. 기본 Where 조건 선언 (빈 객체)
+  const where = {};
+
+  // 2. 동적 쿼리 조립
+  if (filters) {
+    // 2-1. 예약 상태 필터 (값이 있을 때만 조건 추가)
+    if (filters.state) {
+      where.state = filters.state;
+    }
+
+    // 2-2. 예약 코드 검색
+    if (filters.searchType === 'code' && filters.keyword) {
+      where.code = { [Op.like]: `%${filters.keyword}%` };
+    }
+
+    // 2-3. 날짜 범위 조회 (createdAt 기준)
+    if (filters.startDate && filters.endDate) {
+      where.createdAt = {
+        [Op.between]: [filters.startDate, filters.endDate]
+      };
+    }
+  }
+
+  // 3. 쿼리 실행
   return await Reservation.findAndCountAll({
+    where: where, // 위에서 만든 조건 주입
     order: [['createdAt', 'DESC']],
-    limit: data.limit,
-    offset: data.offset,
+    limit: limit,
+    offset: offset,
     include: [
       {
         model: User,
+        as: 'reservationUser',
         attributes: ['userName', 'email', 'phone'],
-        required: false, // 유저 탈퇴 등으로 정보 없어도 예약 내역은 보여줌
+        required: false, 
+        // 2-4. 예약자 이름(회원) 검색 조건
+        where: (filters && filters.searchType === 'userName' && filters.keyword) 
+          ? { userName: { [Op.like]: `%${filters.keyword}%` } } 
+          : undefined
       },
     ],
+    distinct: true, // include와 limit을 같이 쓸 때 정확한 개수를 세기 위해 필수
     transaction: t
   });
 };
@@ -113,13 +144,40 @@ async function findByPk(t = null, id) {
       include: [
         {
           model: User,
-          attributes: ['name', 'email', 'phone'], // 필요한 유저 정보
+          as: 'reservationUser',
+          attributes: ['userName', 'email', 'phone'], // 필요한 유저 정보
           required: false,
         },
       ],
       transaction: t,
     }
   );
+}
+
+/**
+ * 예약 ID로 정보 수정
+ */
+async function updateByPk(t = null, id, updateData) {
+  return await Reservation.update(updateData, {
+    where: {
+      id: id
+    }, // PK로 찾아서 수정
+    transaction: t
+  });
+}
+
+/**
+ * 예약 삭제 (Soft Delete)
+ * @param {Object|null} t
+ * @param {number} id - 예약 PK
+ */
+async function destroy(t = null, id) {
+  return await Reservation.destroy({
+    where: {
+      id: id
+    },
+    transaction: t
+  });
 }
 
 
@@ -130,4 +188,6 @@ export default {
   findAllByUserId,
   pagination,
   findByPk,
+  updateByPk,
+  destroy,
 }

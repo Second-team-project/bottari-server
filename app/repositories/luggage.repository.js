@@ -32,7 +32,20 @@ async function findByReservId(t = null, reservId) {
   )
 }
 
+/**
+ * 특정 예약에 속한 모든 짐 삭제
+ */
+async function destroyByReservId(t, reservId) {
+  return await Luggage.destroy({
+    where: {
+      reservId: reservId
+    },
+    transaction: t
+  });
+}
+
 export default {
   bulkCreate,
   findByReservId,
+  destroyByReservId,
 }
