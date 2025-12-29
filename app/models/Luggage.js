@@ -40,7 +40,7 @@ const attributes = {
   itemSize: {
     field: 'item_size',
     type: DataTypes.STRING(255),
-    allowNull: false,
+    allowNull: true,
     comment: '짐 크기 : CARRIER:21,24,32,OVER / BAG,BOX: S,M,L,XL / GOLF=null',    
   },
   count: {
