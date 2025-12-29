@@ -50,17 +50,11 @@ export default {
       },
     ]
 
-    // 데이터 생성 : queryInterface.bulkInsert(tableName, records, options)
-    //                    ↱ bulkInsert: 여러 개의 레코드 한 번에 추가
-    //                                                   ↱ options : {} | 안 적어도 됨
     await queryInterface.bulkInsert(tableName, records, {})
-
   },
 
-  //     ↱ 롤백용 (ex.삭제)
   async down (queryInterface, Sequelize) {
-    // 데이터 삭제 : queryInterface.bulkInsert(tableName, records, options)
-    //                                          ↱ null : 테이블 비움
     await queryInterface.bulkDelete(tableName, null, {});
   }
+  
 };
