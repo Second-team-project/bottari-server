@@ -1,11 +1,11 @@
 /**
- * @file databases/migrations/20251216-admin-03-create.FAQ.js
- * @description FAQ migration file
+ * @file databases/migrations/20251216-admin-03-create.faqs.js
+ * @description faqs migration file
  * 251216 v1.0.0 김민현 init
  */
 import { DataTypes } from 'sequelize';
 
-const tableName = 'FAQ';
+const tableName = 'faqs';
 
 const attributes = {
   id: {

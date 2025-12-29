@@ -89,7 +89,7 @@ app.use('/api/admin/auth', adminAuthRouter);
 // 공지사항
 app.use('/api/admin/notices', adminNoticesRouter);
 // FAQ
-app.use('/api/admin/FAQ', adminFAQRouter);
+app.use('/api/admin/faq', adminFAQRouter);
 
 // ------------------------------------------
 // ||     404 처리
