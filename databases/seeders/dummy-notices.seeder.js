@@ -25,6 +25,7 @@ export default {
     for (const admin of admins) {
       for(let i = 0; i < 10; i++) {
         const date = fakerKO.date.between({ from: '2025-11-01', to: Date.now()});
+
         notices.push({
           adminId: admin.id,
           title: fakerKO.lorem.sentence({ min: 3, max: 6 }),
@@ -34,13 +35,14 @@ export default {
           updatedAt: date,
         });
       }
-      // 3. 한 번에 DB에 저장 (Bulk Insert)
+    }
+    // 3. 한 번에 DB에 저장 (Bulk Insert)
+    if (notices.length > 0) {
       await Notice.bulkCreate(notices);
-      console.log(`총 ${notices.length}개의 공지사항이 생성되었습니다.`);
     }
   },
 
   async down (queryInterface, Sequelize) {
-    await Notice.destroy({ where: {} });
+    await queryInterface.bulkDelete('Notices', null, {});
   }
 };
