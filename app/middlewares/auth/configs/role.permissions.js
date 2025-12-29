@@ -10,15 +10,20 @@ const { ADMIN, DRIVER } = USER_TYPE;
 // 인증 및 인가가 필요한 요청만 정의해야 함
 const ROLE_PERMISSIONS = {
   GET: [
+    // ===== admin Page
     { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/reservations$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/reservations\/[0-9]+$/, types: [ADMIN] },
     // ===== user Page
     { path: /^\/api\/user\/reserve$/, types: [USER_TYPE.MEMBER] },
     // ===== driver Page
     { path: /^\/api\/driver\/attendance\/status$/, types: [DRIVER] },
   ],
   POST: [
+    // ===== admin Page
     { path: /^\/api\/admin\/auth\/logout$/, types: [ADMIN] },
     { path: /^\/api\/admin\/notices$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/reservations$/, types: [ADMIN] },
     // ===== user Page
     { path: /^\/api\/user\/auth\/logout$/, types: [USER_TYPE.MEMBER, USER_TYPE.GUEST] },
     // ===== driver Page
@@ -28,10 +33,15 @@ const ROLE_PERMISSIONS = {
 
   ],
   PATCH: [
+    // ===== admin Page
+    { path: /^\/api\/admin\/reservations\/[0-9]+$/, types: [ADMIN] },
+    // ===== driver Page
     { path: /^\/api\/driver\/profile\/edit$/, types: [DRIVER] },
   ],
   DELETE: [
-    { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] }
+    // ===== admin Page
+    { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/reservations\/[0-9]+$/, types: [ADMIN] },
   ]
 }
 Object.freeze(ROLE_PERMISSIONS);

@@ -5,12 +5,18 @@
  */
 import express from 'express';
 import adminReservationsController from '../../app/controllers/admins/admin.reservations.controller.js';
+import authMiddleware from '../../app/middlewares/auth/auth.middleware.js';
+import validationHandler from '../../app/middlewares/validations/validation.handler.js';
+import { storeValidator, updateValidator } from '../../app/middlewares/validations/validators/reserve/admin.reservation.validator.js';
 
 const adminReservationRouter = express.Router();
 
-adminReservationRouter.use('/', adminReservationsController.index);
-adminReservationRouter.use('/:id', adminReservationsController.show);
-adminReservationRouter.use('/', adminReservationsController.store);
-adminReservationRouter.use('/:id', adminReservationsController.destroy);
+adminReservationRouter.use(authMiddleware);
+
+adminReservationRouter.get('/',  adminReservationsController.index);
+adminReservationRouter.get('/:id', adminReservationsController.show);
+adminReservationRouter.post('/', storeValidator, validationHandler, adminReservationsController.store);
+adminReservationRouter.patch('/:id', updateValidator, validationHandler, adminReservationsController.update);
+adminReservationRouter.delete('/:id', adminReservationsController.destroy);
 
 export default adminReservationRouter;

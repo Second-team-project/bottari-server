@@ -38,7 +38,33 @@ async function findByReservId(t = null, reservId) {
   )
 }
 
+/**
+ * 예약 번호로 비회원 정보 수정
+ */
+async function updateByReservId(t = null, reservId, updateData) {
+  return await Booker.update(updateData, {
+    where: {
+      reservId: reservId // (reserv_id 컬럼 매핑)
+    },
+    transaction: t
+  });
+}
+
+/**
+ * 특정 예약의 비회원 정보 삭제
+ */
+async function destroyByReservId(t, reservId) {
+  return await Booker.destroy({
+    where: {
+      reservId: reservId
+    }, // 모델의 reservId 컬럼 사용
+    transaction: t
+  });
+}
+
 export default {
   create,
   findByReservId,
+  updateByReservId,
+  destroyByReservId,
 }

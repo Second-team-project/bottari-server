@@ -7,6 +7,7 @@
 import { body } from "express-validator";
 import { SERVICE_TYPE } from "../../../../configs/service.type.enum.js";
 import USER_TYPE from "../../../../configs/user.type.enum.js";
+import { RESERVATION_STATE } from "../../../../configs/reservation.state.enum.js";
 
 const type = body('type')
   .trim()
@@ -63,6 +64,79 @@ const code = body('code')
   .withMessage('유효하지 않은 예약 코드 형식입니다.')
 ;
 
+// ===== 예약 관리용
+// ------------------------------------------
+// 짐(Items) 관련 필드
+// ------------------------------------------
+const items = body('items')
+  .isArray({ min: 1 })
+  .withMessage('짐 정보는 리스트 형태이며, 최소 1개 이상이어야 합니다.')
+;
+
+// 짐 내부 객체 검증 (* = 한번에 검사)
+const itemType = body('items.*.type')
+  .trim()
+  .notEmpty()
+  .withMessage('짐 종류(type)는 필수입니다.')
+;
+
+const itemSize = body('items.*.size')
+  .trim()
+  .notEmpty()
+  .withMessage('짐 크기(size)는 필수입니다.')
+;
+
+const itemWeight = body('items.*.weight')
+  .optional()
+  .isString()
+;
+
+const itemCount = body('items.*.count')
+  .optional()
+  .isInt({ min: 1 })
+  .withMessage('수량은 1개 이상이어야 합니다.')
+;
+
+
+// ------------------------------------------
+// 비회원(Booker) 정보 필드
+// ------------------------------------------
+// userId가 없을 때만 필수 체크 (if 조건 사용)
+const bookerName = body('bookerInfo.userName')
+  .if(body('userId').not().exists({ checkNull: true })) // userId가 없거나 null이면 검사
+  .trim()
+  .notEmpty()
+  .withMessage('비회원 예약 시 예약자 이름은 필수입니다.')
+;
+
+const bookerEmail = body('bookerInfo.email')
+  .if(body('userId').not().exists({ checkNull: true }))
+  .trim()
+  .notEmpty()
+  .withMessage('이메일은 필수입니다.')
+  .bail()
+  .isEmail()
+  .withMessage('이메일 형식이 올바르지 않습니다.')
+;
+
+const bookerPhone = body('bookerInfo.phone')
+  .if(body('userId').not().exists({ checkNull: true }))
+  .trim()
+  .notEmpty()
+  .withMessage('연락처는 필수입니다.')
+;
+
+
+// ------------------------------------------
+// 수정(Update) 필드 (state)
+// ------------------------------------------
+const state = body('state')
+  .optional()
+  .trim()
+  .isIn(Object.values(RESERVATION_STATE)) 
+  .withMessage('유효하지 않은 예약 상태입니다.')
+;
+
 
 export default {
   type,
@@ -72,4 +146,14 @@ export default {
   notes,
   // 조회용
   code,
+  // 예약 관리용
+  items,
+  itemType,
+  itemSize,
+  itemWeight,
+  itemCount,
+  bookerName,
+  bookerEmail,
+  bookerPhone,
+  state,
 }
