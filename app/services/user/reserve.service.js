@@ -125,12 +125,16 @@ async function deliveryDraft(data) {
     
     // 2. 예약 타입별 저장 : delivery
     if(data.type === SERVICE_TYPE.DELIVERY) {
-      // 2-1. 예약 데이터 중 필요한 데이터 정리
+      // 2-1. 주소 합치기 (addr + addrDetail)
+      const startedAddr = `${data.startedAddr.addr} ${data.startedAddr.addrDetail || ''}`.trim();
+      const endedAddr = `${data.endedAddr.addr} ${data.endedAddr.addrDetail || ''}`.trim();
+
+      // 2-2. 예약 데이터 중 필요한 데이터 정리
       const deliveryData = {
         reservId: reserveStateResult.id,
         startedAt: data.startedAt,
-        startedAddr: data.startedAddr,
-        endedAddr: data.endedAddr,
+        startedAddr: startedAddr,
+        endedAddr: endedAddr,
       }
       // 2-2. delivery 데이터 생성
       const reserveDeliveryResult = await deliveryRepository.create(t, deliveryData);
