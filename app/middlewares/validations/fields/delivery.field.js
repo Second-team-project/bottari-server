@@ -24,21 +24,27 @@ const startedAt = body('startedAt')
 ;
 
 const startedAddr = body('startedAddr')
-  .trim()
-  .notEmpty()
-  .withMessage('픽업 주소는 필수 항목입니다.')
+  .isObject()
+  .withMessage('픽업 주소는 객체여야 합니다.')
   .bail()
-  .isString()
-  .withMessage('픽업 주소는 문자열이어야 합니다.')
+  .custom((value) => {
+    if (!value.addr || typeof value.addr !== 'string' || !value.addr.trim()) {
+      throw new Error('픽업 주소(addr)는 필수입니다.');
+    }
+    return true;
+  })
 ;
 
 const endedAddr = body('endedAddr')
-  .trim()
-  .notEmpty()
-  .withMessage('픽업 주소는 필수 항목입니다.')
+  .isObject()
+  .withMessage('도착 주소는 객체여야 합니다.')
   .bail()
-  .isString()
-  .withMessage('픽업 주소는 문자열이어야 합니다.')
+  .custom((value) => {
+    if (!value.addr || typeof value.addr !== 'string' || !value.addr.trim()) {
+      throw new Error('도착 주소(addr)는 필수입니다.');
+    }
+    return true;
+  })
 ;
 
 
