@@ -20,6 +20,7 @@ async function location({keyword, page}) {
       }
     }
   )
+  console.log('service-result: ', result.data.meta)
   // 2. 필요한 데이터만 추출 : '대구'로 시작 -> 번지주소, 도로명주소
   const locationList = result.data.documents
     .filter(item => item.address_name.startsWith('대구'))
@@ -36,7 +37,11 @@ async function location({keyword, page}) {
     ))
   );
 
-  return uniqueList;
+  return {
+    list: uniqueList,
+    isEnd: result.data.meta.is_end,
+  }
+    
 }
 
 export default {
