@@ -102,3 +102,4 @@ WEB_PUSH_FRONT_URL_POST_SHOW=
 # ==============================================================================
 TOSS_PAYMENTS_WIDGET_SCRET_KEY=     # 토스 결제 시크릿 키 (test_... 또는 live_...)
 TOSS_PAYMENTS_API_URL_PAY_PERMIT=   # 결제 승인 API URL
+TOSS_PAYMENTS_API_URL_PAY_CANCEL=   # 결제 취소 API URL
