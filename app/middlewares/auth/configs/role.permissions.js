@@ -26,7 +26,8 @@ const ROLE_PERMISSIONS = {
     { path: /^\/api\/admin\/reservations$/, types: [ADMIN] },
     { path: /^\/api\/files\/notices$/, roles: [ADMIN] },
     // ===== user Page
-    { path: /^\/api\/user\/auth\/logout$/, types: [USER_TYPE.MEMBER, USER_TYPE.GUEST] },
+    { path: /^\/api\/user\/auth\/logout$/, types: [USER_TYPE.MEMBER] },
+    { path: /^\/api\/user\/reserve\/cancel\/[0-9]+$/, types: [USER_TYPE.MEMBER] },
     // ===== driver Page
     { path: /^\/api\/driver\/attendance\/toggle$/, types: [DRIVER] },
   ],

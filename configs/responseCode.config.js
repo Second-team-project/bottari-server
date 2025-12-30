@@ -210,7 +210,7 @@ const MEMBER_RESERVATION_ERROR = {
 Object.freeze(MEMBER_RESERVATION_ERROR);
 
 /**
- * 비회원으로 회원예약 조회 시도 시 에러
+ * 쥐소하려는 예약이 '예약완료'외의 상태(진행중, 진행완료)일 때 에러
  */
 const RESERVATION_NOT_CANCELLABLE = {
   code: 'E43',
@@ -219,6 +219,19 @@ const RESERVATION_NOT_CANCELLABLE = {
   status: 401
 }
 Object.freeze(RESERVATION_NOT_CANCELLABLE);
+
+/**
+ * 이미 결제된 예약건 
+ */
+const ALREADY_PAID_ERROR = {
+  code: 'E44',
+  msg: 'Already Paid Error',
+  info: '이미 결제된 예약입니다.',
+  status: 401
+}
+Object.freeze(ALREADY_PAID_ERROR);
+
+
 
 
 // =======================================================================
@@ -272,6 +285,7 @@ export {
   GUEST_AUTH_ERROR,
   MEMBER_RESERVATION_ERROR,
   RESERVATION_NOT_CANCELLABLE,
+  ALREADY_PAID_ERROR,
 
   SYSTEM_ERROR,
   DB_ERROR,
