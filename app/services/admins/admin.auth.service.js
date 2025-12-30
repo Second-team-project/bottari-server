@@ -35,7 +35,7 @@ async function login(body) {
 
     // JWT 생성(accessToken)
     const data = {
-      id: admin.accountId,
+      id: admin.id,
       type: 'ADMIN'
     }
     const accessToken = jwtUtil.generateAccessToken(data);
@@ -68,11 +68,17 @@ async function logout(id) {
 async function reissue(token) {
   // 토큰 검증 및 관리자 id 획득
   const claims = jwtUtil.getClaimsWithVerifyToken(token);
-  const accountId = claims.sub;
+
+  const adminId = claims.sub;
 
   return await db.sequelize.transaction(async t => {
     // 유저 정보 획득
-    const admin = await adminRepository.findByAccountId(t, accountId);
+    const admin = await adminRepository.findByPk(t, adminId);
+
+    // 관리자 존재 확인
+    if (!admin) {
+       throw customError('해당 관리자 없음', NOT_REGISTERED_ERROR);
+    }
 
     // 토큰 일치 검증
     if(token !== admin.refreshToken) {
@@ -81,7 +87,7 @@ async function reissue(token) {
 
     // JWT 생성
     const data = {
-      id: admin.accountId,
+      id: admin.id,
       type: 'ADMIN'
     }
 
