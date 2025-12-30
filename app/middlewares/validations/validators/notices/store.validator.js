@@ -5,4 +5,4 @@
  */
 import noticeField from "../../fields/notice.field.js";
 
-export default [noticeField.content];
+export default [noticeField.title, noticeField.content, noticeField.image];

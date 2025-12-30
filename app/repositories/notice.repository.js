@@ -51,6 +51,20 @@ async function create(t = null, data) {
 }
 
 /**
+ * 공지사항 게시글 수정
+ * @param {import("sequelize").Transaction|null} t 
+ * @param {number} id 
+ * @param {object} data 
+ * @returns {Promise<number>}
+ */
+async function update(t = null, id, data) {
+  return await Notice.update(data, {
+    where: { id: id },
+    transaction: t
+  });
+}
+
+/**
  * 공지사항 게시글 삭제
  * @param {import("sequelize").Transaction|null} t 
  * @param {import("../services/admins/notices.service.type.js").Id} id 
@@ -69,5 +83,6 @@ export default {
   pagination,
   findByPk,
   create,
+  update,
   destroy
 }

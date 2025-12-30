@@ -22,11 +22,6 @@ function authenticate(req) {
   // 토큰 검증 및 페이로드 획득
   const claims = jwtUtil.getClaimsWithVerifyToken(token);
 
-  // [디버깅] 콘솔에서 claims 내용을 확인해보세요!
-  console.log("=== TOKEN CLAIMS 확인 ===");
-  console.log(claims); 
-  console.log("=========================");
-  
   // Request 객체에 사용자 정보를 추가
   req.user = {
     id: parseInt(claims.sub),

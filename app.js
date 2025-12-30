@@ -28,6 +28,7 @@ import adminFAQRouter from './routes/admin/admin.FAQ.router.js';
 // ===== handlers import
 import errorHandler from './app/errors/error.handler.js';
 import adminReservationRouter from './routes/admin/admin.reservations.router.js';
+import filesRouter from './routes/files.router.js';
 
 const app = express();
 
@@ -75,6 +76,8 @@ app.use('/api/test', testRouter);
 app.use('/api/common/pricing', pricingRouter);
 // 보관소
 app.use('/api/common/store', storeRouter);
+// 이미지 업로더
+app.use('/api/common/files', filesRouter);
 
 // ===== user용
 // 소셜 로그인
@@ -101,7 +104,7 @@ app.use('/api/admin/notices', adminNoticesRouter);
 // FAQ
 app.use('/api/admin/faq', adminFAQRouter);
 // 예약 관리
-app.use('/api/admin/reservations', adminReservationRouter)
+app.use('/api/admin/reservations', adminReservationRouter);
 
 // ------------------------------------------
 // ||     404 처리
