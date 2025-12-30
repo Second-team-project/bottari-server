@@ -29,6 +29,7 @@ import adminFAQRouter from './routes/admin/admin.FAQ.router.js';
 import errorHandler from './app/errors/error.handler.js';
 import adminReservationRouter from './routes/admin/admin.reservations.router.js';
 import filesRouter from './routes/files.router.js';
+import adminStatsRouter from './routes/admin/admin.stats.router.js';
 
 const app = express();
 
@@ -105,6 +106,8 @@ app.use('/api/admin/notices', adminNoticesRouter);
 app.use('/api/admin/faq', adminFAQRouter);
 // 예약 관리
 app.use('/api/admin/reservations', adminReservationRouter);
+// 통계
+app.use('/api/admin/stats', adminStatsRouter);
 
 // ------------------------------------------
 // ||     404 처리
