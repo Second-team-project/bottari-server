@@ -30,6 +30,6 @@ userReserveRouter.get('/', authMiddleware, reserveController.userReservation);
 userReserveRouter.post('/guest', guestLookupValidator, validationHandler, reserveController.guestReservation);
 // 예약 취소
 userReserveRouter.post('/guest/cancel/:reservId', reserveController.guestCancel);
-userReserveRouter.post('/cancel/:reservId', reserveController.userCancel);
+userReserveRouter.post('/cancel/:reservId', authMiddleware, reserveController.userCancel);
 
 export default userReserveRouter;

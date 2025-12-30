@@ -8,7 +8,7 @@
 import { SERVICE_TYPE } from "../../../configs/service.type.enum.js";
 import reserveCodeUtil from "../../utils/reserveCode/reserve.code.util.js";
 // ===== errors
-import { BAD_REQUEST_ERROR, GUEST_AUTH_ERROR, MEMBER_RESERVATION_ERROR, RESERVATION_NOT_CANCELLABLE } from "../../../configs/responseCode.config.js";
+import { ALREADY_PAID_ERROR, BAD_REQUEST_ERROR, GUEST_AUTH_ERROR, MEMBER_RESERVATION_ERROR, RESERVATION_NOT_CANCELLABLE } from "../../../configs/responseCode.config.js";
 import customError from "../../errors/custom.error.js";
 // ===== repository
 import reservationRepository from "../../repositories/reservation.repository.js";
@@ -167,10 +167,13 @@ async function confirmTossPayment(data) {
     // 비밀번호가 없다는 것을 알리기 위해 시크릿 키 뒤에 콜론을 추가합니다.
     const encryptedSecretKey = "Basic " + Buffer.from(process.env.TOSS_PAYMENTS_WIDGET_SCRET_KEY + ":").toString("base64");
 
-    // 1-1. 결제 금액 체크
+    // 1-1. 예약 상태 & 결제 금액 체크
     const confirmData = await reservationRepository.findByCode(t, data.orderId)
     // console.log('service-결제금액체크: ', confirmData)
 
+    if (confirmData.state !== 'PENDING_PAYMENT') {
+      throw customError('이미 처리된 결제입니다', ALREADY_PAID_ERROR)
+    }
     if (parseInt(confirmData.price) !== parseInt(data.amount)) {
       throw customError('결제 금액 불일치', BAD_REQUEST_ERROR)
     }
