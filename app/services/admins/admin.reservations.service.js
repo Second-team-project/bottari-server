@@ -47,7 +47,7 @@ async function pagination(params) {
  * @returns {Promise<import("../../models/Reservation.js").Reservation>}
  */
 async function show(id) {
-  const reservation = await reservationRepository.findByPk(null, id);
+  const reservation = await reservationRepository.findByPkJoinUser(null, id);
 
   if (!reservation) {
     throw new customError('해당 예약을 찾을 수 없습니다.', NOT_FOUND_ERROR); 
@@ -117,7 +117,7 @@ async function create(data) {
 async function update(id, data) {
   return await db.sequelize.transaction(async t => {
     // 해당 예약 존재 여부 확인
-    const exists = await reservationRepository.findByPk(t, id);
+    const exists = await reservationRepository.findByPkJoinUser(t, id);
     if (!exists) {
       throw new customError('해당 예약을 찾을 수 없습니다.', NOT_FOUND_ERROR);
     }
@@ -165,7 +165,7 @@ async function update(id, data) {
     }
 
     // 4. 업데이트된 최신 정보를 다시 조회해서 반환
-    return await reservationRepository.findByPk(t, id);
+    return await reservationRepository.findByPkJoinUser(t, id);
   });
 }
 
@@ -177,7 +177,7 @@ async function destroy(id) {
   // 트랜잭션 시작
   return await db.sequelize.transaction(async t => {
     // 해당 예약 있는지 확인
-    const reservation = await reservationRepository.findByPk(t, id);
+    const reservation = await reservationRepository.findByPkJoinUser(t, id);
 
     // 짐 삭제
     await luggageRepository.destroyByReservId(t, id);
