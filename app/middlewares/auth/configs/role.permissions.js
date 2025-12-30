@@ -14,6 +14,7 @@ const ROLE_PERMISSIONS = {
     { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] },
     { path: /^\/api\/admin\/reservations$/, types: [ADMIN] },
     { path: /^\/api\/admin\/reservations\/[0-9]+$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/stats$/, types: [ADMIN] },
     // ===== user Page
     { path: /^\/api\/user\/reserve$/, types: [USER_TYPE.MEMBER] },
     // ===== driver Page

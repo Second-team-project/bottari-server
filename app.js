@@ -11,6 +11,7 @@ import testRouter from './routes/test.route.js'
 // === common
 import pricingRouter from './routes/pricing.router.js';
 import storeRouter from './routes/store.router.js';
+import filesRouter from './routes/files.router.js';
 // === user
 import userAuthRouter from './routes/user/user.auth.router.js';
 import userSearchRouter from './routes/user/user.search.router.js';
@@ -22,14 +23,13 @@ import driverAttendanceRouter from './routes/drivers/driver.Attendance.router.js
 
 // === admin
 import adminAuthRouter from './routes/admin/admin.auth.router.js';
+import adminReservationRouter from './routes/admin/admin.reservations.router.js';
 import adminNoticesRouter from './routes/admin/admin.notices.router.js';
 import adminFAQRouter from './routes/admin/admin.FAQ.router.js';
+import adminStatsRouter from './routes/admin/admin.stats.router.js';
 
 // ===== handlers import
 import errorHandler from './app/errors/error.handler.js';
-import adminReservationRouter from './routes/admin/admin.reservations.router.js';
-import filesRouter from './routes/files.router.js';
-import adminStatsRouter from './routes/admin/admin.stats.router.js';
 
 const app = express();
 
