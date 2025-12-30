@@ -19,6 +19,7 @@ import userReserveRouter from './routes/user/user.reserve.router.js';
 import driverAuthRouter from './routes/drivers/driver.auth.router.js';
 import driverProfileRouter from './routes/drivers/driver.profile.router.js';
 import driverAttendanceRouter from './routes/drivers/driver.Attendance.router.js';
+import driverDeliveriesRouter from './routes/drivers/driver.deliveries.router.js';
 
 // === admin
 import adminAuthRouter from './routes/admin/admin.auth.router.js';
@@ -94,6 +95,8 @@ app.use('/api/driver/auth', driverAuthRouter);
 app.use('/api/driver/profile', driverProfileRouter);
 // 출퇴근 상태 수정
 app.use('/api/driver/attendance', driverAttendanceRouter);
+// 배정된 예약 정보
+app.use('/api/driver/deliveries', driverDeliveriesRouter);
 
 
 // ===== admin용
