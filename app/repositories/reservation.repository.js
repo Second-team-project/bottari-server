@@ -27,9 +27,9 @@ async function create(t = null, data) {
 }
 
 /**
- * 예약 상태 업데이트 : 
+ * 예약 상태 업데이트 : 결제 대기 -> 예약 완료
 */
-async function update(t = null, data) {
+async function updateToReserved(t = null, data) {
   // SELECT
   return await Reservation.update(
     {
@@ -48,14 +48,48 @@ async function update(t = null, data) {
 }
 
 /**
- * 예약코드로 테이블 찾기
- * @returns 
- */
-async function findByCode(t = null, reservId) {
+ * 예약 상태 업데이트 : 예약 완료 -> 취소
+*/
+async function updateToCancel(t = null, data) {
+  // SELECT
+  return await Reservation.update(
+    {
+      state: data.state,
+      cancelReason: data.reason,
+    },
+    {
+      where: {
+        id: data.id,
+      },
+      transaction: t,
+    }
+  )
+}
+
+/**
+ * 예약 번호로 레코드 찾기
+*/
+async function findByPk(t = null, reservId) {
+  // SELECT
   return await Reservation.findOne(
     {
       where: {
-        code: reservId
+        id: reservId,
+      },
+      transaction: t,
+    }
+  )
+}
+
+/**
+ * 예약코드로 테이블 찾기
+ * @returns 
+ */
+async function findByCode(t = null, reservCode) {
+  return await Reservation.findOne(
+    {
+      where: {
+        code: reservCode
       },
       transaction: t
     }
@@ -63,7 +97,7 @@ async function findByCode(t = null, reservId) {
 }
 
 /**
- * 예약코드로 테이블 찾기
+ * user_id 로 전체 조회
  * @returns 
  */
 async function findAllByUserId(t = null, userId) {
@@ -133,11 +167,11 @@ async function pagination(t = null, { limit, offset, filters }) {
 };
 
 /**
- * 예약 ID로 조회
+ * 예약 ID로 조회 + users 테이블 JOIN
  * @param {import("sequelize").Transaction|null} t 
  * @param {import("../../app/models/Reservation.js").Id} id 
  */
-async function findByPk(t = null, id) {
+async function findByPkJoinUser(t = null, id) {
   return await Reservation.findByPk(
     id,
     {
@@ -183,11 +217,15 @@ async function destroy(t = null, id) {
 
 export default {
   create,
-  update,
+  findByPk,
   findByCode,
   findAllByUserId,
+
+  updateToReserved,
+  updateToCancel,
+
   pagination,
-  findByPk,
+  findByPkJoinUser,
   updateByPk,
   destroy,
 }

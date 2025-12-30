@@ -89,8 +89,9 @@ async function completePayment(req, res, next) {
     // 1. 클라이언트 데이터 확인 : 파라미터
     const reserveCode = req.params.reserveCode;
     console.log('controller-params: ', reserveCode)
-    // 2. 서비스 호출 : =예약 코드로 예약 정보 조회
+    // 2. 서비스 호출 : 예약 코드로 예약 정보 조회
     const result = await reserveService.completePayment(reserveCode);
+    console.log('reserveController-result: ', result)
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch (error) {
@@ -98,6 +99,13 @@ async function completePayment(req, res, next) {
   }
 }
 
+/**
+ * 유저 예약 조회
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
 async function userReservation(req, res, next) {
   try {
     const id = req.user.id;
@@ -110,12 +118,71 @@ async function userReservation(req, res, next) {
   }
 }
 
+/**
+ * 비회원 예약 조회
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
 async function guestReservation(req, res, next) {
   try {
     const data = req.body;
     console.log('contoller-guestData: ', data);
 
     const result = await reserveService.guestReservation(data);
+    
+    return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
+  } catch (error) {
+    return next(error)
+  }
+}
+
+/**
+ * 유저 예약 취소
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+async function userCancel(req, res, next) {
+  try {
+    const id = req.user.id;
+    const data = req.body;
+    const reservId = req.params.reservId;
+    console.log('contoller-data: ', data);
+
+
+    const result = await reserveService.userCancel({
+      userId: id,
+      reservId: reservId,
+      reason: data,
+    });
+    
+    return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
+  } catch (error) {
+    return next(error)
+  }
+}
+
+/**
+ * 비회원 예약 취소
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+async function guestCancel(req, res, next) {
+  try {
+    const data = req.body;
+    const reservId = req.params.reservId;
+    console.log('contoller-guestData: ', data, reserv);
+
+    const result = await reserveService.guestCancel({
+      password: data.password,
+      reservId: reservId,
+      reason: data.reason,
+    });
     
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch (error) {
@@ -130,4 +197,6 @@ export default {
   completePayment,
   userReservation,
   guestReservation,
+  userCancel,
+  guestCancel,
 }

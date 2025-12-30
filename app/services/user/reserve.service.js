@@ -8,7 +8,7 @@
 import { SERVICE_TYPE } from "../../../configs/service.type.enum.js";
 import reserveCodeUtil from "../../utils/reserveCode/reserve.code.util.js";
 // ===== errors
-import { BAD_REQUEST_ERROR, GUEST_AUTH_ERROR, MEMBER_RESERVATION_ERROR } from "../../../configs/responseCode.config.js";
+import { BAD_REQUEST_ERROR, GUEST_AUTH_ERROR, MEMBER_RESERVATION_ERROR, RESERVATION_NOT_CANCELLABLE } from "../../../configs/responseCode.config.js";
 import customError from "../../errors/custom.error.js";
 // ===== repository
 import reservationRepository from "../../repositories/reservation.repository.js";
@@ -207,7 +207,7 @@ async function confirmTossPayment(data) {
     }
     
     // 2-3. 결제 승인 데이터 저장 & 예약 상태 업데이트
-    await reservationRepository.update(t, updateData)
+    await reservationRepository.updateToReserved(t, updateData)
 
     return tossData;
   })
@@ -215,9 +215,9 @@ async function confirmTossPayment(data) {
 
 // =============================
 // ||     결제 완료 후 조회     ||
-// ========================================================================
+// ====================================================================
 // ||   분리 로직 : 배송/보관 타입에 따라 조회 후 데이터 담기, 짐 정보 담기   ||
-// ========================================================================
+// ====================================================================
 
 /**
  * 예약코드의 첫글자로 구분 -> 배송/보관(보관소) 테이블 조회 및 데이터 반환
@@ -236,8 +236,11 @@ async function getDetailByReservId(t, code, reservId) {
     }
   }
   if(code.startsWith('S')) {
-    const data = await storageRepository.findByReservId(t, reservId)
+    const data = await storageRepository.findByReservId(t, reservId);
+    console.log('service-data: ', data)
+
     const store = await storeRepository.findByPk(t, data.storeId);
+    console.log('service-store: ', store)
     return {
       startedAt: data.startedAt,
       endedAt: data.endedAt,
@@ -282,9 +285,11 @@ async function completePayment(reserveCode) {
 
   // 3. 배송/보관 정보 조회 : reservId 사용
   const detail = await getDetailByReservId(null, reserveCode, reservation.id);
-
+  console.log('reserveService-detail: ', detail)
+  
   // 4. 짐 정보 조회 : reservId 사용
   const luggages = await getLuggageList(null, reservation.id);
+  console.log('reserveService-luggages: ', luggages)
   
   return {
     id: reservation.id,
@@ -295,7 +300,7 @@ async function completePayment(reserveCode) {
   }
 }
 
-// ================================
+// ===============================
 // ||     조회 페이지에서 조회     ||
 // ===== USER 조회
 async function userReservation(id) {
@@ -361,6 +366,81 @@ async function guestReservation(data) {
   }
 }
 
+// ===================================
+// ||     조회 페이지에서 예약 취소     ||
+// ============================================================================
+// ||   공통함수 : toss에 예약 취소 요청 + reservations 에서 'CANCELLED'로 변경   ||
+// ============================================================================
+async function tossPaymentCancel(t, { reservId, paymentKey, reason }) {
+
+  const encryptedSecretKey = "Basic " + Buffer.from(process.env.TOSS_PAYMENTS_WIDGET_SCRET_KEY + ":").toString("base64");
+  const tossResponse = await axios.post(
+    `${process.env.TOSS_PAYMENTS_API_URL_PAY_CANCEL}/${paymentKey}/cancel`,
+    {
+      cancelReason: `구매자(비회원)가 취소를 원함: ${reason}`,
+    },
+    {
+      headers: {
+        Authorization: encryptedSecretKey,
+        "Content-Type": "application/json",
+      },
+    }
+  )
+  console.log('service-transactionKey: ', tossResponse.data.cancels[0].transactionKey);
+
+  const reservationResult = await reservationRepository.updateToCancel(t, {
+    id: reservId, 
+    state: 'CANCELLED',
+    reason: reason
+  })
+  console.log('service: ', reservationResult)
+
+}
+
+// ===== USER 예약 취소
+async function userCancel({ userId, reservId, reason }) {
+  return await db.sequelize.transaction(async t => {
+    // 1. 예약 정보 조회 : userId 사용
+    const reservation = await reservationRepository.findByPk(t, reservId);
+    // 1-1. 예약 상태 체크 : 'RESERVED' 만 취소 가능
+    if(reservation.state !== 'RESERVED') {
+      throw customError('취소 불가 상태', RESERVATION_NOT_CANCELLABLE)
+    }
+    // 1-2. 유저 체크
+    if(reservation.userId !== userId) {
+      throw customError('취소 예약 유저 불일치', RESERVATION_NOT_CANCELLABLE)
+    }
+  
+    // 3. toss 에 결제 취소 요청 + reservations 테이블 업데이트
+    await tossPaymentCancel(t, { reservId, paymentKey: reservation.paymentKey, reason })
+
+  })
+}
+
+// ===== GUEST 예약 취소
+async function guestCancel({ password, reservId, reason }) {
+  return await db.sequelize.transaction(async t => {
+    // 1. 예약자 정보 조회 : reservId 사용 -> 비밀번호 검증
+    const booker = await bookerRepository.findByReservId(t, reservId);
+    console.log('service-booker: ', booker);
+    // 1-1. 비밀번호 틀렸을 경우
+    if(!bcrypt.compareSync(password, booker.passwordHash)) {
+      throw customError('비밀번호 틀림', GUEST_AUTH_ERROR);
+    }
+
+    // 2. 예약 정보 조회 : reservId 사용
+    const reservation = await reservationRepository.findByPk(t, reservId)
+    // 2-1. 예약 상태 체크 : 'RESERVED' 만 취소 가능
+    if(reservation.state !== 'RESERVED') {
+      throw customError('취소 불가 상태', RESERVATION_NOT_CANCELLABLE)
+    }
+
+    // 3. toss 에 결제 취소 요청 + reservations 테이블 업데이트
+    await tossPaymentCancel(t, { reservId, paymentKey: reservation.paymentKey, reason })
+
+  })
+}
+
 export default {
   storageDraft,
   deliveryDraft,
@@ -368,4 +448,6 @@ export default {
   completePayment,
   userReservation,
   guestReservation,
+  userCancel,
+  guestCancel,
 }
