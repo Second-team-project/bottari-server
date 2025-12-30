@@ -122,6 +122,9 @@ const REISSUE_ERROR = {
 Object.freeze(REISSUE_ERROR);
 
 
+// =======================================================================
+
+
 /**
  * 전역 응답 코드 설정
  * @type {ResponseCodeConfig}
@@ -170,6 +173,9 @@ const CONFLICT_ERROR = {
 Object.freeze(CONFLICT_ERROR);
 
 
+// =======================================================================
+
+
 /**
  * 예약 코드 충돌로 진행 불가
  */
@@ -202,6 +208,20 @@ const MEMBER_RESERVATION_ERROR = {
   status: 401
 }
 Object.freeze(MEMBER_RESERVATION_ERROR);
+
+/**
+ * 비회원으로 회원예약 조회 시도 시 에러
+ */
+const RESERVATION_NOT_CANCELLABLE = {
+  code: 'E43',
+  msg: 'Reservation not cancellable',
+  info: '취소할 수 없는 예약 상태입니다.',
+  status: 401
+}
+Object.freeze(RESERVATION_NOT_CANCELLABLE);
+
+
+// =======================================================================
 
 
 /**
@@ -251,6 +271,7 @@ export {
   RESERVE_CONFLICT_ERROR,
   GUEST_AUTH_ERROR,
   MEMBER_RESERVATION_ERROR,
+  RESERVATION_NOT_CANCELLABLE,
 
   SYSTEM_ERROR,
   DB_ERROR,
