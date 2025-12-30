@@ -24,13 +24,15 @@ const ROLE_PERMISSIONS = {
     { path: /^\/api\/admin\/auth\/logout$/, types: [ADMIN] },
     { path: /^\/api\/admin\/notices$/, types: [ADMIN] },
     { path: /^\/api\/admin\/reservations$/, types: [ADMIN] },
+    { path: /^\/api\/files\/notices$/, roles: [ADMIN] },
     // ===== user Page
     { path: /^\/api\/user\/auth\/logout$/, types: [USER_TYPE.MEMBER, USER_TYPE.GUEST] },
     // ===== driver Page
     { path: /^\/api\/driver\/attendance\/toggle$/, types: [DRIVER] },
   ],
   PUT: [
-
+    // ===== admin page
+    { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] },
   ],
   PATCH: [
     // ===== admin Page

@@ -11,12 +11,14 @@ import showValidator from '../../app/middlewares/validations/validators/notices/
 import storeValidator from '../../app/middlewares/validations/validators/notices/store.validator.js';
 import deleteValidator from '../../app/middlewares/validations/validators/notices/destroy.validator.js';
 import authMiddleware from '../../app/middlewares/auth/auth.middleware.js';
+import updateValidator from '../../app/middlewares/validations/validators/notices/update.validator.js';
 
 const adminNoticesRouter = express.Router();
 
 adminNoticesRouter.get('/', indexValidator, validationHandler, adminNoticesController.index);
 adminNoticesRouter.get('/:id', authMiddleware, showValidator, validationHandler, adminNoticesController.show);
 adminNoticesRouter.post('/', authMiddleware, storeValidator, validationHandler, adminNoticesController.store);
+adminNoticesRouter.put('/:id', authMiddleware, updateValidator, validationHandler, adminNoticesController.update);
 adminNoticesRouter.delete('/:id', authMiddleware, deleteValidator, validationHandler, adminNoticesController.destroy);
 
 export default adminNoticesRouter;
