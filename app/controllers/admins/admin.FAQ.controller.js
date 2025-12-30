@@ -22,7 +22,7 @@ async function index(req, res, next) {
 
     const responseData = {
       page: page,
-      limit: 6,
+      limit: 20,
       count: count,
       posts: rows,
     }
@@ -59,14 +59,40 @@ async function show(req, res, next) {
  */
 async function store(req, res, next) {
   try {
+    // req.file이 있으면 경로 저장, 없으면 null
+    const imagePath = req.body.image || null;
+
     const data = {
       adminId: req.admin.id, // <= auth middleware에서 세팅한 값
+      title: req.body.title,
       content: req.body.content,
-      image: req.body.image,
+      image: imagePath,
     };
 
     const result = await adminFAQService.create(data);
 
+    return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
+  } catch(error) {
+    return next(error);
+  }
+}
+
+/**
+ * FAQ 수정
+ */
+async function update(req, res, next) {
+  try {
+    const imagePath = req.body.image || null;
+
+    const data = {
+      adminId: req.user.id,
+      FAQId: req.params.id, // URL 파라미터의 게시글 ID
+      title: req.body.title,
+      content: req.body.content,
+      image: imagePath, 
+    };
+
+    const result = await adminFAQService.update(data);
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch(error) {
     return next(error);
@@ -84,7 +110,7 @@ async function destroy(req, res, next) {
   try {
     const data = {
       adminId: req.admin.id, // <= auth middleware에서 세팅한 값
-      noticeId: req.params.id
+      FAQId: req.params.id
     };
 
     await adminFAQService.destroy(data);
@@ -99,5 +125,6 @@ export default {
   index,
   show,
   store,
+  update,
   destroy,
 }

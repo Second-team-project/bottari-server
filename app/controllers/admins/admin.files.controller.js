@@ -31,6 +31,31 @@ async function uploadNoticeImage(req, res, next) {
   }
 }
 
+/**
+ * FAQ 이미지 업로드 처리
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ */
+async function uploadFAQImage(req, res, next) {
+  try {
+    // 1. 파일 존재 여부 확인
+    if (!req.file) {
+      throw customError('이미지 파일이 없습니다.', BAD_REQUEST_ERROR);
+    }
+
+    // 2. 반환할 이미지 경로 생성
+    const result = {
+      path: `${process.env.APP_URL}${process.env.ACCESS_FILE_FAQ_IMAGE_PATH}/${req.file.filename}`
+    };
+
+    return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
+  } catch (error) {
+    return next(error);
+  }
+}
+
 export default {
   uploadNoticeImage,
+  uploadFAQImage,
 }
