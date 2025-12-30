@@ -14,7 +14,7 @@ import noticeRepository from "../../repositories/notice.repository.js";
  * @returns {Promise<Array<import("../../models/Notice.js").Notice>}
  */
 async function pagination(page) {
-  const limit = 6;
+  const limit = 10;
   const offset = limit * (page - 1);
   
   return await noticeRepository.pagination(null, { limit, offset });
@@ -36,6 +36,47 @@ async function show(id) {
  */
 async function create(data) {
   return await noticeRepository.create(null, data);
+}
+
+/**
+ * 공지사항 게시글 수정
+ * @param {object} params
+ * @param {number} params.adminId
+ * @param {number} params.noticeId
+ * @param {string} params.title
+ * @param {string} params.content
+ * @param {string|null} params.image
+ */
+async function update({ adminId, noticeId, title, content, image }) {
+  return await db.sequelize.transaction(async t => {
+    // 1. 게시글 존재 및 작성자 확인
+    const notice = await noticeRepository.findByPk(t, noticeId);
+
+    if (!notice) {
+      throw customError('존재하지 않는 게시글입니다.', NOT_FOUND_ERROR);
+    }
+    
+    if(notice.adminId !== adminId) {
+      throw customError('작성자 불일치', UNMATCHING_USER_ERROR);
+    }
+
+    // 2. 수정할 데이터 준비
+    const updateData = {
+      title,
+      content,
+    };
+
+    // 이미지가 새로 업로드된 경우에만 데이터에 포함 (업로드 안 하면 기존 이미지 유지)
+    if (image) {
+      updateData.image = image;
+    }
+
+    // 3. 업데이트 실행
+    await noticeRepository.update(t, noticeId, updateData);
+    
+    // 4. 업데이트된 최신 정보 반환
+    return await noticeRepository.findByPk(t, noticeId);
+  });
 }
 
 /**
@@ -69,5 +110,6 @@ export default {
   pagination,
   show,
   create,
+  update,
   destroy,
 }
