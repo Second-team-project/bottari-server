@@ -16,6 +16,7 @@ import filesRouter from './routes/files.router.js';
 import userAuthRouter from './routes/user/user.auth.router.js';
 import userSearchRouter from './routes/user/user.search.router.js';
 import userReserveRouter from './routes/user/user.reserve.router.js';
+import userReviewRouter from './routes/user/user.review.router.js';
 // === driver
 import driverAuthRouter from './routes/drivers/driver.auth.router.js';
 import driverProfileRouter from './routes/drivers/driver.profile.router.js';
@@ -87,6 +88,9 @@ app.use('/api/user/auth', userAuthRouter);
 app.use('/api/user/search', userSearchRouter);
 // 예약
 app.use('/api/user/reserve', userReserveRouter);
+// 리뷰
+app.use('/api/user/review', userReviewRouter);
+
 
 // ===== driver용
 // 로그인
