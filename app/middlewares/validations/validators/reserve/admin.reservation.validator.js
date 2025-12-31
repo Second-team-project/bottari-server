@@ -7,6 +7,7 @@
 import { body } from 'express-validator';
 import reservationField from '../../fields/reservation.field.js';
 import bookerField from '../../fields/booker.field.js';
+import luggageField from '../../fields/luggage.field.js';
 
 // 공통 ID 검사기
 export const idValidator = [
@@ -24,10 +25,10 @@ export const storeValidator = [
   reservationField.type,
   reservationField.notes,
   // 짐 검사
-  reservationField.items,
-  reservationField.itemType,
-  reservationField.itemSize,
-  reservationField.itemCount,
+  luggageField.items,
+  luggageField.itemType,
+  luggageField.itemSize,
+  luggageField.itemCount,
   // 비회원 정보 검사 (userId가 없을 때만 작동하도록 field에 설정됨)
   bookerField.bookerName,
   bookerField.bookerEmail,
@@ -45,8 +46,8 @@ export const updateValidator = [
   // items 배열 자체가 오는지 안 오는지 검사
   body('items').optional().isArray(),
 
-  reservationField.itemType,
-  reservationField.itemSize,
+  luggageField.itemType,
+  luggageField.itemSize,
   
   // 비회원 정보가 온다면 체크
   body('bookerInfo.email').optional().isEmail(),

@@ -44,8 +44,62 @@ async function findByPk(t = null, id) {
   return await Driver.findByPk(id, { transaction: t });
 }
 
+/**
+ * 휴대폰 번호로 기사 검색(중복 체크용)
+ */
+async function findByPhone(t = null, phone) {
+  return await Driver.findOne({
+    where: {
+      phone: phone
+    },
+    transaction: t
+  });
+}
+
+/**
+ * 기사 관리 페이지네이션
+ * @param {import("sequelize").Transaction|null} t 
+ * @param {{limit: number, offset: number}}
+ * @returns
+ */
+async function pagination(t = null, { limit, offset }) {
+  return await Driver.findAndCountAll({
+      order: [
+        ['createdAt', 'DESC'],
+        ['updatedAt', 'DESC'],
+        ['id', 'ASC'],
+      ],
+      limit: limit,
+      offset: offset,
+      transaction: t,
+    });
+}
+
+/**
+ * 기사 정보 생성
+ */
+async function create(t = null, data) {
+  return await Driver.create(data, { transaction: t });
+}
+
+/**
+ * 기사 삭제
+ */
+async function destroy(t = null, id) {
+  return await Driver.destroy({
+    where: {
+      id: id
+    },
+    transaction: t
+  });
+}
+
 export default {
   findByAccountId,
   save,
   findByPk,
+  findByPhone,
+  pagination,
+  create,
+  destroy,
 }

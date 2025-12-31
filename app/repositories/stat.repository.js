@@ -5,19 +5,23 @@
  */
 import { Op } from 'sequelize';
 import db from '../models/index.js';
+import { RESERVATION_STATE } from '../../configs/reservation.state.enum.js';
 const { sequelize, Reservation } = db;
 
 /**
  * 총 매출 및 예약 건수 조회
  */
-async function findByState(t) {
+async function findByState(t, startDate, endDate) {
 return await Reservation.findAll({
     where: {
       state: {
-        [Op.ne]: 'CANCELLED' // state가 'CANCELLED'와 같지 않은(ne)것만 조회
+        [Op.ne]: RESERVATION_STATE.CANCELLED // state가 'CANCELLED'와 같지 않은(ne)것만 조회
+      },
+      createdAt: {
+        [Op.between]: [startDate, endDate]
       }
     },
-    order: [['created_at', 'DESC']],
+    order: [['created_at', 'ASC']],
     transaction: t
   });
 }
