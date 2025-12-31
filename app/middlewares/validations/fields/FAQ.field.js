@@ -57,7 +57,7 @@ export const image = body('image')
   .custom(val => {
     const splitPath = val.split('/');
     // 경로 조합 (pathUtil의 이미지 경로 + 추출한 파일명)
-    const fullPath = path.join(pathUtil.getNoticesImagePath(), splitPath[splitPath.length - 1]);
+    const fullPath = path.join(pathUtil.getFAQImagePath(), splitPath[splitPath.length - 1]);
 
     // 실제 서버에 파일 존재 여부 확인
     if(!fs.existsSync(fullPath)) {
