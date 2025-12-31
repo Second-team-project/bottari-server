@@ -6,6 +6,17 @@
 
 import { body } from 'express-validator';
 import reservationField from '../../fields/reservation.field.js';
+import bookerField from '../../fields/booker.field.js';
+
+// 공통 ID 검사기
+export const idValidator = [
+  reservationField.id
+];
+
+// index 검사기
+export const indexValidator = [
+  reservationField.page
+];
 
 // 등록(Store)용 검사기
 export const storeValidator = [
@@ -18,9 +29,9 @@ export const storeValidator = [
   reservationField.itemSize,
   reservationField.itemCount,
   // 비회원 정보 검사 (userId가 없을 때만 작동하도록 field에 설정됨)
-  reservationField.bookerName,
-  reservationField.bookerEmail,
-  reservationField.bookerPhone
+  bookerField.bookerName,
+  bookerField.bookerEmail,
+  bookerField.bookerPhone
 ];
 
 // 수정(Update)용 검사기
@@ -31,20 +42,11 @@ export const updateValidator = [
   reservationField.state, // 이건 field 파일 자체에 optional이 되어 있음
   
   // 짐 정보가 온다면 배열 규칙 체크
-  // 1. items 배열 자체가 오는지 안 오는지는 선택사항 (optional)
+  // items 배열 자체가 오는지 안 오는지 검사
   body('items').optional().isArray(),
 
-  // 2. 하지만 items 배열이 '존재한다면', 그 안의 type과 size는 '필수'여야 함!
-  //    (if 문을 써서 items가 존재할 때만 검사하도록 설정)
-  body('items.*.type')
-    .if(body('items').exists()) // items가 있을 때만 동작
-    .notEmpty()                 // 필수! (optional 아님)
-    .isString(),
-
-  body('items.*.size')
-    .if(body('items').exists())
-    .notEmpty()                 // 필수!
-    .isString(),
+  reservationField.itemType,
+  reservationField.itemSize,
   
   // 비회원 정보가 온다면 체크
   body('bookerInfo.email').optional().isEmail(),

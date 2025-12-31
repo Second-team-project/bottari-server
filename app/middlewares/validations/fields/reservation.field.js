@@ -4,7 +4,7 @@
  * 251223 v1.0.0 N init
  */
 
-import { body } from "express-validator";
+import { body, param, query } from "express-validator";
 import { SERVICE_TYPE } from "../../../../configs/service.type.enum.js";
 import USER_TYPE from "../../../../configs/user.type.enum.js";
 import { RESERVATION_STATE } from "../../../../configs/reservation.state.enum.js";
@@ -65,6 +65,22 @@ const code = body('code')
 ;
 
 // ===== 예약 관리용
+const page = query('page')
+.trim()
+.optional()
+.isNumeric()
+.withMessage('숫자만 허용합니다.')
+.toInt();
+
+const id = param('id')
+.trim()
+.notEmpty()
+.withMessage('필수 항목입니다.')
+.bail()
+.isNumeric()
+.withMessage('숫자만 허용합니다.')
+.toInt();
+
 // ------------------------------------------
 // 짐(Items) 관련 필드
 // ------------------------------------------
@@ -97,36 +113,6 @@ const itemCount = body('items.*.count')
   .withMessage('수량은 1개 이상이어야 합니다.')
 ;
 
-
-// ------------------------------------------
-// 비회원(Booker) 정보 필드
-// ------------------------------------------
-// userId가 없을 때만 필수 체크 (if 조건 사용)
-const bookerName = body('bookerInfo.userName')
-  .if(body('userId').not().exists({ checkNull: true })) // userId가 없거나 null이면 검사
-  .trim()
-  .notEmpty()
-  .withMessage('비회원 예약 시 예약자 이름은 필수입니다.')
-;
-
-const bookerEmail = body('bookerInfo.email')
-  .if(body('userId').not().exists({ checkNull: true }))
-  .trim()
-  .notEmpty()
-  .withMessage('이메일은 필수입니다.')
-  .bail()
-  .isEmail()
-  .withMessage('이메일 형식이 올바르지 않습니다.')
-;
-
-const bookerPhone = body('bookerInfo.phone')
-  .if(body('userId').not().exists({ checkNull: true }))
-  .trim()
-  .notEmpty()
-  .withMessage('연락처는 필수입니다.')
-;
-
-
 // ------------------------------------------
 // 수정(Update) 필드 (state)
 // ------------------------------------------
@@ -147,13 +133,12 @@ export default {
   // 조회용
   code,
   // 예약 관리용
+  id,
+  page,
   items,
   itemType,
   itemSize,
   itemWeight,
   itemCount,
-  bookerName,
-  bookerEmail,
-  bookerPhone,
   state,
 }
