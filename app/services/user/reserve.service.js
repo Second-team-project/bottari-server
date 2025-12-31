@@ -345,6 +345,7 @@ async function guestReservation(data) {
 
   // 2. 예약자 정보 조회 : reservId 사용
   const booker = await bookerRepository.findByReservId(null, reservation.id);
+  console.log('controller-booker: ', booker)
   if(!bcrypt.compareSync(data.password, booker.passwordHash)) {
     throw customError('비밀번호 틀림', GUEST_AUTH_ERROR);
   }
@@ -401,10 +402,10 @@ async function tossPaymentCancel(t, { reservId, paymentKey, reason }) {
 }
 
 // ===== USER 예약 취소
-async function userCancel({ userId, reservId, reason }) {
+async function userCancel({ userId, code, reason }) {
   return await db.sequelize.transaction(async t => {
     // 1. 예약 정보 조회 : userId 사용
-    const reservation = await reservationRepository.findByPk(t, reservId);
+    const reservation = await reservationRepository.findByCode(t, code);
     // 1-1. 예약 상태 체크 : 'RESERVED' 만 취소 가능
     if(reservation.state !== 'RESERVED') {
       throw customError('취소 불가 상태', RESERVATION_NOT_CANCELLABLE)
@@ -415,31 +416,32 @@ async function userCancel({ userId, reservId, reason }) {
     }
   
     // 3. toss 에 결제 취소 요청 + reservations 테이블 업데이트
-    await tossPaymentCancel(t, { reservId, paymentKey: reservation.paymentKey, reason })
+    await tossPaymentCancel(t, { reservId: reservation.id, paymentKey: reservation.paymentKey, reason })
 
   })
 }
 
 // ===== GUEST 예약 취소
-async function guestCancel({ password, reservId, reason }) {
+async function guestCancel({ password, code, reason }) {
   return await db.sequelize.transaction(async t => {
-    // 1. 예약자 정보 조회 : reservId 사용 -> 비밀번호 검증
-    const booker = await bookerRepository.findByReservId(t, reservId);
+    // 1. 예약 정보 조회 : code 사용
+    const reservation = await reservationRepository.findByCode(t, code);
+
+    // 2. 예약자 정보 조회 : reservId 사용
+    const booker = await bookerRepository.findByReservId(t, reservation.id);
     console.log('service-booker: ', booker);
-    // 1-1. 비밀번호 틀렸을 경우
+    // 2-1. 비밀번호 틀렸을 경우
     if(!bcrypt.compareSync(password, booker.passwordHash)) {
       throw customError('비밀번호 틀림', GUEST_AUTH_ERROR);
     }
 
-    // 2. 예약 정보 조회 : reservId 사용
-    const reservation = await reservationRepository.findByPk(t, reservId)
-    // 2-1. 예약 상태 체크 : 'RESERVED' 만 취소 가능
+    // 2-2. 예약 상태 체크 : 'RESERVED' 만 취소 가능
     if(reservation.state !== 'RESERVED') {
       throw customError('취소 불가 상태', RESERVATION_NOT_CANCELLABLE)
     }
 
     // 3. toss 에 결제 취소 요청 + reservations 테이블 업데이트
-    await tossPaymentCancel(t, { reservId, paymentKey: reservation.paymentKey, reason })
+    await tossPaymentCancel(t, { reservId: reservation.id, paymentKey: reservation.paymentKey, reason })
 
   })
 }

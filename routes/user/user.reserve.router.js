@@ -14,6 +14,8 @@ import deliveryDraftValidator from '../../app/middlewares/validations/validators
 // ===== middleware
 import authMiddleware from '../../app/middlewares/auth/auth.middleware.js';
 import guestLookupValidator from '../../app/middlewares/validations/validators/reserve/guest.lookup.validator.js';
+import userCancelValidator from '../../app/middlewares/validations/validators/reserve/user.cancel.validator.js';
+import guestCancelValidator from '../../app/middlewares/validations/validators/reserve/guest.cancel.validator.js';
 
 
 const userReserveRouter = express.Router();
@@ -29,7 +31,7 @@ userReserveRouter.get('/complete/:reserveCode', reserveController.completePaymen
 userReserveRouter.get('/', authMiddleware, reserveController.userReservation);
 userReserveRouter.post('/guest', guestLookupValidator, validationHandler, reserveController.guestReservation);
 // 예약 취소
-userReserveRouter.post('/guest/cancel/:reservId', reserveController.guestCancel);
-userReserveRouter.post('/cancel/:reservId', authMiddleware, reserveController.userCancel);
+userReserveRouter.post('/guest/cancel/:code', guestCancelValidator, validationHandler, reserveController.guestCancel);
+userReserveRouter.post('/cancel/:code', authMiddleware, userCancelValidator, validationHandler, reserveController.userCancel);
 
 export default userReserveRouter;

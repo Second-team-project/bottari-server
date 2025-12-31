@@ -6,8 +6,9 @@
 
 import { body } from "express-validator";
 
-// ===== 객체 export =====
-
+// =======================
+// ||     USER PAGE     ||
+// ===== 예약 작성용
 const phone = body('phone')
   .optional({ nullable: true, checkFalsy: true })  // null & '' 통과
   .trim()
@@ -59,7 +60,7 @@ const userName = body('userName')
 ;
 
 // ===== 조회용 =====
-  const lookupPassword = body('password')
+const lookupPassword = body('password')
   .trim()
   .notEmpty()
   .withMessage('비밀번호는 필수 항목입니다.')
