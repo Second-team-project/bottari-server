@@ -1,14 +1,14 @@
 /**
- * @file app/controllers/reservations.controller.js
- * @description 관리자 예약 관리 관련 컨트롤러
- * 251224 v1.0.0 김민현 init
+ * @file app/controllers/admin.drivers.controller.js
+ * @description 기사 관리 관련 컨트롤러
+ * 251231 v1.0.0 김민현 init
  */
-import { SUCCESS } from '../../../configs/responseCode.config.js';
-import adminReservationsService from '../../services/admins/admin.reservations.service.js';
-import customResponse from '../../utils/custom.response.util.js';
+import { SUCCESS } from "../../../configs/responseCode.config.js";
+import customResponse from "../../utils/custom.response.util.js";
+import adminDriversService from "../../services/admins/admin.drivers.service.js";
 
 /**
- * 예약 관리 목록 조회(검색 및 필터 적용)
+ * 기사 목록 조회
  * @param {import("express").Request} req - Request 객체
  * @param {import("express").Response} res - Response 객체
  * @param {import("express").NextFunction} next - NextFunction 객체 
@@ -17,30 +17,32 @@ import customResponse from '../../utils/custom.response.util.js';
 async function index(req, res, next) {
   try {
     const { 
-      page, 
-      searchType, // 검색 기준 (code, userName)
-      keyword,    // 검색어
-      state,      // 예약 상태
-      startDate,  // 시작일
-      endDate     // 종료일
+      page,
+      driverName,
+      accountId,
+      email,
+      phone,
+      notes,
+      carNumber
     } = req.query;
 
     const params = {
       page: page ? parseInt(page) : 1,
-      searchType,
-      keyword,
-      state,
-      startDate,
-      endDate
+      driverName,
+      accountId,
+      email,
+      phone,
+      notes,
+      carNumber
     };
 
-    const { count, rows } = await adminReservationsService.pagination(params);
+    const { count, rows } = await adminDriversService.pagination(params);
 
     const responseData = {
       page: params.page,
       limit: 20,
       count: count,
-      reservations: rows,
+      drivers: rows,
     }
     
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, responseData));
@@ -50,7 +52,7 @@ async function index(req, res, next) {
 }
 
 /**
- * 예약 목록 상세 조회
+ * 기사 목록 상세 조회
  * @param {import("express").Request} req - Request 객체
  * @param {import("express").Response} res - Response 객체
  * @param {import("express").NextFunction} next - NextFunction 객체 
@@ -58,7 +60,7 @@ async function index(req, res, next) {
  */
 async function show(req, res, next) {
   try {
-    const result = await adminReservationsService.show(req.params.id);
+    const result = await adminDriversService.show(req.params.id);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch(error) {
@@ -67,7 +69,7 @@ async function show(req, res, next) {
 }
 
 /**
- * 예약 등록
+ * 기사 등록
  * @param {import("express").Request} req - Request 객체
  * @param {import("express").Response} res - Response 객체
  * @param {import("express").NextFunction} next - NextFunction 객체 
@@ -75,18 +77,27 @@ async function show(req, res, next) {
  */
 async function store(req, res, next) {
   try {
-    const { userId, price, notes, items, type, bookerInfo } = req.body;
+    const { 
+      driverName,
+      email,
+      phone,
+      accountId,
+      password,
+      carNumber,
+      notes
+    } = req.body;
 
     const data = {
-      userId,
-      price,
-      notes, // 요청사항
-      items, // 짐 정보
-      type, // 예약 종류 : 보관 | 배송
-      bookerInfo,
+      driverName,
+      email,
+      phone,
+      accountId,
+      password,
+      carNumber,
+      notes
     };
 
-    const result = await adminReservationsService.create(data);
+    const result = await adminDriversService.create(data);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch(error) {
@@ -104,24 +115,24 @@ async function update(req, res, next) {
 
     // 수정 가능 필드
     const { 
-      state,        // 예약 상태
-      price,        // 가격
-      notes,        // 관리자 메모
-      items,        // 짐 목록
-      bookerInfo,   // 비회원 정보
-      type,  // 예약 종류
+      driverName,
+      email,
+      phone,
+      password,
+      carNumber,
+      notes
     } = req.body;
 
     const data = {
-      state,
-      price,
-      notes,
-      items,
-      bookerInfo,
-      type,
+      driverName,
+      email,
+      phone,
+      password,
+      carNumber,
+      notes
     };
 
-    const result = await adminReservationsService.update(id, data);
+    const result = await adminDriversService.update(id, data);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch(error) {
@@ -141,7 +152,7 @@ async function destroy(req, res, next) {
   try {
     const { id } = req.params;
 
-    await adminReservationsService.destroy(id);
+    await adminDriversService.destroy(id);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS));
   } catch(error) {
