@@ -80,13 +80,7 @@ async function store(req, res, next) {
 /**
  * 공지사항 게시글 수정
  */
-async function update(req, res, next) {
-  // 👇 [디버깅용] 이 로그가 터미널에 어떻게 찍히는지 확인해보세요. TODO : 추후 삭제
-    console.log("--- DEBUG START ---");
-    console.log("Token Header:", req.headers.authorization); // 토큰이 왔는지?
-    console.log("User Info:", req.user); // 미들웨어가 유저를 심어줬는지?
-    console.log("--- DEBUG END ---");
-    
+async function update(req, res, next) {    
   try {
     const imagePath = req.body.image || null;
 

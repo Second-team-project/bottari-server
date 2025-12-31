@@ -11,5 +11,6 @@ import adminFilesController from '../app/controllers/admins/admin.files.controll
 const filesRouter = express.Router();
 
 filesRouter.post('/notices', authMiddleware, multerMiddleware.noticeUploader, adminFilesController.uploadNoticeImage);
+filesRouter.post('/faq', authMiddleware, multerMiddleware.faqUploader, adminFilesController.uploadFAQImage);
 
 export default filesRouter;
