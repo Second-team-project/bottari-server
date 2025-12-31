@@ -149,13 +149,13 @@ async function userCancel(req, res, next) {
   try {
     const id = req.user.id;
     const data = req.body;
-    const reservId = req.params.reservId;
-    console.log('contoller-data: ', data);
+    const code = req.params.code;
+    console.log('contoller-data: ', id, data, code);
 
 
     const result = await reserveService.userCancel({
       userId: id,
-      reservId: reservId,
+      code: code,
       reason: data,
     });
     
@@ -175,12 +175,12 @@ async function userCancel(req, res, next) {
 async function guestCancel(req, res, next) {
   try {
     const data = req.body;
-    const reservId = req.params.reservId;
-    console.log('contoller-guestData: ', data, reserv);
+    const code = req.params.code;
+    console.log('contoller-guestData: ', data, code);
 
     const result = await reserveService.guestCancel({
       password: data.password,
-      reservId: reservId,
+      code: code,
       reason: data.reason,
     });
     

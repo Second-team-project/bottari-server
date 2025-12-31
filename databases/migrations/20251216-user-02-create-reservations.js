@@ -65,6 +65,13 @@ const attributes = {
     defaultValue: null,
     comment: '결제 승인 시각 (ISO 8601)'
   },
+  cancelReason: {
+    field: 'cancel_reason',
+    type: DataTypes.STRING(225),
+    allowNull: true,
+    defaultValue: null,
+    comment: '취소 사유',
+  },
   notes: {
     field: 'notes',
     type: DataTypes.STRING(500),

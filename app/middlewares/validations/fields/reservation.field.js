@@ -4,11 +4,14 @@
  * 251223 v1.0.0 N init
  */
 
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 import { SERVICE_TYPE } from "../../../../configs/service.type.enum.js";
 import USER_TYPE from "../../../../configs/user.type.enum.js";
 import { RESERVATION_STATE } from "../../../../configs/reservation.state.enum.js";
 
+// =======================
+// ||     USER PAGE     ||
+// ===== 예약 작성
 const type = body('type')
   .trim()
   .notEmpty()
@@ -53,7 +56,7 @@ const notes = body('notes')
   .customSanitizer(value => value === '' ? null : value)  // '' -> null 용
 ;
 
-// 조회용
+// ===== 예약 조회 페이지 용
 
 const code = body('code')
   .trim()
@@ -63,6 +66,25 @@ const code = body('code')
   .matches(/^[DS][MG]\d{6}[2-9A-Z]{5}$/)
   .withMessage('유효하지 않은 예약 코드 형식입니다.')
 ;
+
+// ===== 취소 관련 용
+const cancelCode = param('code')
+  .trim()
+  .notEmpty()
+  .withMessage('예약 코드는 필수입니다.')
+  .matches(/^[DS][MG]\d{6}[2-9A-Z]{5}$/)
+  .withMessage('유효하지 않은 예약 코드 형식입니다.')
+;
+
+const cancelReason = body('reason')
+  .trim()
+  .notEmpty()
+  .withMessage('취소 사유는 필수 항목입니다.')
+  .bail()
+  .isLength({ min: 4, max: 200 })
+  .withMessage('취소 사유는 최소 10자에서 최대 200자까지 입력 가능합니다.')
+;
+
 
 // ===== 예약 관리용
 // ------------------------------------------
@@ -139,6 +161,8 @@ const state = body('state')
 
 
 export default {
+  // ===== USER PAGE
+  // 예약 작성
   type,
   userId,
   userType,
@@ -146,7 +170,11 @@ export default {
   notes,
   // 조회용
   code,
-  // 예약 관리용
+  // 취소
+  cancelCode,
+  cancelReason,
+  
+  // ===== 예약 관리용
   items,
   itemType,
   itemSize,
