@@ -6,12 +6,15 @@
 
 import express from 'express';
 // ===== validators
+import indexValidator from '../../app/middlewares/validations/validators/review/index.validator.js';
+import showValidator from "../../app/middlewares/validations/validators/review/show.validator.js"
 import validationHandler from '../../app/middlewares/validations/validation.handler.js';
 // ===== controllers
+import reveiwController from "../../app/controllers/user/review.controller.js"
 
 const userReviewRouter = express.Router();
 
-userReviewRouter.get('/', reveiwController.index);
-userReviewRouter.get('/:id', reveiwController.show);
+userReviewRouter.get('/', indexValidator, validationHandler, reveiwController.index);
+userReviewRouter.get('/:id', showValidator, validationHandler, reveiwController.show);
 
 export default userReviewRouter;
