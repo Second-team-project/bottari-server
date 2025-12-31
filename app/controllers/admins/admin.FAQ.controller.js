@@ -24,7 +24,7 @@ async function index(req, res, next) {
       page: page,
       limit: 20,
       count: count,
-      posts: rows,
+      faqs: rows,
     }
     
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, responseData));
@@ -63,7 +63,7 @@ async function store(req, res, next) {
     const imagePath = req.body.image || null;
 
     const data = {
-      adminId: req.admin.id, // <= auth middleware에서 세팅한 값
+      adminId: req.user.id, // <= auth middleware에서 세팅한 값
       title: req.body.title,
       content: req.body.content,
       image: imagePath,
@@ -85,7 +85,6 @@ async function update(req, res, next) {
     const imagePath = req.body.image || null;
 
     const data = {
-      adminId: req.user.id,
       FAQId: req.params.id, // URL 파라미터의 게시글 ID
       title: req.body.title,
       content: req.body.content,
@@ -108,12 +107,7 @@ async function update(req, res, next) {
  */
 async function destroy(req, res, next) {
   try {
-    const data = {
-      adminId: req.admin.id, // <= auth middleware에서 세팅한 값
-      FAQId: req.params.id
-    };
-
-    await adminFAQService.destroy(data);
+    await adminFAQService.destroy(req.params.id);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS));
   } catch(error) {

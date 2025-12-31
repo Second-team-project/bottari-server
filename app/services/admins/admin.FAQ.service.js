@@ -36,7 +36,7 @@ async function create(data) {
 }
 
 /**
- * 공지사항 게시글 수정
+ * FAQ 수정
  * @param {object} params
  * @param {number} params.adminId
  * @param {number} params.FAQId
@@ -50,10 +50,6 @@ async function update({ adminId, FAQId, title, content, image }) {
 
     if (!faq) {
       throw customError('존재하지 않는 글입니다.', NOT_FOUND_ERROR);
-    }
-    
-    if(faq.adminId !== adminId) {
-      throw customError('작성자 불일치', UNMATCHING_USER_ERROR);
     }
 
     // 수정할 데이터 준비
@@ -77,23 +73,9 @@ async function update({ adminId, FAQId, title, content, image }) {
 
 /**
  * FAQ 삭제
- * @returns {Promise<number>}
  */
-async function destroy({ adminId, FAQId }) {
-  // 트랜잭션 시작
-  return await db.sequelize.transaction(async t => {
-    // (작성자 일치 확인용)
-    const FAQ = await FAQRepository.findByPk(t, FAQId);
-
-    // 작성자 일치 확인
-    if(FAQ.adminId !== adminId) {
-      throw customError('작성자 불일치', UNMATCHING_USER_ERROR);
-    }
-    
-    // 글 삭제 <= 부모 테이블이기 때문에 foreignKey가 걸려 있어서 가장 마지막에 삭제해야 함.
-    await FAQRepository.destroy(t, FAQId);
-  });
-  
+async function destroy(id) {
+    return await FAQRepository.destroy(null, id);
 }
 
 export default {

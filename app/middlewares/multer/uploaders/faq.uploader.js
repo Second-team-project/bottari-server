@@ -24,7 +24,7 @@ export default function(req, res, next) {
       // 파일 저장 경로 설정
       destination(req, file, callback) {
         // FAQ 이미지 경로 가져오기
-        const fullPath = pathUtil.getNoticesImagePath();
+        const fullPath = pathUtil.getFAQImagePath();
 
         // 저장 디렉토리 설정
         if(!fs.existsSync(fullPath)) {

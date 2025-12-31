@@ -11,10 +11,11 @@ const { ADMIN, DRIVER } = USER_TYPE;
 const ROLE_PERMISSIONS = {
   GET: [
     // ===== admin Page
-    { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] },
     { path: /^\/api\/admin\/reservations$/, types: [ADMIN] },
-    { path: /^\/api\/admin\/reservations\/[0-9]+$/, types: [ADMIN] },
     { path: /^\/api\/admin\/stats$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/faq\/[0-9]+$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/reservations\/[0-9]+$/, types: [ADMIN] },
     // ===== user Page
     { path: /^\/api\/user\/reserve$/, types: [USER_TYPE.MEMBER] },
     // ===== driver Page
@@ -25,7 +26,9 @@ const ROLE_PERMISSIONS = {
     { path: /^\/api\/admin\/auth\/logout$/, types: [ADMIN] },
     { path: /^\/api\/admin\/notices$/, types: [ADMIN] },
     { path: /^\/api\/admin\/reservations$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/faq$/, types: [ADMIN] },
     { path: /^\/api\/files\/notices$/, roles: [ADMIN] },
+    { path: /^\/api\/files\/faq$/, roles: [ADMIN] },
     // ===== user Page
     { path: /^\/api\/user\/auth\/logout$/, types: [USER_TYPE.MEMBER, USER_TYPE.GUEST] },
     // ===== driver Page
@@ -34,6 +37,7 @@ const ROLE_PERMISSIONS = {
   PUT: [
     // ===== admin page
     { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/faq\/[0-9]+$/, types: [ADMIN] },
   ],
   PATCH: [
     // ===== admin Page
@@ -45,6 +49,7 @@ const ROLE_PERMISSIONS = {
     // ===== admin Page
     { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] },
     { path: /^\/api\/admin\/reservations\/[0-9]+$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/faq\/[0-9]+$/, types: [ADMIN] },
   ]
 }
 Object.freeze(ROLE_PERMISSIONS);
