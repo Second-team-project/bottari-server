@@ -7,14 +7,18 @@ import express from 'express';
 import validationHandler from '../../app/middlewares/validations/validation.handler.js';
 import authMiddleware from '../../app/middlewares/auth/auth.middleware.js';
 import adminFAQController from '../../app/controllers/admins/admin.FAQ.controller.js';
+import indexValidator from '../../app/middlewares/validations/validators/faq/index.validator.js';
+import showValidator from '../../app/middlewares/validations/validators/faq/show.validator.js';
+import storeValidator from '../../app/middlewares/validations/validators/faq/store.validator.js';
+import updateValidator from '../../app/middlewares/validations/validators/faq/update.validator.js';
+import destroyValidator from '../../app/middlewares/validations/validators/faq/destroy.validator.js';
 
 const adminFAQRouter = express.Router();
 
-// TODO : authMiddleware 추가
-// TODO : get은 권한 필요 없고, 쿼리 validator 추가해야할 것 같습니다.
-adminFAQRouter.get('/', adminFAQController.index);
-adminFAQRouter.get('/:id', adminFAQController.show);
-adminFAQRouter.post('/', adminFAQController.store);
-adminFAQRouter.delete('/:id', adminFAQController.destroy);
+adminFAQRouter.get('/', indexValidator, validationHandler, adminFAQController.index);
+adminFAQRouter.get('/:id', authMiddleware, showValidator, validationHandler, adminFAQController.show);
+adminFAQRouter.post('/', authMiddleware, storeValidator, validationHandler, adminFAQController.store);
+adminFAQRouter.put('/:id', authMiddleware, updateValidator, validationHandler, adminFAQController.update);
+adminFAQRouter.delete('/:id', authMiddleware, destroyValidator, validationHandler, adminFAQController.destroy);
 
 export default adminFAQRouter;

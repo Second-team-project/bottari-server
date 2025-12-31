@@ -49,6 +49,20 @@ async function create(t = null, data) {
 }
 
 /**
+ * FAQ 수정
+ * @param {import("sequelize").Transaction|null} t 
+ * @param {number} id 
+ * @param {object} data 
+ * @returns {Promise<number>}
+ */
+async function update(t = null, id, data) {
+  return await FAQ.update(data, {
+    where: { id: id },
+    transaction: t
+  });
+}
+
+/**
  * FAQ 삭제
  * @param {import("sequelize").Transaction|null} t 
  * @returns {Promise<number>}
@@ -66,5 +80,6 @@ export default {
   pagination,
   findByPk,
   create,
+  update,
   destroy
 }

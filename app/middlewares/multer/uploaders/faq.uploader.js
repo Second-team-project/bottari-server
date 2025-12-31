@@ -1,7 +1,7 @@
 /**
- * @file app/middlewares/multer/uploaders/notice.uploader.js
- * @description 공지사항 이미지 업로더
- * 251230 v1.0.0 김민현 init
+ * @file app/middlewares/multer/uploaders/faq.uploader.js
+ * @description FAQ 이미지 업로더
+ * 251231 v1.0.0 김민현 init
  */
 import multer from 'multer';
 import fs from 'fs';
@@ -11,7 +11,7 @@ import customError from '../../../errors/custom.error.js';
 import { BAD_FILE_ERROR } from '../../../../configs/responseCode.config.js';
 
 /**
- * 공지사항 이미지 업로더 처리 미들웨어
+ * FAQ 이미지 업로더 처리 미들웨어
  * @param {import("express").Request} req 
  * @param {import("express").Response} res 
  * @param {import("express").NextFunction} next 
@@ -23,8 +23,8 @@ export default function(req, res, next) {
     storage: multer.diskStorage({
       // 파일 저장 경로 설정
       destination(req, file, callback) {
-        // 공지사항 이미지 경로 가져오기
-        const fullPath = pathUtil.getNoticesImagePath();
+        // FAQ 이미지 경로 가져오기
+        const fullPath = pathUtil.getFAQImagePath();
 
         // 저장 디렉토리 설정
         if(!fs.existsSync(fullPath)) {
@@ -59,8 +59,8 @@ export default function(req, res, next) {
     },
     // limits: 파일 사이즈 제한
     limits: {
-      // 공지사항용 사이즈 환경변수 사용
-      fileSize: parseInt(process.env.FILE_NOTICE_IMAGE_SIZE)
+      // FAQ용 사이즈 환경변수 사용
+      fileSize: parseInt(process.env.FILE_FAQ_IMAGE_SIZE)
     }
   }).single('image');
 
