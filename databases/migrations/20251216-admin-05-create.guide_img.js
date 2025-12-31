@@ -31,7 +31,7 @@ const attributes = {
   imgEng: {
     field: 'img_eng',
     type: DataTypes.STRING(255),
-    allowNull: false,
+    allowNull: true,
     comment: '이미지eng',
   },
   active: {
