@@ -7,6 +7,8 @@
 import axios from "axios";
 
 async function location({keyword, page}) {
+  // 검색어 보정
+  const searchQuery = keyword.includes('대구') ? keyword : `대구 ${keyword}`;
   // 1. 카카오맵에 주소 요청
   const result = await axios.get(
     process.env.KAKAO_API_URL_SEARCH_KEYWORD,
@@ -15,7 +17,7 @@ async function location({keyword, page}) {
         Authorization: `KakaoAK ${process.env.SOCIAL_KAKAO_REST_API_KEY}`
       },
       params: {
-        query: keyword,
+        query: searchQuery,
         page: page
       }
     }
