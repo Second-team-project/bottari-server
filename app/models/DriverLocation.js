@@ -1,15 +1,14 @@
 /**
- * @file app/models/Luggage.js
- * @description Luggage model
- * 251216 v1.0.0 N init
+ * @file app/models/DriverLocation.js
+ * @description DriverLocation model
+ * 260101 v1.0.0 N init
  */
 
 import dayjs from 'dayjs';
 import { DataTypes } from 'sequelize';
 
-const modelName = 'Luggage'; // 모델명(JS 내부에서 사용)
+const modelName = 'DriverLocation'; // 모델명(JS 내부에서 사용)
 
-// 컬럼 정의
 const attributes = {
   id: {
     field: 'id',
@@ -17,44 +16,25 @@ const attributes = {
     primaryKey: true,
     allowNull: false,
     autoIncrement: true,
-    comment: '짐 PK',
+    comment: 'PK',
   },
-  reservId: {
-    field: 'reserv_id',
+  driverId: {
+    field: 'driver_id',
     type: DataTypes.BIGINT.UNSIGNED,
-    allowNull: false,
-    comment: '예약 번호 (reservations)',
-  },
-  itemType: {
-    field: 'item_type',
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    comment: '짐 타입 : CARRIER, BAG, BOX, GOLF',    
-  },
-  itemWeight: {
-    field: 'item_weight',
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    comment: '짐 무게 : ~10kg, ~20kg, ~30kg, OVER',    
-  },
-  itemSize: {
-    field: 'item_size',
-    type: DataTypes.STRING(255),
     allowNull: true,
-    comment: '짐 크기 : CARRIER:21,24,32,OVER / BAG,BOX: S,M,L,XL / GOLF=null',    
+    comment: '기사 번호 (drivers)',
   },
-  count: {
-    field: 'count',
-    type: DataTypes.STRING(10),
+  lat: {
+    field: 'lat',
+    type: DataTypes.DECIMAL(11,8),
     allowNull: false,
-    comment: '짐 개수',    
+    comment: '위도',    
   },
-  notes: {
-    field: 'notes',
-    type: DataTypes.STRING(255),
-    allowNull: true,
-    defaultValue: null,
-    comment: '요청 사항',
+  lng: {
+    field: 'lng',
+    type: DataTypes.DECIMAL(11,8),
+    allowNull: false,
+    comment: '경도',    
   },
   createdAt: {
     field: 'created_at',
@@ -94,25 +74,25 @@ const attributes = {
   }
 };
 
-// 옵션 정의
 const options = {
-  tableName: 'luggages', // 실제 DB 테이블명
+  tableName: 'driver_location', // 실제 DB 테이블명
   timestamps: true,   // createdAt, updatedAt를 자동 관리
   paranoid: true,     // soft delete 설정 (deletedAt 자동 관리)
 }
 
 // 모델 정의
-const Luggage = {
+const DriverLocation = {
   // 초기화
   init: (sequelize) => {
     const define = sequelize.define(modelName, attributes, options);
 
     return define;
   },
-  // 관계
+
   associate: (db) => {
-    db.Luggage.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reservId', as: 'luggageReservation' });
+    db.DriverLocation.belongsTo(db.Driver, { targetKey: 'id', foreignKey: 'driverId', as: 'driverLocationDriver' });
+
   }
 }
 
-export default Luggage;
+export default DriverLocation;
