@@ -6,6 +6,7 @@
 import driverRepository from "../../repositories/driver.repository.js";
 import db from "../../models/index.js"
 import bcrypt from 'bcrypt';
+import { Op } from "sequelize";
 const { Driver } = db;
 
 /**
@@ -13,7 +14,7 @@ const { Driver } = db;
  * @returns
  */
 async function pagination(params) {
-  const { page, driverName, carNumber, eamil, accountId, phone, notes } = params;
+  const { page, driverName, carNumber, email, accountId, phone, notes } = params;
   // 검색 조건 생성
   const where = {};
 
