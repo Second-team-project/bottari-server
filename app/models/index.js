@@ -8,9 +8,7 @@ import '../../configs/env.config.js';
 import { Sequelize } from 'sequelize';
 
 // 모델 import
-import Driver from './Driver.js';
-import DriverAssignment from './DriverAssignment.js';
-import DriverAttendanceLog from './DriverAttendanceLog.js';
+// user
 import Delivery from './Delivery.js';
 import Booker from './Booker.js';
 import Luggage from './Luggage.js';
@@ -19,13 +17,20 @@ import Reservation from './Reservation.js';
 import Review from './Review.js';
 import Storage from './Storage.js';
 import User from './User.js';
+//driver
+import Driver from './Driver.js';
+import DriverAssignment from './DriverAssignment.js';
+import DriverAttendanceLog from './DriverAttendanceLog.js';
+import DriverEditProfileLog from './DriverEditProfileLog.js';
+import DriverLocation from './DriverLocation.js';
+import DriverLocationLogs from './DriverLocationLogs.js';
+// admin
 import Admin from './Admin.js';
 import Notice from './Notice.js';
 import FAQ from './FAQ.js';
 import GuideImg from './GuideImg.js';
 import Pricing from './Pricing.js';
 import Store from './Store.js';
-import DriverEditProfileLog from './DriverEditProfileLog.js';
 
 const db = {}; // 생성할 모델들 모두 담음
 
@@ -68,6 +73,8 @@ db.Driver = Driver.init(sequelize);
 db.DriverAssignment = DriverAssignment.init(sequelize);
 db.DriverAttendanceLog = DriverAttendanceLog.init(sequelize);
 db.DriverEditProfileLog = DriverEditProfileLog.init(sequelize);
+db.DriverLocation = DriverLocation.init(sequelize);
+db.DriverLocationLogs = DriverLocationLogs.init(sequelize);
 // Admin
 db.Admin = Admin.init(sequelize)
 db.Notice = Notice.init(sequelize)
@@ -93,6 +100,8 @@ Driver.associate(db);
 DriverAssignment.associate(db);
 DriverAttendanceLog.associate(db);
 DriverEditProfileLog.associate(db);
+DriverLocation.associate(db);
+DriverLocationLogs.associate(db);
 // Admin
 Admin.associate(db);
 Notice.associate(db);

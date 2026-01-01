@@ -134,9 +134,11 @@ const Driver = {
     return define;
   },
   associate: (db) => {
-    db.Driver.hasMany(db.DriverAssignment, { sourceKey: 'id', foreignKey: 'driver_id', as: 'driverIdDriverAssignments' });
-    db.Driver.hasMany(db.DriverAttendanceLog, { sourceKey: 'id', foreignKey: 'driver_id', as: 'driverIdDriverAttendanceLogs' });
-    db.Driver.hasMany(db.DriverEditProfileLog, { sourceKey: 'id', foreignKey: 'driver_id', as: 'driverIdDriverEditProfileLogs' });
+    db.Driver.hasMany(db.DriverAssignment, { sourceKey: 'id', foreignKey: 'driverId', as: 'driverIdDriverAssignments' });
+    db.Driver.hasMany(db.DriverAttendanceLog, { sourceKey: 'id', foreignKey: 'driverId', as: 'driverIdDriverAttendanceLogs' });
+    db.Driver.hasMany(db.DriverEditProfileLog, { sourceKey: 'id', foreignKey: 'driverId', as: 'driverIdDriverEditProfileLogs' });
+    db.Driver.hasMany(db.DriverLocation, { sourceKey: 'id', foreignKey: 'driverId', as: 'driverIdDriverLocation' });
+    db.Driver.hasMany(db.DriverLocationLogs, { sourceKey: 'id', foreignKey: 'driverId', as: 'driverIdDriverLocationLogs' });
   }
 }
 

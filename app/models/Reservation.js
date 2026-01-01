@@ -135,13 +135,13 @@ const Reservation = {
 
   // 관계
   associate: (db) => {
-    db.Reservation.hasMany(db.Booker, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdBookers' });
-    db.Reservation.hasMany(db.Review, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdReviews' });
-    db.Reservation.hasMany(db.Storage, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdStorages' });
-    db.Reservation.hasMany(db.Delivery, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdDeliveries' });
-    db.Reservation.hasMany(db.Luggage, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdLuggages' });
-    db.Reservation.hasMany(db.DriverAssignment, { sourceKey: 'id', foreignKey: 'reserv_id', as: 'reservIdDriverAssignments' });
-    db.Reservation.belongsTo(db.User, { targetKey: 'id', foreignKey: 'user_id', as: 'reservationUser' });
+    db.Reservation.hasMany(db.Booker, { sourceKey: 'id', foreignKey: 'reservId', as: 'reservIdBookers' });
+    db.Reservation.hasMany(db.Review, { sourceKey: 'id', foreignKey: 'reservId', as: 'reservIdReviews' });
+    db.Reservation.hasMany(db.Storage, { sourceKey: 'id', foreignKey: 'reservId', as: 'reservIdStorages' });
+    db.Reservation.hasMany(db.Delivery, { sourceKey: 'id', foreignKey: 'reservId', as: 'reservIdDeliveries' });
+    db.Reservation.hasMany(db.Luggage, { sourceKey: 'id', foreignKey: 'reservId', as: 'reservIdLuggages' });
+    db.Reservation.hasMany(db.DriverAssignment, { sourceKey: 'id', foreignKey: 'reservId', as: 'reservIdDriverAssignments' });
+    db.Reservation.belongsTo(db.User, { targetKey: 'id', foreignKey: 'userId', as: 'reservationUser' });
   }
 }
 

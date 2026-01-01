@@ -9,7 +9,6 @@ import { DataTypes } from 'sequelize';
 
 const modelName = 'Review'; // 모델명(JS 내부에서 사용)
 
-// 컬럼 정의
 const attributes = {
   id: {
     field: 'id',
@@ -87,7 +86,6 @@ const attributes = {
   }
 };
 
-// 옵션 정의
 const options = {
   tableName: 'reviews', // 실제 DB 테이블명
   timestamps: true,   // createdAt, updatedAt를 자동 관리
@@ -104,8 +102,8 @@ const Review = {
   },
   // 관계
   associate: (db) => {
-    db.Review.belongsTo(db.User, { targetKey: 'id', foreignKey: 'user_id', as: 'reviewUser' });
-    db.Review.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reserv_id', as: 'reviewReservation' });
+    db.Review.belongsTo(db.User, { targetKey: 'id', foreignKey: 'userId', as: 'reviewUser' });
+    db.Review.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reservId', as: 'reviewReservation' });
   }
 }
 

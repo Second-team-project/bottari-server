@@ -102,7 +102,7 @@ const Store = {
     return define;
   },
   associate: (db) => {
-    db.Store.hasMany(db.Storage, { sourceKey: 'id', foreignKey: 'store_id', as: 'storeIdStores' });
+    db.Store.hasMany(db.Storage, { sourceKey: 'id', foreignKey: 'storeId', as: 'storeIdStores' });
   }
 }
 
