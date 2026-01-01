@@ -4,7 +4,7 @@
  * 251222 v1.0.0 김위민 init
  */
 
-import { body } from "express-validator";
+import { body, param, query } from "express-validator";
 
 export const id = body('id')
   .trim()
@@ -64,3 +64,28 @@ export const email = body('email')
   .isLength({ max: 50 })
   .withMessage('이메일은 50자 이하이어야 합니다.')
 ;
+
+// 관리자 페이지 기사 관리용으로 추가
+export const accountId = body('accountId')
+  .trim()
+  .notEmpty()
+  .withMessage('아이디를 입력해주세요.')
+  .bail()
+  .matches(/^[a-z0-9]+$/)
+  .withMessage('아이디는 영문과 숫자만 사용할 수 있습니다.')
+
+export const page = query('page')
+  .trim()
+  .optional()
+  .isNumeric()
+  .withMessage('숫자만 허용합니다.')
+  .toInt();
+
+export const paramId = param('id')
+  .trim()
+  .notEmpty()
+  .withMessage('필수 항목입니다.')
+  .bail()
+  .isNumeric()
+  .withMessage('숫자만 허용합니다.')
+  .toInt();

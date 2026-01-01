@@ -62,17 +62,18 @@ async function findByPhone(t = null, phone) {
  * @param {{limit: number, offset: number}}
  * @returns
  */
-async function pagination(t = null, { limit, offset }) {
+async function pagination(t = null, { limit, offset, where }) {
   return await Driver.findAndCountAll({
-      order: [
-        ['createdAt', 'DESC'],
-        ['updatedAt', 'DESC'],
-        ['id', 'ASC'],
-      ],
-      limit: limit,
-      offset: offset,
-      transaction: t,
-    });
+    where: where,
+    order: [
+      ['createdAt', 'DESC'],
+      ['updatedAt', 'DESC'],
+      ['id', 'ASC'],
+    ],
+    limit: limit,
+    offset: offset,
+    transaction: t,
+  });
 }
 
 /**
