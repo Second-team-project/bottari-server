@@ -8,19 +8,24 @@ import db from './app/models/index.js';
 
 // ===== routers import
 import testRouter from './routes/test.route.js'
+
 // === common
 import pricingRouter from './routes/pricing.router.js';
 import storeRouter from './routes/store.router.js';
 import filesRouter from './routes/files.router.js';
+import guideImgRouter from './routes/guide.router.js';
+
 // === user
 import userAuthRouter from './routes/user/user.auth.router.js';
 import userSearchRouter from './routes/user/user.search.router.js';
 import userReserveRouter from './routes/user/user.reserve.router.js';
 import userReviewRouter from './routes/user/user.review.router.js';
+
 // === driver
 import driverAuthRouter from './routes/drivers/driver.auth.router.js';
 import driverProfileRouter from './routes/drivers/driver.profile.router.js';
 import driverAttendanceRouter from './routes/drivers/driver.Attendance.router.js';
+import driverLocationRouter from './routes/drivers/driver.location.router.js';
 
 // === admin
 import adminAuthRouter from './routes/admin/admin.auth.router.js';
@@ -80,6 +85,8 @@ app.use('/api/common/pricing', pricingRouter);
 app.use('/api/common/store', storeRouter);
 // 이미지 업로더
 app.use('/api/common/files', filesRouter);
+// 가이드 이미지
+app.use('/api/common/guide-img', guideImgRouter)
 
 // ===== user용
 // 소셜 로그인
@@ -99,6 +106,8 @@ app.use('/api/driver/auth', driverAuthRouter);
 app.use('/api/driver/profile', driverProfileRouter);
 // 출퇴근 상태 수정
 app.use('/api/driver/attendance', driverAttendanceRouter);
+// 위치 정보
+app.use('/api/driver/location', driverLocationRouter);
 
 
 // ===== admin용
