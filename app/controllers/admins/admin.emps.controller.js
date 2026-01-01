@@ -1,14 +1,14 @@
 /**
- * @file app/controllers/admin.drivers.controller.js
- * @description 기사 관리 관련 컨트롤러
- * 251231 v1.0.0 김민현 init
+ * @file app/controllers/admin.emps.controller.js
+ * @description 직원 관리 관련 컨트롤러
+ * 250101 v1.0.0 김민현 init
  */
 import { SUCCESS } from "../../../configs/responseCode.config.js";
 import customResponse from "../../utils/custom.response.util.js";
-import adminDriversService from "../../services/admins/admin.drivers.service.js";
+import adminEmpsService from "../../services/admins/admin.emps.service.js";
 
 /**
- * 기사 목록 조회
+ * 직원 목록 조회
  * @param {import("express").Request} req - Request 객체
  * @param {import("express").Response} res - Response 객체
  * @param {import("express").NextFunction} next - NextFunction 객체 
@@ -18,31 +18,29 @@ async function index(req, res, next) {
   try {
     const { 
       page,
-      driverName,
+      adminName,
       accountId,
       email,
       phone,
-      notes,
-      carNumber
+      code,
     } = req.query;
 
     const params = {
       page: page ? parseInt(page) : 1,
-      driverName,
+      adminName,
       accountId,
       email,
       phone,
-      notes,
-      carNumber
+      code,
     };
 
-    const { count, rows } = await adminDriversService.pagination(params);
+    const { count, rows } = await adminEmpsService.pagination(params);
 
     const responseData = {
       page: params.page,
       limit: 20,
       count: count,
-      drivers: rows,
+      emps: rows,
     }
     
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, responseData));
@@ -52,7 +50,7 @@ async function index(req, res, next) {
 }
 
 /**
- * 기사 목록 상세 조회
+ * 직원 목록 상세 조회
  * @param {import("express").Request} req - Request 객체
  * @param {import("express").Response} res - Response 객체
  * @param {import("express").NextFunction} next - NextFunction 객체 
@@ -60,7 +58,7 @@ async function index(req, res, next) {
  */
 async function show(req, res, next) {
   try {
-    const result = await adminDriversService.show(req.params.id);
+    const result = await adminEmpsService.show(req.params.id);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch(error) {
@@ -69,7 +67,7 @@ async function show(req, res, next) {
 }
 
 /**
- * 기사 등록
+ * 직원 등록
  * @param {import("express").Request} req - Request 객체
  * @param {import("express").Response} res - Response 객체
  * @param {import("express").NextFunction} next - NextFunction 객체 
@@ -78,26 +76,22 @@ async function show(req, res, next) {
 async function store(req, res, next) {
   try {
     const { 
-      driverName,
+      adminName,
       email,
       phone,
       accountId,
-      password,
-      carNumber,
-      notes
+      passwordHash,
     } = req.body;
 
     const data = {
-      driverName,
+      adminName,
       email,
       phone,
       accountId,
-      password,
-      carNumber,
-      notes
+      passwordHash,
     };
 
-    const result = await adminDriversService.create(data);
+    const result = await adminEmpsService.create(data);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch(error) {
@@ -106,7 +100,7 @@ async function store(req, res, next) {
 }
 
 /**
- * 기사 정보 수정
+ * 직원 정보 수정
  */
 async function update(req, res, next) {
   try {
@@ -114,24 +108,22 @@ async function update(req, res, next) {
 
     // 수정 가능 필드
     const { 
-      driverName,
+      adminName,
       email,
       phone,
-      password,
-      carNumber,
-      notes
+      accountId,
+      passwordHash,
     } = req.body;
 
     const data = {
-      driverName,
+      adminName,
       email,
       phone,
-      password,
-      carNumber,
-      notes
+      accountId,
+      passwordHash,
     };
 
-    const result = await adminDriversService.update(id, data);
+    const result = await adminEmpsService.update(id, data);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch(error) {
@@ -141,7 +133,7 @@ async function update(req, res, next) {
 
 
 /**
- * 기사 정보 삭제
+ * 직원 정보 삭제
  * @param {import("express").Request} req - Request 객체
  * @param {import("express").Response} res - Response 객체
  * @param {import("express").NextFunction} next - NextFunction 객체 
@@ -151,7 +143,7 @@ async function destroy(req, res, next) {
   try {
     const { id } = req.params;
 
-    await adminDriversService.destroy(id);
+    await adminEmpsService.destroy(id);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS));
   } catch(error) {
