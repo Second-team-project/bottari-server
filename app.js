@@ -33,6 +33,7 @@ import adminReservationRouter from './routes/admin/admin.reservations.router.js'
 import adminNoticesRouter from './routes/admin/admin.notices.router.js';
 import adminFAQRouter from './routes/admin/admin.FAQ.router.js';
 import adminStatsRouter from './routes/admin/admin.stats.router.js';
+import adminDriversRouter from './routes/admin/admin.drivers.router.js';
 
 // ===== handlers import
 import errorHandler from './app/errors/error.handler.js';
@@ -121,6 +122,8 @@ app.use('/api/admin/faq', adminFAQRouter);
 app.use('/api/admin/reservations', adminReservationRouter);
 // 통계
 app.use('/api/admin/stats', adminStatsRouter);
+// 기사 관리
+app.use('/api/admin/drivers', adminDriversRouter);
 
 // ------------------------------------------
 // ||     404 처리

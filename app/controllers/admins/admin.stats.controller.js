@@ -16,9 +16,15 @@ import adminStatsService from "../../services/admins/admin.stats.service.js";
  */
 async function getMonthlyStats(req, res, next) {
   try {
-    const monthlyStats = await adminStatsService.getMonthlyStats();
+    const { year } = req.query;
+
+    // year가 있으면 그걸 쓰고, 없으면 현재 연도를 사용
+    const targetYear = year ? year : new Date().getFullYear();
+
+    const monthlyStats = await adminStatsService.getMonthlyStats(targetYear);
 
     const responseData = {
+      year: targetYear,
       stats: monthlyStats,
     };
 
