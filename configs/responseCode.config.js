@@ -223,6 +223,21 @@ Object.freeze(RESERVATION_NOT_CANCELLABLE);
 /**
  * 이미 결제된 예약건 
  */
+const NO_ASSIGNMENT_ERROR = {
+  code: 'E60',
+  msg: 'No Assignment Error',
+  info: '기사가 배정되지 않은 예약입니다.',
+  status: 401
+}
+Object.freeze(NO_ASSIGNMENT_ERROR);
+
+
+// =======================================================================
+
+
+/**
+ * 이미 결제된 예약건 
+ */
 const ALREADY_PAID_ERROR = {
   code: 'E44',
   msg: 'Already Paid Error',
@@ -230,6 +245,8 @@ const ALREADY_PAID_ERROR = {
   status: 401
 }
 Object.freeze(ALREADY_PAID_ERROR);
+
+
 
 
 
@@ -280,12 +297,15 @@ export {
   BAD_FILE_ERROR,
   CONFLICT_ERROR,
   
-  //40 - 예약 관련
+  // 40 - 예약 관련
   RESERVE_CONFLICT_ERROR,
   GUEST_AUTH_ERROR,
   MEMBER_RESERVATION_ERROR,
   RESERVATION_NOT_CANCELLABLE,
   ALREADY_PAID_ERROR,
+
+  // 60 - 기사 관련
+  NO_ASSIGNMENT_ERROR,
 
   SYSTEM_ERROR,
   DB_ERROR,

@@ -12,8 +12,7 @@ import searchService from "../../services/user/search.service.js";
 async function location(req, res, next) {
   try {
     // 1. 클라이언트 데이터 확인
-    const keyword = req.query?.keyword
-    const page = req.query?.page
+    const { keyword, page } = req.query;
 
     // 2. 서비스 호출
     const result = await searchService.location({keyword, page});

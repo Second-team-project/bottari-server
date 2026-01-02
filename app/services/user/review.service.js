@@ -21,32 +21,25 @@ async function index(data = {}) {
     offset,
   })
 
-  const filteredResult = rows.map(item => ({
-    id: item.id,
-    userId: item.userId,
-    reservId: item.reservId,
-    title: item.title,
-    img: item.img,
-    content: item.content,
-    createdAt: item.createdAt,
-    updatedAt: item.updatedAt,
-  }));
+  // const filteredResult = rows.map(item => ({
+  //   id: item.id,
+  //   userId: item.userId,
+  //   reservId: item.reservId,
+  //   title: item.title,
+  //   img: item.img,
+  //   content: item.content,
+  //   createdAt: item.createdAt,
+  //   updatedAt: item.updatedAt,
+  // }));
 
   return {
-    list: filteredResult,
+    list: rows,
     totalCount: count,
     currentPage: page,
     totalPage: Math.ceil(count / limit),
   };
 }
 
-async function show(id) {
-  const result = await reviewRepository.findByPk(null, id);
-
-  return result;
-}
-
 export default {
   index,
-  show,
 }

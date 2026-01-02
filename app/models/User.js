@@ -9,7 +9,6 @@ import { DataTypes } from 'sequelize';
 
 const modelName = 'User'; // 모델명(JS 내부에서 사용)
 
-// 컬럼 정의
 const attributes = {
   id: {
     field: 'id',
@@ -89,7 +88,6 @@ const attributes = {
   }
 };
 
-// 옵션 정의
 const options = {
   tableName: 'users', // 실제 DB 테이블명
   timestamps: true,   // createdAt, updatedAt를 자동 관리
@@ -113,11 +111,11 @@ const User = {
 
     return define;
   },
-  // 관계
+
   associate: (db) => {
-    db.User.hasMany(db.Reservation, { sourceKey: 'id', foreignKey: 'user_id', as: 'userIdReservations' });
-    db.User.hasMany(db.Review, { sourceKey: 'id', foreignKey: 'user_id', as: 'userIdReviews' });
-    db.User.hasMany(db.Push, { sourceKey: 'id', foreignKey: 'user_id', as: 'userIdPushes' });
+    db.User.hasMany(db.Reservation, { sourceKey: 'id', foreignKey: 'userId', as: 'userIdReservations' });
+    db.User.hasMany(db.Review, { sourceKey: 'id', foreignKey: 'userId', as: 'userIdReviews' });
+    db.User.hasMany(db.Push, { sourceKey: 'id', foreignKey: 'userId', as: 'userIdPushes' });
   }
 }
 

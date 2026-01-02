@@ -157,6 +157,58 @@ export default {
         created_at: now,
         updated_at: now
       },
+      {
+        id: 11,
+        user_id: null,
+        code: 'SG251228C9D0E',
+        state: 'IN_PROGRESS',
+        price: 22000,
+        payment_key: 'payment_key_11',
+        payment_method: 'CARD',
+        approved_at: now,
+        notes: '빨리 찾으러 갈게요',
+        created_at: now,
+        updated_at: now
+      },
+      {
+        id: 12,
+        user_id: null,
+        code: 'SG251229C9D0E',
+        state: 'IN_PROGRESS',
+        price: 22000,
+        payment_key: 'payment_key_12',
+        payment_method: 'CARD',
+        approved_at: now,
+        notes: '빨리 찾으러 갈게요',
+        created_at: now,
+        updated_at: now
+      },
+      {
+        id: 13,
+        user_id: null,
+        code: 'SG251230C9D0E',
+        state: 'IN_PROGRESS',
+        price: 22000,
+        payment_key: 'payment_key_13',
+        payment_method: 'CARD',
+        approved_at: now,
+        notes: '빨리 찾으러 갈게요',
+        created_at: now,
+        updated_at: now
+      },
+      {
+        id: 14,
+        user_id: null,
+        code: 'SG251231C9D0E',
+        state: 'IN_PROGRESS',
+        price: 22000,
+        payment_key: 'payment_key_14',
+        payment_method: 'CARD',
+        approved_at: now,
+        notes: '빨리 찾으러 갈게요',
+        created_at: now,
+        updated_at: now
+      },
     ]
 
     // 데이터 생성 : queryInterface.bulkInsert(tableName, records, options)
