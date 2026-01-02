@@ -5,7 +5,7 @@
  */
 
 import db from '../models/index.js';
-const { Review } = db;
+const { Review, Booker } = db;
 
 async function pagination(t = null, { limit, offset }) {
   return await Review.findAndCountAll(
@@ -17,27 +17,20 @@ async function pagination(t = null, { limit, offset }) {
       ],
       limit: limit,
       offset: offset,
+      include: [
+        {
+          model: Booker,
+          as: 'reviewBooker',
+        }
+      ],
       transaction: t,
     },
   );
 };
 
-/**
- * reviewId로 테이블 찾기
- * @returns 
- */
-async function findByPk(t = null, id) {
-  return await Review.findOne(
-    {
-      where: {
-        id: id
-      },
-      transaction: t
-    }
-  )
-}
+
+
 
 export default {
   pagination,
-  findByPk,
 }

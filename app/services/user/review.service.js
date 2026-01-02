@@ -4,6 +4,8 @@
  * 251231 N init
  */
 
+import bookerRepository from "../../repositories/booker.repository.js";
+import reservationRepository from "../../repositories/reservation.repository.js";
 import reviewRepository from "../../repositories/review.repository.js";
 
 /**
@@ -21,19 +23,24 @@ async function index(data = {}) {
     offset,
   })
 
-  // const filteredResult = rows.map(item => ({
-  //   id: item.id,
-  //   userId: item.userId,
-  //   reservId: item.reservId,
-  //   title: item.title,
-  //   img: item.img,
-  //   content: item.content,
-  //   createdAt: item.createdAt,
-  //   updatedAt: item.updatedAt,
-  // }));
+  const filteredResult = rows.map(item => ({
+    id: item.id,
+    reservId: item.reservId,
+    title: item.title,
+    content: item.content,
+    img: item.img,
+    createdAt: item.createdAt,
+
+    writer: item.reviewBooker ? {
+      userId: item.reviewBooker.userId,
+      userName: item.reviewBooker.userName,
+      email: item.reviewBooker.email,
+    } : null
+
+  }))
 
   return {
-    list: rows,
+    list: filteredResult,
     totalCount: count,
     currentPage: page,
     totalPage: Math.ceil(count / limit),
