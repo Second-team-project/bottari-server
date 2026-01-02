@@ -9,6 +9,7 @@ import authMiddleware from '../../app/middlewares/auth/auth.middleware.js';
 
 const adminStatsRouter = express.Router();
 
-adminStatsRouter.get('/', authMiddleware, adminStatsController.getMonthlyStats);
+adminStatsRouter.get('/monthly', authMiddleware, adminStatsController.getMonthlyStats);
+adminStatsRouter.get('/daily', authMiddleware, adminStatsController.getDailyStats);
 
 export default adminStatsRouter;
