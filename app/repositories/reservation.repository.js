@@ -82,6 +82,23 @@ async function findByPk(t = null, reservId) {
 }
 
 /**
+ * 예약 번호들(배열)로 예약 정보들 찾기 
+ * @param {*} t 
+ * @param {*} reservId 
+ * @returns 
+ */
+async function findByPks(t = null, reservIds) {
+  return await Booker.findAll(
+    {
+      where: {
+        reservId: reservIds
+      },
+      transaction: t
+    }
+  )
+}
+
+/**
  * 예약코드로 테이블 찾기
  * @returns 
  */
@@ -218,6 +235,7 @@ async function destroy(t = null, id) {
 export default {
   create,
   findByPk,
+  findByPks,
   findByCode,
   findAllByUserId,
 
