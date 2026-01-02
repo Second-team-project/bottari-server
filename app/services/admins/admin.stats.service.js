@@ -3,41 +3,43 @@
  * @description 관리자 통계 관련 service
  * 251230 v1.0.0 김민현 init
  */
+import { RESERVATION_STATE } from '../../../configs/reservation.state.enum.js';
 import db from '../../models/index.js';
 import adminStatsRepository from '../../repositories/stat.repository.js';
 
 /**
  * 월별 매출 및 예약 건수 조회
  */
-async function getMonthlyStats() {
+async function getMonthlyStats(year) {
   return await db.sequelize.transaction(async t => {
+
+    // 조회 기간 설정
+    const startDate = `${year}-01-01 00:00:00`;
+    const endDate = `${year}-12-31 23:59:59`;
+
     // 예약 데이터 조회
-    const reservations = await adminStatsRepository.findByState();
+    const reservations = await adminStatsRepository.findByState(t, startDate, endDate);
+
 
     // 월별 데이터를 담을 객체 생성
     const monthlyData = {};
 
-    // 통계 변수 초기화
-    let totalReservations = 0;    // 총 예약 건수
-    let totalDelivery = 0;        // 총 배송 건수
-    let totalStorage = 0;         // 총 보관 건수
-    let totalRevenue = 0;         // 총 매출 합계
+    // 1~12월 미리 세팅
+    for(let i=1; i<=12; i++) {
+        const monthStr = `${year}-${String(i).padStart(2, '0')}`; // "2025-01" ~ "2025-12"
+        monthlyData[monthStr] = {
+            month: monthStr,
+            totalReservations: 0, // 총 예약 건수
+            totalDelivery: 0, // 총 배송 건수
+            totalStorage: 0, // 총 보관 건수
+            totalRevenue: 0 // 총 매출 합계
+        };
+    }
 
     // 루프 돌려서 데이터 가공
     for (const reservation of reservations) {
       const dateStr = reservation.createdAt;
       const yearMonth = dateStr.substring(0, 7);
-
-      // 해당 월의 객체가 없으면 초기화
-      if (!monthlyData[yearMonth]) {
-        monthlyData[yearMonth] = {
-          month: yearMonth,     // 날짜 형태 '2025-12'
-          totalReservations: 0, // 총 예약
-          totalDelivery: 0,     // 배송
-          totalStorage: 0,      // 보관
-          totalRevenue: 0       // 매출
-        };
-      }
 
       // 해당 월 데이터 가져오기
       const target = monthlyData[yearMonth];
@@ -57,7 +59,7 @@ async function getMonthlyStats() {
       }
 
       // 예약 상태(state)가 'COMPLETED'인 경우 월별 매출 누적
-      if (reservation.state === 'COMPLETED') {
+      if (reservation.state === RESERVATION_STATE.COMPLETED) {
         target.totalRevenue += Number(reservation.price);
       }
     }

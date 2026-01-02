@@ -88,52 +88,20 @@ const cancelReason = body('reason')
 
 // ===== 예약 관리용
 const page = query('page')
-.trim()
-.optional()
-.isNumeric()
-.withMessage('숫자만 허용합니다.')
-.toInt();
+  .trim()
+  .optional()
+  .isNumeric()
+  .withMessage('숫자만 허용합니다.')
+  .toInt();
 
 const id = param('id')
-.trim()
-.notEmpty()
-.withMessage('필수 항목입니다.')
-.bail()
-.isNumeric()
-.withMessage('숫자만 허용합니다.')
-.toInt();
-
-// ------------------------------------------
-// 짐(Items) 관련 필드
-// ------------------------------------------
-const items = body('items')
-  .isArray({ min: 1 })
-  .withMessage('짐 정보는 리스트 형태이며, 최소 1개 이상이어야 합니다.')
-;
-
-// 짐 내부 객체 검증 (* = 한번에 검사)
-const itemType = body('items.*.type')
   .trim()
   .notEmpty()
-  .withMessage('짐 종류(type)는 필수입니다.')
-;
-
-const itemSize = body('items.*.size')
-  .trim()
-  .notEmpty()
-  .withMessage('짐 크기(size)는 필수입니다.')
-;
-
-const itemWeight = body('items.*.weight')
-  .optional()
-  .isString()
-;
-
-const itemCount = body('items.*.count')
-  .optional()
-  .isInt({ min: 1 })
-  .withMessage('수량은 1개 이상이어야 합니다.')
-;
+  .withMessage('필수 항목입니다.')
+  .bail()
+  .isNumeric()
+  .withMessage('숫자만 허용합니다.')
+  .toInt();
 
 // ------------------------------------------
 // 수정(Update) 필드 (state)
@@ -163,10 +131,5 @@ export default {
   // ===== 예약 관리용
   id,
   page,
-  items,
-  itemType,
-  itemSize,
-  itemWeight,
-  itemCount,
   state,
 }
