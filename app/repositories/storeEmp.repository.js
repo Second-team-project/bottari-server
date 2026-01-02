@@ -1,13 +1,13 @@
 /**
- * @file app/repositories/emp.repository.js
- * @description Emp Repository
+ * @file app/repositories/storeEmp.repository.js
+ * @description StoreEmp Repository
  * 250101 v1.0.0 김민현 init
  */
 import db from '../models/index.js';
 const { Admin } = db;
 
 /**
- * 기사 관리 페이지네이션
+ * 직원 관리 페이지네이션
  * @param {import("sequelize").Transaction|null} t 
  * @param {{limit: number, offset: number}}
  * @returns
@@ -27,7 +27,7 @@ async function pagination(t = null, { limit, offset, where }) {
 }
 
 /**
- * 유저id로 유저정보 조회
+ * id로 직원 정보 조회
  * @param {import("sequelize").Transaction} t 
  * @param {number} id 
  * @returns {Promise<import("../models/Admin.js").Admin>}
@@ -37,7 +37,7 @@ async function findByPk(t = null, id) {
 }
 
 /**
- * 유저 모델 인스턴스로 save 처리
+ * 모델 인스턴스로 save 처리
  * @param {import("sequelize").Transaction} t 
  * @param {import("../models/index.js")} admin 
  * @returns {Promise<import("../models/Admin.js").Admin>}
@@ -47,7 +47,7 @@ async function save(t = null, admin) {
 }
 
 /**
- * 로그인 용 id로 유저 검색
+ * 로그인용 id로 직원 검색
  * @param {import("sequelize").Transaction} t 
  * @param {string} accountId 
  * @returns {Promise<import("../models/Admin.js").Admin>}

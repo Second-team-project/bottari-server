@@ -1,12 +1,12 @@
 /**
- * @file app/services/admin.emps.service.js
+ * @file app/services/admin.storeEmps.service.js
  * @description 직원 관리 service
  * 250101 v1.0.0 김민현 init
  */
 import db from "../../models/index.js"
 import { Op } from "sequelize";
-import empRepository from "../../repositories/emp.repository.js";
 import bcrypt from 'bcrypt';
+import storeEmpRepository from "../../repositories/storeEmp.repository.js";
 const { Admin } = db;
 
 /**
@@ -26,14 +26,14 @@ async function pagination(params) {
   const limit = 20;
   const offset = limit * (page - 1);
   
-  return await empRepository.pagination(null, { limit, offset, where });
+  return await storeEmpRepository.pagination(null, { limit, offset, where });
 }
 
 /**
  * 직원 상세 조회
  */
 async function show(id) {
-  return await empRepository.findByPk(null, id);
+  return await storeEmpRepository.findByPk(null, id);
 }
 
 /**
@@ -43,12 +43,12 @@ async function create(data) {
   const { adminName, phone, accountId, password, email, code } = data;
 
   // 중복 체크 (아이디, 전화번호)
-  const existsId = await empRepository.findByAccountId(null, accountId);
+  const existsId = await storeEmpRepository.findByAccountId(null, accountId);
   if (existsId) {
     throw new Error('이미 존재하는 아이디입니다.');
   }
 
-  const existsPhone = await empRepository.findByPhone(null, phone);
+  const existsPhone = await storeEmpRepository.findByPhone(null, phone);
   if (existsPhone) {
     throw new Error('이미 존재하는 휴대폰 번호입니다.');
   }
@@ -60,12 +60,12 @@ async function create(data) {
     adminName,
     phone,
     accountId,
-    password: hashedPassword,
+    passwordHash: hashedPassword,
     email,
     code
   };
 
-  return await empRepository.create(null, newEmpData);
+  return await storeEmpRepository.create(null, newEmpData);
 }
 
 /**
@@ -75,7 +75,7 @@ async function update(id, data) {
   const { adminName, phone, email, code, password } = data;
 
   // 존재 여부 확인
-  const emp = await empRepository.findByPk(null, id);
+  const emp = await storeEmpRepository.findByPk(null, id);
   if (!emp) {
     throw new Error('존재하지 않는 직원입니다.');
   }
@@ -88,11 +88,11 @@ async function update(id, data) {
 
   // 비밀번호 변경 시 암호화
   if (password) {
-    emp.password = await bcrypt.hash(password, 10);
+    emp.passwordHash = await bcrypt.hash(password, 10);
   }
 
   // Repository의 save 호출 (인스턴스 저장)
-  return await empRepository.save(null, emp);
+  return await storeEmpRepository.save(null, emp);
 }
 
 /**
@@ -100,12 +100,12 @@ async function update(id, data) {
  */
 async function destroy(id) {
   // 존재 여부 확인
-  const emp = await empRepository.findByPk(null, id);
+  const emp = await storeEmpRepository.findByPk(null, id);
   if (!emp) {
     throw new Error('존재하지 않는 직원입니다.');
   }
 
-  return await empRepository.destroy(null, id);
+  return await storeEmpRepository.destroy(null, id);
 }
 
 export default {
