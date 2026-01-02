@@ -23,21 +23,6 @@ async function index(req, res, next) {
   }
 }
 
-async function show(req, res, next) {
-  try {
-    // 1. 클라이언트 데이터 확인
-    const id = req.params.id
-
-    // 2. 서비스 호출
-    const result = await reviewService.show(id);
-
-    return res.status(SUCCESS.status).send(customResponse(SUCCESS, result))
-  } catch (error) {
-    return next(error)
-  }
-}
-
 export default {
   index,
-  show,
 }

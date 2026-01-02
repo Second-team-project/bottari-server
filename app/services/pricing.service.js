@@ -10,14 +10,10 @@ import pricingRepository from '../repositories/pricing.repository.js';
 
 
 async function show() {
-  // 트랜잭션 처리
-  return await db.sequelize.transaction(async t => {
+  const pricingData = await pricingRepository.findAll(null);
 
-    // 요금 정보 획득
-    const pricingData = await pricingRepository.findAll(t);
+  return pricingData;
 
-    return pricingData;
-  })
 }
 
 export default {

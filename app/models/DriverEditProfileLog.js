@@ -96,7 +96,7 @@ const DriverEditProfileLog = {
     return define;
   },
   associate: (db) => {
-    db.DriverEditProfileLog.belongsTo(db.Driver, { targetKey: 'id', foreignKey: 'driver_id', as: 'driverEditProfileLogDriver' });
+    db.DriverEditProfileLog.belongsTo(db.Driver, { targetKey: 'id', foreignKey: 'driverId', as: 'driverEditProfileLogDriver' });
   }
 }
 

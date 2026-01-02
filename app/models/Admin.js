@@ -120,8 +120,8 @@ const Admin = {
     return define;
   },
   associate: (db) => {
-    db.Admin.hasMany(db.Notice, { sourceKey: 'id', foreignKey: 'admin_id', as: 'adminIdNotices' });
-    db.Admin.hasMany(db.FAQ, { sourceKey: 'id', foreignKey: 'admin_id', as: 'adminIdFAQ' });
+    db.Admin.hasMany(db.Notice, { sourceKey: 'id', foreignKey: 'adminId', as: 'adminIdNotices' });
+    db.Admin.hasMany(db.FAQ, { sourceKey: 'id', foreignKey: 'adminId', as: 'adminIdFAQ' });
   }
 }
 

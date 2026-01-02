@@ -19,8 +19,14 @@ const attributes = {
   title: {
     field: 'title',
     type: DataTypes.STRING(100),
+    allowNull: true,
+    comment: '이미지 제목'
+  },
+  type: {
+    field: 'type',
+    type: DataTypes.STRING(100),
     allowNull: false,
-    comment: '배너=BANNER / 요금안내=PRICE / 사용안내=USE / 팝업=POPUP'
+    comment: '배너=BANNER / 서비스안내=SERVICE / 요금안내=PRICE / 사용안내=USAGE'
   },
   img: {
     field: 'img',
@@ -40,6 +46,12 @@ const attributes = {
     allowNull: false,
     defaultValue: 'T',
     comment: '활성화=T / 비활성화=F'
+  },
+  link: {
+    field: 'link',
+    type: DataTypes.STRING(100),
+    allowNull: true,
+    comment: '이벤트 연결 link'
   },
   createdAt: {
     field: 'created_at',

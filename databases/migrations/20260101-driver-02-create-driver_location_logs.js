@@ -1,12 +1,12 @@
 /**
- * @file databases/migrations/20251216-user-01-create-users.js
- * @description users migration file
- * 251216 v1.0.0 N init
+ * @file databases/migrations/20260101-driver-01-create.driver_location.js
+ * @description driver_location migration file
+ * 260101 v1.0.0 N init
  */
 
 import { DataTypes } from 'sequelize';
 
-const tableName = 'users';
+const tableName = 'driver_location_logs';
 
 const attributes = {
   id: {
@@ -15,39 +15,25 @@ const attributes = {
     primaryKey: true,
     allowNull: false,
     autoIncrement: true,
-    comment: '유저 PK',
+    comment: 'PK',
   },
-  userName: {
-    field: 'user_name',
-    type: DataTypes.STRING(50),
-    allowNull: false,
-    comment: '이름',
-  },
-  phone: {
-    field: 'phone',
-    type: DataTypes.STRING(20),
+  driverId: {
+    field: 'driver_id',
+    type: DataTypes.BIGINT.UNSIGNED,
     allowNull: true,
-    unique: true,
-    comment: '연락처',
+    comment: '기사 번호 (drivers)',
   },
-  email: {
-    field: 'email',
-    type: DataTypes.STRING(100),
+  lat: {
+    field: 'lat',
+    type: DataTypes.DECIMAL(11,8),
     allowNull: false,
-    unique: true,
-    comment: '이메일',
+    comment: '위도',    
   },
-  provider: {
-    field: 'provider',
-    type: DataTypes.STRING(10),
+  lng: {
+    field: 'lng',
+    type: DataTypes.DECIMAL(11,8),
     allowNull: false,
-    comment: '로그인 제공자 : KAKAO, GOOGLE',
-  },
-  refreshToken: {
-    field: 'refresh_token',
-    type: DataTypes.STRING(255),
-    allowNull: true,
-    comment: '리프레시 토큰',
+    comment: '경도',    
   },
   createdAt: {
     field: 'created_at',
