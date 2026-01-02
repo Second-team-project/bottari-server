@@ -152,11 +152,16 @@ async function userCancel(req, res, next) {
     const code = req.params.code;
     console.log('contoller-data: ', id, data, code);
 
+    console.log({
+      userId: id,
+      code: code,
+      reason: data.reason,
+    })
 
     const result = await reserveService.userCancel({
       userId: id,
       code: code,
-      reason: data,
+      reason: data.reason,
     });
     
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
