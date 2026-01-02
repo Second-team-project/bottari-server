@@ -60,7 +60,7 @@ async function create(data) {
     driverName,
     phone,
     accountId,
-    password: hashedPassword,
+    passwordHash: hashedPassword,
     email,
     carNumber,
     notes
@@ -90,7 +90,7 @@ async function update(id, data) {
   
   // 비밀번호 변경 시 암호화
   if (password) {
-    driver.password = await bcrypt.hash(password, 10);
+    driver.passwordHash = await bcrypt.hash(password, 10);
   }
 
   // Repository의 save 호출 (인스턴스 저장)
