@@ -69,6 +69,85 @@ async function getMonthlyStats(year) {
   })
 }
 
+/**
+ * 하루 매출 및 예약 건수 조회
+ */
+async function getDailyStats() {
+  return await db.sequelize.transaction(async t => {
+    const today = new Date();
+    // YYYY-MM-DD 포맷
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+
+    // 조회 기간 설정
+    const startDate = `${year}-${month}-${day} 00:00:00`;
+    const endDate = `${year}-${month}-${day} 23:59:59`;
+
+    // 예약 데이터 조회
+    const reservations = await adminStatsRepository.findByState(t, startDate, endDate);
+
+    // 하루 통계 변수
+    let totalReservations = 0;      // 전체 예약 건수 
+    let totalRevenue = 0;           // 전체 매출
+    let lostRevenue = 0;            // 취소 건 금액
+    let totalDelivery = 0;          // 전체 배송 예약 건수
+    let totalStorage = 0;           // 전체 보관 예약 건수
+    let completedDelivery = 0;      // 배송 완료 건수
+    let completedStorage = 0;       // 보관 완료 건수
+    let cancelledReservations = 0;  // 예약 취소 건수
+
+    // 루프 돌려서 데이터 가공
+    for (const reservation of reservations) {
+      // 총 예약 건수 카운트
+      totalReservations++;
+
+      // 예약 코드(code)에 따른 배송/보관 카운트
+      const code = reservation.code || '';
+      
+      if (code.startsWith('D')) {
+        // 코드가 'D'로 시작하면 배송
+        totalDelivery++;
+      } else if (code.startsWith('S')) {
+        // 코드가 'S'로 시작하면 보관
+        totalStorage++;
+      }
+
+      switch (reservation.state) {
+        case RESERVATION_STATE.CANCELLED:
+          cancelledReservations++;
+          lostRevenue += Number(reservation.price);
+          break;
+
+        case RESERVATION_STATE.COMPLETED:
+          // 매출 누적
+          totalRevenue += Number(reservation.price);
+          
+          // 완료 카운트
+          if(code.startsWith('D')) {
+            completedDelivery++;
+          } else if(code.startsWith('S')) {
+            completedStorage++;
+            break;
+          }
+      }
+    }
+
+    // 결과 반환
+    return {
+      totalReservations,
+      totalDelivery,
+      totalStorage,
+      totalRevenue,
+      lostRevenue,
+      completedDelivery,
+      completedStorage,
+      cancelledReservations,
+    }
+  })
+}
+
 export default {
   getMonthlyStats,
+  getDailyStats,
 }
