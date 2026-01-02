@@ -14,10 +14,12 @@ const ROLE_PERMISSIONS = {
     { path: /^\/api\/admin\/reservations$/, types: [ADMIN] },
     { path: /^\/api\/admin\/stats$/, types: [ADMIN] },
     { path: /^\/api\/admin\/drivers$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/store-emps$/, types: [ADMIN] },
     { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] },
     { path: /^\/api\/admin\/faq\/[0-9]+$/, types: [ADMIN] },
     { path: /^\/api\/admin\/reservations\/[0-9]+$/, types: [ADMIN] },
     { path: /^\/api\/admin\/drivers\/[0-9]+$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/store-emps\/[0-9]+$/, types: [ADMIN] },
     // ===== user Page
     { path: /^\/api\/user\/reserve$/, types: [USER_TYPE.MEMBER] },
     // ===== driver Page
@@ -30,6 +32,7 @@ const ROLE_PERMISSIONS = {
     { path: /^\/api\/admin\/reservations$/, types: [ADMIN] },
     { path: /^\/api\/admin\/faq$/, types: [ADMIN] },
     { path: /^\/api\/admin\/drivers$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/store-emps$/, types: [ADMIN] },
     { path: /^\/api\/files\/notices$/, roles: [ADMIN] },
     { path: /^\/api\/files\/faq$/, roles: [ADMIN] },
     // ===== user Page
@@ -43,6 +46,7 @@ const ROLE_PERMISSIONS = {
     { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] },
     { path: /^\/api\/admin\/faq\/[0-9]+$/, types: [ADMIN] },
     { path: /^\/api\/admin\/drivers\/[0-9]+$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/store-emps\/[0-9]+$/, types: [ADMIN] },
   ],
   PATCH: [
     // ===== admin Page
@@ -55,6 +59,7 @@ const ROLE_PERMISSIONS = {
     { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] },
     { path: /^\/api\/admin\/reservations\/[0-9]+$/, types: [ADMIN] },
     { path: /^\/api\/admin\/drivers\/[0-9]+$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/store-emps\/[0-9]+$/, types: [ADMIN] },
     { path: /^\/api\/admin\/faq\/[0-9]+$/, types: [ADMIN] },
   ]
 }

@@ -1,11 +1,11 @@
 /**
- * @file app/controllers/admin.emps.controller.js
+ * @file app/controllers/admin.storeEmps.controller.js
  * @description 직원 관리 관련 컨트롤러
  * 250101 v1.0.0 김민현 init
  */
 import { SUCCESS } from "../../../configs/responseCode.config.js";
 import customResponse from "../../utils/custom.response.util.js";
-import adminEmpsService from "../../services/admins/admin.emps.service.js";
+import adminStoreEmpsService from "../../services/admins/admin.storeEmps.service.js";
 
 /**
  * 직원 목록 조회
@@ -34,7 +34,7 @@ async function index(req, res, next) {
       code,
     };
 
-    const { count, rows } = await adminEmpsService.pagination(params);
+    const { count, rows } = await adminStoreEmpsService.pagination(params);
 
     const responseData = {
       page: params.page,
@@ -58,7 +58,7 @@ async function index(req, res, next) {
  */
 async function show(req, res, next) {
   try {
-    const result = await adminEmpsService.show(req.params.id);
+    const result = await adminStoreEmpsService.show(req.params.id);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch(error) {
@@ -80,7 +80,8 @@ async function store(req, res, next) {
       email,
       phone,
       accountId,
-      passwordHash,
+      password,
+      code,
     } = req.body;
 
     const data = {
@@ -88,10 +89,14 @@ async function store(req, res, next) {
       email,
       phone,
       accountId,
-      passwordHash,
+      password,
+      code,
     };
 
-    const result = await adminEmpsService.create(data);
+    // 데이터가 잘 들어왔는지 로그로 확인 (디버깅용) TODO : 추후 삭제
+    console.log("Controller Store Data:", data);
+
+    const result = await adminStoreEmpsService.create(data);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch(error) {
@@ -112,7 +117,8 @@ async function update(req, res, next) {
       email,
       phone,
       accountId,
-      passwordHash,
+      password,
+      code,
     } = req.body;
 
     const data = {
@@ -120,10 +126,11 @@ async function update(req, res, next) {
       email,
       phone,
       accountId,
-      passwordHash,
+      password,
+      code,
     };
 
-    const result = await adminEmpsService.update(id, data);
+    const result = await adminStoreEmpsService.update(id, data);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch(error) {
@@ -143,7 +150,7 @@ async function destroy(req, res, next) {
   try {
     const { id } = req.params;
 
-    await adminEmpsService.destroy(id);
+    await adminStoreEmpsService.destroy(id);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS));
   } catch(error) {
