@@ -23,6 +23,15 @@ async function index(req, res, next) {
   }
 }
 
+async function create(req, res, next) {
+  try {
+    
+  } catch (error) {
+    return next(error)
+  }
+}
+ 
 export default {
   index,
+  create,
 }

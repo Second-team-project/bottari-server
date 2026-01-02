@@ -15,5 +15,6 @@ import reveiwController from "../../app/controllers/user/review.controller.js"
 const userReviewRouter = express.Router();
 
 userReviewRouter.get('/', indexValidator, validationHandler, reveiwController.index);
+userReviewRouter.post('/create', reveiwController.create);
 
 export default userReviewRouter;
