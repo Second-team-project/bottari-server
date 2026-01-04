@@ -48,27 +48,6 @@ const attributes = {
     allowNull: false,
     comment: '기본 가격'
   },
-  minValue: {
-    field: 'min_value',
-    type: DataTypes.BIGINT,
-    allowNull: true,
-    defaultValue: null,
-    comment: '최소 거리/시간'
-  },
-  maxValue: {
-    field: 'max_value',
-    type: DataTypes.BIGINT,
-    allowNull: true,
-    defaultValue: null,
-    comment: '최대 거리/시간'
-  },
-  addPrice: {
-    field: 'add_price',
-    type: DataTypes.BIGINT,
-    allowNull: true,
-    defaultValue: null,
-    comment: '추가 비용'
-  },
   createdAt: {
     field: 'created_at',
     type: DataTypes.DATE,

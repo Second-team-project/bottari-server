@@ -404,19 +404,34 @@ async function tossPaymentCancel(t, { reservId, paymentKey, reason }) {
 // ===== USER 예약 취소
 async function userCancel({ userId, code, reason }) {
   return await db.sequelize.transaction(async t => {
-    // 1. 예약 정보 조회 : userId 사용
-    const reservation = await reservationRepository.findByCode(t, code);
-    // 1-1. 예약 상태 체크 : 'RESERVED' 만 취소 가능
-    if(reservation.state !== 'RESERVED') {
-      throw customError('취소 불가 상태', RESERVATION_NOT_CANCELLABLE)
+
+    try {
+      
+      // 1. 예약 정보 조회 : code 사용
+      const reservation = await reservationRepository.findByCode(t, code);
+      console.log('service-reservation: ', reservation)
+      
+      // 1-1. 예약 상태 체크 : 'RESERVED' 만 취소 가능
+      if(reservation.state !== 'RESERVED') {
+        throw customError('취소 불가 상태', RESERVATION_NOT_CANCELLABLE)
+      }
+      // 1-2. 유저 체크
+      if(reservation.userId !== userId) {
+        throw customError('취소 예약 유저 불일치', RESERVATION_NOT_CANCELLABLE)
+      }
+      
+      // 3. toss 에 결제 취소 요청 + reservations 테이블 업데이트
+      await tossPaymentCancel(t, { reservId: reservation.id, paymentKey: reservation.paymentKey, reason })
+    
+    } catch (error) {
+       if (error.response) {
+        console.log('Status:', error.response.status);
+        console.log('Data:', error.response.data);
+      } else {
+        console.log('Error Message:', error.message);
+      }
+      throw customError('결제 취소 중 오류가 발생했습니다.', TOSS_PAYMENT_ERROR);
     }
-    // 1-2. 유저 체크
-    if(reservation.userId !== userId) {
-      throw customError('취소 예약 유저 불일치', RESERVATION_NOT_CANCELLABLE)
-    }
-  
-    // 3. toss 에 결제 취소 요청 + reservations 테이블 업데이트
-    await tossPaymentCancel(t, { reservId: reservation.id, paymentKey: reservation.paymentKey, reason })
 
   })
 }

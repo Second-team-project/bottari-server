@@ -1,12 +1,12 @@
 /**
- * @file app/models/FAQ.js
- * @description FAQ model
+ * @file app/models/Pricing.js
+ * @description Pricing model
  * 251216 v1.0.0 김민현 init
  */
 import dayjs from "dayjs";
 import { DataTypes } from "sequelize";
 
-const modelName = 'FAQ'; // 모델명(JS 내부에서 사용)
+const modelName = 'AdditionalPricing'; // 모델명(JS 내부에서 사용)
 
 // 컬럼 정의
 const attributes = {
@@ -16,37 +16,34 @@ const attributes = {
     primaryKey: true,
     allowNull: false,
     autoIncrement: true,
-    comment: 'FAQ PK'
+    comment: '요금 PK'
   },
-  adminId: {
-    field: 'admin_id',
-    type: DataTypes.BIGINT.UNSIGNED,
-    allowNull: false,
-    comment: '관리자 PK'
-  },
-  category: {
-    field: 'category',
-    type: DataTypes.STRING(100),
-    allowNull: false,
-    comment: '카테고리'
-  },
-  title: {
-    field: 'title',
-    type: DataTypes.STRING(100),
-    allowNull: false,
-    comment: '제목'
-  },
-  content: {
-    field: 'content',
-    type: DataTypes.STRING(2000),
-    allowNull: false,
-    comment: '내용'
-  },
-  img: {
-    field: 'img',
+  serviceType: {
+    field: 'service_type',
     type: DataTypes.STRING(255),
+    allowNull: false,
+    comment: '배송=D, 보관=S'
+  },
+  minValue: {
+    field: 'min_value',
+    type: DataTypes.BIGINT,
     allowNull: true,
-    comment: '이미지',
+    defaultValue: null,
+    comment: '최소 거리/시간'
+  },
+  maxValue: {
+    field: 'max_value',
+    type: DataTypes.BIGINT,
+    allowNull: true,
+    defaultValue: null,
+    comment: '최대 거리/시간'
+  },
+  rate: {
+    field: 'rate',
+    type: DataTypes.BIGINT,
+    allowNull: true,
+    defaultValue: null,
+    comment: '추가 비용'
   },
   createdAt: {
     field: 'created_at',
@@ -91,22 +88,19 @@ const attributes = {
 
 // 옵션 정의
 const options = {
-  tableName: 'faqs',
+  tableName: 'additional_pricing',
   timestamps: true,
   paranoid: true
 }
 
 // 모델 정의
-const FAQ = {
+const AdditionalPricing = {
   // 초기화
   init: (sequelize) => {
     const define = sequelize.define(modelName, attributes, options);
 
     return define;
-  },
-  associate: (db) => {
-    db.FAQ.belongsTo(db.Admin, { targetKey: 'id', foreignKey: 'adminId', as: 'FAQAdmin' });
   }
 }
 
-export default FAQ;
+export default AdditionalPricing;

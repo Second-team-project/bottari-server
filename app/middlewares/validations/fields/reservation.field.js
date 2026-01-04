@@ -26,6 +26,7 @@ const userId = body('userId')
   .optional({ nullable: true })
   .isInt()
   .withMessage('회원 ID는 숫자여야 합니다')
+  .toInt()
 ;
 
 const userType = body('userType')
@@ -44,6 +45,7 @@ const price = body('price')
   .bail()
   .isInt()
   .withMessage('결제 금액은 숫자여야 합니다.')
+  .toInt()
 ;
 
 const notes = body('notes')
@@ -84,6 +86,16 @@ const cancelReason = body('reason')
   .isLength({ min: 4, max: 200 })
   .withMessage('취소 사유는 최소 10자에서 최대 200자까지 입력 가능합니다.')
 ;
+
+// ===== 리뷰 작성용 (아래 'id'와 같지만 받아오는 이름이 달라서 추가 작성)
+const reservId = body('reservId')
+  .trim()
+  .notEmpty()
+  .withMessage('필수 항목입니다.')
+  .bail()
+  .isNumeric()
+  .withMessage('숫자만 허용합니다.')
+  .toInt();
 
 
 // ===== 예약 관리용
@@ -127,6 +139,8 @@ export default {
   // 취소
   cancelCode,
   cancelReason,
+  // 조회 작성용
+  reservId,
   
   // ===== 예약 관리용
   id,

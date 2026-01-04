@@ -31,6 +31,7 @@ import FAQ from './FAQ.js';
 import GuideImg from './GuideImg.js';
 import Pricing from './Pricing.js';
 import Store from './Store.js';
+import AdditionalPricing from './AdditionalPricing.js';
 
 const db = {}; // 생성할 모델들 모두 담음
 
@@ -60,14 +61,14 @@ db.sequelize = sequelize;
 
 // 모델 초기화
 // User
-db.Delivery = Delivery.init(sequelize)
-db.Booker = Booker.init(sequelize)
-db.Luggage = Luggage.init(sequelize)
-db.Push = Push.init(sequelize)
-db.Reservation = Reservation.init(sequelize)
-db.Review = Review.init(sequelize)
-db.Storage = Storage.init(sequelize)
-db.User = User.init(sequelize)
+db.Delivery = Delivery.init(sequelize);
+db.Booker = Booker.init(sequelize);
+db.Luggage = Luggage.init(sequelize);
+db.Push = Push.init(sequelize);
+db.Reservation = Reservation.init(sequelize);
+db.Review = Review.init(sequelize);
+db.Storage = Storage.init(sequelize);
+db.User = User.init(sequelize);
 // Driver
 db.Driver = Driver.init(sequelize);
 db.DriverAssignment = DriverAssignment.init(sequelize);
@@ -76,12 +77,13 @@ db.DriverEditProfileLog = DriverEditProfileLog.init(sequelize);
 db.DriverLocation = DriverLocation.init(sequelize);
 db.DriverLocationLogs = DriverLocationLogs.init(sequelize);
 // Admin
-db.Admin = Admin.init(sequelize)
-db.Notice = Notice.init(sequelize)
-db.FAQ = FAQ.init(sequelize)
-db.GuideImg = GuideImg.init(sequelize)
-db.Pricing = Pricing.init(sequelize)
-db.Store = Store.init(sequelize)
+db.Admin = Admin.init(sequelize);
+db.Notice = Notice.init(sequelize);
+db.FAQ = FAQ.init(sequelize);
+db.GuideImg = GuideImg.init(sequelize);
+db.Pricing = Pricing.init(sequelize);
+db.AdditionalPricing = AdditionalPricing.init(sequelize);
+db.Store = Store.init(sequelize);
 
 
 

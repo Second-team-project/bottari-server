@@ -25,6 +25,18 @@ const attributes = {
     allowNull: true,
     comment: '유저 번호 (users)',
   },
+  driverId: {
+    field: 'driver_id',
+    type: DataTypes.BIGINT.UNSIGNED,
+    allowNull: true,
+    comment: '기사 번호 (drivers)',
+  },
+  adminId: {
+    field: 'admin_id',
+    type: DataTypes.BIGINT.UNSIGNED,
+    allowNull: true,
+    comment: '관리자 번호 (admins)',
+  },
   endpoint: {
     field: 'endpoint',
     type: DataTypes.STRING(500),
@@ -106,6 +118,8 @@ const Push = {
   // 관계
   associate: (db) => {
     db.Push.belongsTo(db.User, { targetKey: 'id', foreignKey: 'userId', as: 'pushUser' });
+    db.Push.belongsTo(db.Driver, { targetKey: 'id', foreignKey: 'driverId', as: 'pushDriver' });
+    db.Push.belongsTo(db.Admin, { targetKey: 'id', foreignKey: 'adminId', as: 'pushAdmin' });
   }
 }
 

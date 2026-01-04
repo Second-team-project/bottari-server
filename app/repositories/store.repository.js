@@ -26,12 +26,10 @@ async function findAll(t = null) {
  * storeId로 테이블 찾기
  * @returns 
  */
-async function findByPk(t = null, storeId) {
-  return await Store.findOne(
+async function findByPk(t = null, id) {
+  return await Store.findByPk(
+    id,
     {
-      where: {
-        id: storeId
-      },
       transaction: t
     }
   )
