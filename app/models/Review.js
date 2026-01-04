@@ -104,7 +104,7 @@ const Review = {
   associate: (db) => {
     db.Review.belongsTo(db.User, { targetKey: 'id', foreignKey: 'userId', as: 'reviewUser' });
     db.Review.belongsTo(db.Reservation, { targetKey: 'id', foreignKey: 'reservId', as: 'reviewReservation' });
-    db.Review.hasOne(db.Booker, { foreignKey: 'reservId', as: 'reviewBooker' });
+    db.Review.hasOne(db.Booker, { sourceKey: 'reservId', foreignKey: 'reservId', as: 'reviewBooker' });
   }
 }
 
