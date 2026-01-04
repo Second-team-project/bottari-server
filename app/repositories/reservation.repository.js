@@ -6,7 +6,7 @@
 
 import { Op } from 'sequelize';
 import db from '../models/index.js';
-const { Reservation, User } = db;
+const { Reservation, User, Review } = db;
 
 /**
  * 예약 정보 생성
@@ -67,22 +67,37 @@ async function updateToCancel(t = null, data) {
 }
 
 /**
- * 예약 번호로 레코드 찾기
+ * reserv_id 로 레코드 찾기
 */
-async function findByPk(t = null, reservId) {
+async function findByPk(t = null, id) {
   // SELECT
-  return await Reservation.findOne(
+  return await Reservation.findByPk(
+    id,
     {
-      where: {
-        id: reservId,
-      },
       transaction: t,
     }
   )
 }
 
 /**
- * 예약코드로 테이블 찾기
+ * reserv_id's' (배열)로 예약 정보들 찾기 
+ * @param {*} t 
+ * @param {*} reservId 
+ * @returns 
+ */
+async function findByPks(t = null, reservIds) {
+  return await Booker.findAll(
+    {
+      where: {
+        reservId: reservIds
+      },
+      transaction: t
+    }
+  )
+}
+
+/**
+ * reserv_code 로 테이블 찾기
  * @returns 
  */
 async function findByCode(t = null, reservCode) {
@@ -112,6 +127,30 @@ async function findAllByUserId(t = null, userId) {
       transaction: t
     }
   )
+}
+
+/**
+ * user_id로 reservations 조회 -> 리뷰 작성 가능한(완료되었으나 리뷰가 없는) 예약 목록 한정
+ */
+async function findReviewableByUserId(t = null, userId) {
+  return await Reservation.findAll({
+    where: {
+      userId: userId,
+      state: 'COMPLETED', // 'COMPLETED' 문자열 또는 Enum 사용
+      // 핵심: 조인된 Review의 id가 없는 것만 찾기
+      '$reservIdReviews.id$': null
+    },
+    include: [
+      {
+        model: Review,
+        as: 'reservIdReviews', // 모델 관계 설정에서 정한 이름 (중요!)
+        attributes: [],        // 리뷰 데이터 자체는 필요 없으므로 빈 배열
+        required: false        // LEFT JOIN (리뷰가 없어도 예약 정보는 가져옴)
+      }
+    ],
+    order: [['createdAt', 'DESC']],
+    transaction: t
+  });
 }
 
 /**
@@ -218,8 +257,10 @@ async function destroy(t = null, id) {
 export default {
   create,
   findByPk,
+  findByPks,
   findByCode,
   findAllByUserId,
+  findReviewableByUserId,
 
   updateToReserved,
   updateToCancel,

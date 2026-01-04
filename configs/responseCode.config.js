@@ -194,7 +194,7 @@ const GUEST_AUTH_ERROR = {
   code: 'E41',
   msg: 'Not Reservation Error',
   info: '예약코드 또는 비밀번호가 올바르지 않습니다.',
-  status: 400
+  status: 401
 };
 Object.freeze(GUEST_AUTH_ERROR);
 
@@ -205,7 +205,7 @@ const MEMBER_RESERVATION_ERROR = {
   code: 'E42',
   msg: 'Member Reservation Error',
   info: '회원 예약 내역입니다. 로그인 후 이용해주세요.',
-  status: 401
+  status: 403
 }
 Object.freeze(MEMBER_RESERVATION_ERROR);
 
@@ -216,20 +216,32 @@ const RESERVATION_NOT_CANCELLABLE = {
   code: 'E43',
   msg: 'Reservation not cancellable',
   info: '취소할 수 없는 예약 상태입니다.',
-  status: 401
+  status: 409
 }
 Object.freeze(RESERVATION_NOT_CANCELLABLE);
 
 /**
- * 이미 결제된 예약건 
+ * 쥐소하려는 예약이 '예약완료'외의 상태(진행중, 진행완료)일 때 에러
  */
-const NO_ASSIGNMENT_ERROR = {
-  code: 'E60',
-  msg: 'No Assignment Error',
-  info: '기사가 배정되지 않은 예약입니다.',
-  status: 401
+const TOSS_PAYMENT_ERROR = {
+  code: 'E44',
+  msg: 'Toss Payment Reservation Cancel Error',
+  info: '결제 취소 중 오류가 발생했습니다. -tossPayments',
+  status: 502
 }
-Object.freeze(NO_ASSIGNMENT_ERROR);
+Object.freeze(TOSS_PAYMENT_ERROR);
+
+
+/**
+ * 이미 결제된 예약건 
+*/
+const ALREADY_PAID_ERROR = {
+  code: 'E45',
+  msg: 'Already Paid Error',
+  info: '이미 결제된 예약입니다.',
+  status: 409
+}
+Object.freeze(ALREADY_PAID_ERROR);
 
 
 // =======================================================================
@@ -238,15 +250,13 @@ Object.freeze(NO_ASSIGNMENT_ERROR);
 /**
  * 이미 결제된 예약건 
  */
-const ALREADY_PAID_ERROR = {
-  code: 'E44',
-  msg: 'Already Paid Error',
-  info: '이미 결제된 예약입니다.',
-  status: 401
+const NO_ASSIGNMENT_ERROR = {
+  code: 'E60',
+  msg: 'No Assignment Error',
+  info: '기사가 배정되지 않은 예약입니다.',
+  status: 404
 }
-Object.freeze(ALREADY_PAID_ERROR);
-
-
+Object.freeze(NO_ASSIGNMENT_ERROR);
 
 
 
@@ -303,6 +313,7 @@ export {
   MEMBER_RESERVATION_ERROR,
   RESERVATION_NOT_CANCELLABLE,
   ALREADY_PAID_ERROR,
+  TOSS_PAYMENT_ERROR,
 
   // 60 - 기사 관련
   NO_ASSIGNMENT_ERROR,

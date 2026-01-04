@@ -5,8 +5,10 @@
  */
 import faqUploader from "./uploaders/faq.uploader.js";
 import noticeUploader from "./uploaders/notice.uploader.js";
+import reviewUploader from "./uploaders/review.uploader.js";
 
 export default {
   noticeUploader,
   faqUploader,
+  reviewUploader,
 }

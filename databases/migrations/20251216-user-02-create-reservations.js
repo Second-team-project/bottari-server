@@ -34,7 +34,7 @@ const attributes = {
     field: 'state',
     type: DataTypes.STRING(15),
     allowNull: false,
-    comment: '예약 상태: 결제대기=PENDING_PAYMENT / 예약중=RESERVED / 진행중=IN_PROGRESS / 완료=COMPLETED / 취소=CANCELLED',
+    comment: '결제대기=PENDING_PAYMENT / 예약중=RESERVED / 픽업중=PICKING_UP / 진행중=IN_PROGRESS / 완료=COMPLETED / 취소=CANCELLED',
   },
   price: {
     field: 'price',

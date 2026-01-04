@@ -23,6 +23,18 @@ const attributes = {
     allowNull: true,
     comment: '유저 번호 (users)',
   },
+  driverId: {
+    field: 'driver_id',
+    type: DataTypes.BIGINT.UNSIGNED,
+    allowNull: true,
+    comment: '기사 번호 (drivers)',
+  },
+  adminId: {
+    field: 'admin_id',
+    type: DataTypes.BIGINT.UNSIGNED,
+    allowNull: true,
+    comment: '관리자 번호 (admins)',
+  },
   endpoint: {
     field: 'endpoint',
     type: DataTypes.STRING(500),

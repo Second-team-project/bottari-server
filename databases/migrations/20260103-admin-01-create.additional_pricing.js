@@ -1,50 +1,47 @@
 /**
- * @file databases/migrations/20251216-admin-03-create.faqs.js
- * @description faqs migration file
+ * @file databases/migrations/20251216-admin-06-create.pricing.js
+ * @description pricing migration file
  * 251216 v1.0.0 김민현 init
  */
 import { DataTypes } from 'sequelize';
 
-const tableName = 'faqs';
+const tableName = 'additional_pricing';
 
 const attributes = {
-  id: {
+ id: {
     field: 'id',
     type: DataTypes.BIGINT.UNSIGNED,
     primaryKey: true,
     allowNull: false,
     autoIncrement: true,
-    comment: '공지사항 PK'
+    comment: '요금 PK'
   },
-  adminId: {
-    field: 'admin_id',
-    type: DataTypes.BIGINT.UNSIGNED,
-    allowNull: false,
-    comment: '관리자 PK'
-  },
-  category: {
-    field: 'category',
-    type: DataTypes.STRING(100),
-    allowNull: false,
-    comment: '카테고리'
-  },
-  title: {
-    field: 'title',
-    type: DataTypes.STRING(100),
-    allowNull: false,
-    comment: '제목'
-  },
-  content: {
-    field: 'content',
-    type: DataTypes.STRING(2000),
-    allowNull: false,
-    comment: '내용'
-  },
-  img: {
-    field: 'img',
+  serviceType: {
+    field: 'service_type',
     type: DataTypes.STRING(255),
+    allowNull: false,
+    comment: '배송=D, 보관=S'
+  },
+  minValue: {
+    field: 'min_value',
+    type: DataTypes.BIGINT,
     allowNull: true,
-    comment: '이미지',
+    defaultValue: null,
+    comment: '최소 적용 거리/일수'
+  },
+  maxValue: {
+    field: 'max_value',
+    type: DataTypes.BIGINT,
+    allowNull: true,
+    defaultValue: null,
+    comment: '최대 적용 거리/일수'
+  },
+  rate: {
+    field: 'rate',
+    type: DataTypes.BIGINT,
+    allowNull: true,
+    defaultValue: null,
+    comment: '추가되는 비용의 비율(%)'
   },
   createdAt: {
     field: 'created_at',

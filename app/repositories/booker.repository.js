@@ -27,6 +27,12 @@ async function create(t = null, data) {
   );
 }
 
+/**
+ * 예약 번호로 예약자 찾기
+ * @param {*} t 
+ * @param {*} reservId 
+ * @returns 
+ */
 async function findByReservId(t = null, reservId) {
   return await Booker.findOne(
     {
@@ -51,6 +57,23 @@ async function updateByReservId(t = null, reservId, updateData) {
 }
 
 /**
+ * 예약 번호들(배열)로 예약자 찾기 
+ * @param {*} t 
+ * @param {*} reservId 
+ * @returns 
+ */
+async function findByReservIds(t = null, reservIds) {
+  return await Booker.findAll(
+    {
+      where: {
+        reservId: reservIds
+      },
+      transaction: t
+    }
+  )
+}
+
+/**
  * 특정 예약의 비회원 정보 삭제
  */
 async function destroyByReservId(t, reservId) {
@@ -65,6 +88,7 @@ async function destroyByReservId(t, reservId) {
 export default {
   create,
   findByReservId,
+  findByReservIds,
   updateByReservId,
   destroyByReservId,
 }
