@@ -10,7 +10,6 @@ import db from './app/models/index.js';
 import testRouter from './routes/test.route.js'
 
 // === common
-import pricingRouter from './routes/pricing.router.js';
 import storeRouter from './routes/store.router.js';
 import filesRouter from './routes/files.router.js';
 import guideImgRouter from './routes/guide.router.js';
@@ -35,9 +34,11 @@ import adminFAQRouter from './routes/admin/admin.FAQ.router.js';
 import adminStatsRouter from './routes/admin/admin.stats.router.js';
 import adminDriversRouter from './routes/admin/admin.drivers.router.js';
 import adminStoreEmpsRouter from './routes/admin/admin.storeEmps.router.js';
+import adminPricingRouter from './routes/admin/admin.pricing.router.js';
 
 // ===== handlers import
 import errorHandler from './app/errors/error.handler.js';
+import subscriptionRouter from './routes/subscription.router.js';
 
 const app = express();
 
@@ -81,14 +82,14 @@ app.use(process.env.ACCESS_FILE_GUIDE_IMAGE_PATH, express.static(path.resolve(pr
 app.use('/api/test', testRouter);
 
 // ===== 공용
-// 요금
-app.use('/api/common/pricing', pricingRouter);
 // 보관소
 app.use('/api/common/store', storeRouter);
 // 이미지 업로더
 app.use('/api/common/files', filesRouter);
 // 가이드 이미지
 app.use('/api/common/guide-img', guideImgRouter)
+// 푸시 알림 구독
+app.use('/api/common/subscriptions', subscriptionRouter);
 
 // ===== user용
 // 소셜 로그인
@@ -127,6 +128,8 @@ app.use('/api/admin/stats', adminStatsRouter);
 app.use('/api/admin/drivers', adminDriversRouter);
 // 직원 관리
 app.use('/api/admin/store-emps', adminStoreEmpsRouter);
+// 요금
+app.use('/api/admin/pricing', adminPricingRouter);
 
 // ------------------------------------------
 // ||     404 처리
