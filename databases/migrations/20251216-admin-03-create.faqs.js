@@ -22,6 +22,12 @@ const attributes = {
     allowNull: false,
     comment: '관리자 PK'
   },
+  category: {
+    field: 'category',
+    type: DataTypes.STRING(100),
+    allowNull: false,
+    comment: '카테고리'
+  },
   title: {
     field: 'title',
     type: DataTypes.STRING(100),
