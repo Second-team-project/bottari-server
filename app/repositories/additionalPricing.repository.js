@@ -5,13 +5,13 @@
  */
 
 import db from '../models/index.js';
-const { Pricing } = db;
+const { AdditionalPricing } = db;
 
 /**
  * 기본 요금 전부 가져오기
  */
 async function findAll(t = null) {
-  return await Pricing.findAll(
+  return await AdditionalPricing.findAll(
     {
       transaction: t
     },

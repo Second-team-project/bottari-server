@@ -5,7 +5,7 @@
  */
 import { DataTypes } from 'sequelize';
 
-const tableName = 'pricing';
+const tableName = 'additional_pricing';
 
 const attributes = {
  id: {
@@ -16,35 +16,32 @@ const attributes = {
     autoIncrement: true,
     comment: '요금 PK'
   },
-  itemType: {
-    field: 'item_type',
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    comment: '캐리어=CARRIER / 가방=BAG / 상자=BOX / 골프가방=GOLF'
-  },
-  itemSize: {
-    field: 'item_size',
-    type: DataTypes.STRING(255),
-    allowNull: true,
-    comment: 'CARRIER:21,24,32,OVER / BAG,BOX: S,M,L,XL / GOLF=null'
-  },
-  itemWeight: {
-    field: 'item_weight',
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    comment: '~10kg, ~20kg, ~30kg, OVER'
-  },
   serviceType: {
     field: 'service_type',
     type: DataTypes.STRING(255),
     allowNull: false,
     comment: '배송=D, 보관=S'
   },
-  basePrice: {
-    field: 'base_price',
+  minValue: {
+    field: 'min_value',
     type: DataTypes.BIGINT,
-    allowNull: false,
-    comment: '기본 가격'
+    allowNull: true,
+    defaultValue: null,
+    comment: '최소 적용 거리/일수'
+  },
+  maxValue: {
+    field: 'max_value',
+    type: DataTypes.BIGINT,
+    allowNull: true,
+    defaultValue: null,
+    comment: '최대 적용 거리/일수'
+  },
+  rate: {
+    field: 'rate',
+    type: DataTypes.BIGINT,
+    allowNull: true,
+    defaultValue: null,
+    comment: '추가되는 비용의 비율(%)'
   },
   createdAt: {
     field: 'created_at',
