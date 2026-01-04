@@ -22,6 +22,7 @@ const ROLE_PERMISSIONS = {
     { path: /^\/api\/admin\/store-emps\/[0-9]+$/, types: [ADMIN] },
     // ===== user Page
     { path: /^\/api\/user\/reserve$/, types: [USER_TYPE.MEMBER] },
+    { path: /^\/api\/user\/review\/reviewable$/, types: [USER_TYPE.MEMBER] },
     // ===== driver Page
     { path: /^\/api\/driver\/attendance\/status$/, types: [DRIVER] },
   ],
@@ -38,8 +39,11 @@ const ROLE_PERMISSIONS = {
     // ===== user Page
     { path: /^\/api\/user\/auth\/logout$/, types: [USER_TYPE.MEMBER] },
     { path: /^\/api\/user\/reserve\/cancel\/[DS][MG]\d{6}[2-9A-Z]{5}$/, types: [USER_TYPE.MEMBER] },
+    { path: /^\/api\/user\/review$/, types: [USER_TYPE.MEMBER] },
     // ===== driver Page
     { path: /^\/api\/driver\/attendance\/toggle$/, types: [DRIVER] },
+    // ===== common Page - 알림 구독
+    { path: /^\/api\/common\/subscriptions$/, types: [USER_TYPE.MEMBER, USER_TYPE.DRIVER, USER_TYPE.ADMIN] },
   ],
   PUT: [
     // ===== admin page
@@ -61,6 +65,8 @@ const ROLE_PERMISSIONS = {
     { path: /^\/api\/admin\/drivers\/[0-9]+$/, types: [ADMIN] },
     { path: /^\/api\/admin\/store-emps\/[0-9]+$/, types: [ADMIN] },
     { path: /^\/api\/admin\/faq\/[0-9]+$/, types: [ADMIN] },
+    // ===== user Page
+    { path: /^\/api\/user\/review\/[0-9]$/, types: [USER_TYPE.MEMBER] },
   ]
 }
 Object.freeze(ROLE_PERMISSIONS);
