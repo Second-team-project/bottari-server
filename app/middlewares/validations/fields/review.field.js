@@ -4,7 +4,9 @@
  * 251231 v1.0.0 N init
  */
 
-import { param, query } from "express-validator";
+import { body, param, query } from "express-validator";
+
+// ===== 조회용
 
 const page = query('page')
   .optional()
@@ -15,16 +17,41 @@ const page = query('page')
   .toInt()
 ;
   
-  const id = param('id')
+const id = param('id')
   .trim()
   .notEmpty()
-  .withMessage('조회 id는 숫자 필수입니다')
+  .withMessage('조회 id는 필수입니다')
   .isNumeric()
   .withMessage('조회 id는 숫자만 허용합니다.')
   .toInt()
 ;
 
+// ===== 작성용
+
+const title = body('title')
+  .trim()
+  .notEmpty()
+  .withMessage('제목은 필수입니다')
+  .bail()
+  .isString()
+  .isLength({ min: 2, max: 100 })
+  .withMessage('제목은 2~100자 이내여야 합니다')
+;
+
+const content = body('content')
+  .trim()
+  .notEmpty()
+  .withMessage('내용은 필수입니다')
+  .bail()
+  .isString()
+  .isLength({ min: 2, max: 2000 })
+  .withMessage('내용은 2~2000자 이내여야 합니다')
+;
+
 export default {
   page,
   id,
+  // 작성용
+  title,
+  content,
 }
