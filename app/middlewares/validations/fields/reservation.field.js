@@ -125,6 +125,19 @@ const state = body('state')
   .withMessage('유효하지 않은 예약 상태입니다.')
 ;
 
+const resId = body('resId')
+  .exists()
+  .withMessage('예약 ID가 필요합니다.')
+  .isInt()
+  .withMessage('올바른 예약 ID 형식이 아닙니다.')
+;
+
+const currentState = body('currentState')
+  .exists()
+  .withMessage('현재 상태 값이 필요합니다.')
+  .isIn(['PICKING_UP', 'IN_PROGRESS'])
+  .withMessage('변경 가능한 상태가 아니거나 완료된 예약 건입니다.')
+;
 
 export default {
   // ===== USER PAGE
@@ -146,4 +159,6 @@ export default {
   id,
   page,
   state,
+  resId,
+  currentState,
 }

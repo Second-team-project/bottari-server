@@ -58,6 +58,9 @@ async function updateProfile(driverId, body) {
     const accessToken = jwtUtil.generateAccessToken(data);
     const refreshToken = jwtUtil.generateRefreshToken(data);
 
+    driver.refreshToken = refreshToken;
+    await driverRepository.save(t, driver);
+
     // 결과 반환
     return {
       driver,
