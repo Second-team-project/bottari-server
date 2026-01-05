@@ -21,18 +21,17 @@ async function findByDriverId(t = null, driverId) {
  * 위치 정보 업데이트 또는 생성 (Upsert)
  * @param {object} params - { driverId, lat, lng }
  */
-async function upsertLocation(t = null, params) {
-  const { driverId, lat, lng, reservId } = params;
+async function upsert(t = null, params) {
+  const { driverId, lat, lng } = params;
   // upsert: 없으면 insert, 있으면 update
   return await DriverLocation.upsert({
     driverId,
     lat,
     lng,
-    reservId // 선택 사항
   }, { transaction: t });
 }
 
 export default {
   findByDriverId,
-  upsertLocation,
+  upsert,
 }  
