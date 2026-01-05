@@ -142,6 +142,7 @@ const Reservation = {
     db.Reservation.hasMany(db.Luggage, { sourceKey: 'id', foreignKey: 'reservId', as: 'reservIdLuggages' });
     db.Reservation.hasMany(db.DriverAssignment, { sourceKey: 'id', foreignKey: 'reservId', as: 'reservIdDriverAssignments' });
     db.Reservation.belongsTo(db.User, { targetKey: 'id', foreignKey: 'userId', as: 'reservationUser' });
+    db.Reservation.belongsToMany(db.Driver, { through: db.DriverAssignment, foreignKey: 'reservId', otherKey: 'driverId', as: 'reservationsDrivers'});
   }
 }
 
