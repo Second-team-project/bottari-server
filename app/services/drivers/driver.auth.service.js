@@ -73,8 +73,12 @@ async function driverReissue(token) {
     }
 
     // JWT 생성
-    const accessToken = jwtUtil.generateAccessToken(driver);
-    const refreshToken = jwtUtil.generateRefreshToken(driver);
+    const data = {
+      id: driver.id,
+      type: 'DRIVER'
+    }
+    const accessToken = jwtUtil.generateAccessToken(data);
+    const refreshToken = jwtUtil.generateRefreshToken(data);
 
     // 리프래시 토큰 DB에 저장
     driver.refreshToken = refreshToken;

@@ -26,6 +26,7 @@ const ROLE_PERMISSIONS = {
     { path: /^\/api\/user\/review\/reviewable$/, types: [USER_TYPE.MEMBER] },
     // ===== driver Page
     { path: /^\/api\/driver\/attendance\/status$/, types: [DRIVER] },
+    { path: /^\/api\/driver\/deliveries\/assigned$/, types: [DRIVER] },
   ],
   POST: [
     // ===== admin Page
