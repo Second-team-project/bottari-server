@@ -5,7 +5,6 @@
  */
 import { Op } from 'sequelize';
 import db from '../models/index.js';
-import { RESERVATION_STATE } from '../../configs/reservation.state.enum.js';
 const { sequelize, Reservation } = db;
 
 /**
@@ -14,9 +13,6 @@ const { sequelize, Reservation } = db;
 async function findByState(t, startDate, endDate) {
 return await Reservation.findAll({
     where: {
-      state: {
-        [Op.ne]: RESERVATION_STATE.CANCELLED // state가 'CANCELLED'와 같지 않은(ne)것만 조회
-      },
       createdAt: {
         [Op.between]: [startDate, endDate]
       }
