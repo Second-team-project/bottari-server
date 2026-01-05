@@ -7,9 +7,13 @@
 import express from 'express';
 import authMiddleware from '../../app/middlewares/auth/auth.middleware.js';
 import driverDeliveriesController from '../../app/controllers/drivers/driver.deliveries.controller.js';
+import driverStatusChangeValidator from '../../app/middlewares/validations/validators/reserve/driver.statusChange.validator.js';
+import validationHandler from '../../app/middlewares/validations/validation.handler.js';
 
 const driverDeliveriesRouter = express.Router();
 
 driverDeliveriesRouter.get('/assigned', authMiddleware, driverDeliveriesController.getAssignedDeliveries);
+
+driverDeliveriesRouter.patch('/state', authMiddleware, driverStatusChangeValidator, validationHandler, driverDeliveriesController.updateDeliveryState);
 
 export default driverDeliveriesRouter;
