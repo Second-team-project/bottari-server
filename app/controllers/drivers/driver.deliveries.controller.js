@@ -23,6 +23,23 @@ async function getAssignedDeliveries(req, res, next) {
   }
 }
 
+/**
+ * 배송 상태 변경 컨트롤러
+ */
+async function updateDeliveryState(req, res, next) {
+  try {
+    const { resId, currentState } = req.body;
+    
+    // 서비스 호출하여 상태 변경 로직 수행
+    const result = await driverDeliveriesService.updateDeliveryState(resId, currentState);
+    
+    return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
+  } catch (error) {
+    next(error);
+  }
+}
+
 export default { 
-  getAssignedDeliveries 
+  getAssignedDeliveries,
+  updateDeliveryState
 };
