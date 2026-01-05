@@ -12,7 +12,8 @@ const ROLE_PERMISSIONS = {
   GET: [
     // ===== admin Page
     { path: /^\/api\/admin\/reservations$/, types: [ADMIN] },
-    { path: /^\/api\/admin\/stats$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/stats\/monthly$/, types: [ADMIN] },
+    { path: /^\/api\/admin\/stats\/daily$/, types: [ADMIN] },
     { path: /^\/api\/admin\/drivers$/, types: [ADMIN] },
     { path: /^\/api\/admin\/store-emps$/, types: [ADMIN] },
     { path: /^\/api\/admin\/notices\/[0-9]+$/, types: [ADMIN] },

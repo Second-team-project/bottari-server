@@ -34,6 +34,28 @@ async function getMonthlyStats(req, res, next) {
   }
 };
 
+/**
+ * 하루 매출 및 예약 건수 조회
+ * @param {import("express").Request} req - Request 객체
+ * @param {import("express").Response} res - Response 객체
+ * @param {import("express").NextFunction} next - NextFunction 객체 
+ * @returns
+ */
+async function getDailyStats(req, res, next) {
+  try {
+    const dailyStats = await adminStatsService.getDailyStats();
+
+    const responseData = {
+      stats: dailyStats,
+    };
+
+    return res.status(SUCCESS.status).send(customResponse(SUCCESS, responseData));
+  } catch(error) {
+    return next(error);
+  }
+};
+
 export default {
   getMonthlyStats,
+  getDailyStats,
 }
