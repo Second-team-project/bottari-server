@@ -69,8 +69,8 @@ export default {
       {
         id: 6,
         type: "PRICE",
-        img: fakerKO.image.url(),
-        img_eng: fakerKO.image.url(),
+        img: '/files/guide/bottari-price.PNG',
+        img_eng: '/files/guide/bottari-price.PNG',
         active: "T",
         created_at: new Date(),
         updated_at: new Date(),
