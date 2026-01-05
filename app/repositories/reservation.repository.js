@@ -6,7 +6,7 @@
 
 import { Op } from 'sequelize';
 import db from '../models/index.js';
-const { Reservation, User, Review } = db;
+const { Reservation, User, Review, Luggage, Booker, Driver, Delivery, Storage, Store } = db;
 
 /**
  * 예약 정보 생성
@@ -206,7 +206,7 @@ async function pagination(t = null, { limit, offset, filters }) {
 };
 
 /**
- * 예약 ID로 조회 + users 테이블 JOIN
+ * 예약 ID로 조회 + 여러 테이블 Join
  * @param {import("sequelize").Transaction|null} t 
  * @param {import("../../app/models/Reservation.js").Id} id 
  */
@@ -220,6 +220,43 @@ async function findByPkJoinUser(t = null, id) {
           as: 'reservationUser',
           attributes: ['userName', 'email', 'phone'], // 필요한 유저 정보
           required: false,
+        },
+        {
+          model: Booker,
+          as: 'reservIdBookers',
+          attributes: ['userName', 'email', 'phone'],
+          required: false,
+        },
+        {
+          model: Luggage,
+          as: 'reservIdLuggages',
+          required: false,
+        },
+        {
+          model: Driver,
+          as: 'reservationDriver',
+          attributes: ['driverName', 'phone', 'carNumber'],
+          required: false,
+        },
+        {
+          model: Delivery,
+          as: 'reservIdDeliveries',
+          required: false,
+          attributes: ['startedAddr', 'endedAddr', 'startedAt']
+        },
+        {
+          model: Storage,
+          as: 'reservIdStorages',
+          required: false,
+          attributes: ['storeId', 'startedAt', 'endedAt'],
+          include: [
+            {
+              model: Store,
+              as: 'storageStore',
+              attributes: ['storeName', 'address'], 
+              required: false,
+            }
+          ]
         },
       ],
       transaction: t,

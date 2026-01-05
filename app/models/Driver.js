@@ -139,6 +139,7 @@ const Driver = {
     db.Driver.hasMany(db.DriverEditProfileLog, { sourceKey: 'id', foreignKey: 'driverId', as: 'driverIdDriverEditProfileLogs' });
     db.Driver.hasMany(db.DriverLocation, { sourceKey: 'id', foreignKey: 'driverId', as: 'driverIdDriverLocation' });
     db.Driver.hasMany(db.DriverLocationLogs, { sourceKey: 'id', foreignKey: 'driverId', as: 'driverIdDriverLocationLogs' });
+    db.Driver.belongsToMany(db.Reservation, { through: db.DriverAssignment, foreignKey: 'driverId', otherKey: 'reservId', as: 'driversReservations'});
   }
 }
 
