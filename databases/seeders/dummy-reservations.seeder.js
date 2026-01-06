@@ -22,7 +22,7 @@ export default {
         id: 1,
         user_id: 1,
         code: 'DM251227A1B2C',
-        state: 'PICKING_UP',
+        state: 'RESERVED',
         price: 15000,
         payment_key: 'payment_key_1',
         payment_method: 'CARD',
