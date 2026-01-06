@@ -23,9 +23,9 @@ async function index() {
  * @param {*} param 
  * @returns 
  */
-async function store({ itemType, itemSize, itemWeight, basePrice }) {
+async function store({ serviceType, itemType, itemSize, itemWeight, basePrice }) {
   return await db.sequelize.transaction(async t => {
-    const result = await pricingRepository.create(t, { itemType, itemSize, itemWeight, basePrice });
+    const result = await pricingRepository.create(t, { serviceType, itemType, itemSize, itemWeight, basePrice });
   
     return result;
   })
@@ -36,9 +36,9 @@ async function store({ itemType, itemSize, itemWeight, basePrice }) {
  * @param {*} param0 
  * @returns 
  */
-async function update({ id, itemType, itemSize, itemWeight, basePrice }) {
+async function update({ id, serviceType, itemType, itemSize, itemWeight, basePrice }) {
   return await db.sequelize.transaction(async t => {
-    const result = await pricingRepository.update(t, { id, itemType, itemSize, itemWeight, basePrice });
+    const result = await pricingRepository.update(t, { id, serviceType, itemType, itemSize, itemWeight, basePrice });
   
     return result;
   })
