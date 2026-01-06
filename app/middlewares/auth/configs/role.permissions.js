@@ -44,6 +44,7 @@ const ROLE_PERMISSIONS = {
     { path: /^\/api\/user\/review$/, types: [USER_TYPE.MEMBER] },
     // ===== driver Page
     { path: /^\/api\/driver\/attendance\/toggle$/, types: [DRIVER] },
+    { path: /^\/api\/driver\/location$/, types: [DRIVER] },
     // ===== common Page - 알림 구독
     { path: /^\/api\/common\/subscriptions$/, types: [USER_TYPE.MEMBER, USER_TYPE.DRIVER, USER_TYPE.ADMIN] },
   ],

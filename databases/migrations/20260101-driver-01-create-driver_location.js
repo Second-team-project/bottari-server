@@ -20,7 +20,8 @@ const attributes = {
   driverId: {
     field: 'driver_id',
     type: DataTypes.BIGINT.UNSIGNED,
-    allowNull: true,
+    allowNull: false,
+    unique: true,
     comment: '기사 번호 (drivers)',
   },
   lat: {

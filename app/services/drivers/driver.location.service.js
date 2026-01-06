@@ -6,8 +6,12 @@
 
 import { NO_ASSIGNMENT_ERROR } from "../../../configs/responseCode.config.js";
 import customError from "../../errors/custom.error.js";
+
+import db from "../../models/index.js";
+
 import driverAssignmetRepository from "../../repositories/driverAssignmet.repository.js";
 import driverLocationRepository from "../../repositories/driverLocation.repository.js";
+import driverLocationLogRepository from "../../repositories/driverLocationLog.repository.js";
 
 /**
  * 예약 조회 페이지(예약 코드)에서 기사 위치 조회
@@ -37,6 +41,15 @@ async function show(reservId) {
   }
 }
 
+async function updateLocation({ driverId, lat, lng }) {
+  return await db.sequelize.transaction(async t => {
+    await driverLocationRepository.upsert(t, { driverId, lat, lng });
+
+    await driverLocationLogRepository.create(t, { driverId, lat, lng });
+  })
+}
+
 export default {
   show,
+  updateLocation,
 }

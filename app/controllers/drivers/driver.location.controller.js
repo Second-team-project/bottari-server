@@ -20,6 +20,22 @@ async function show(req, res, next) {
   }
 }
 
+async function updateLocation(req, res, next) {
+  try {
+    const driverId = req.user.id;
+    const { lat, lng } = req.body;
+    // console.log('controller-id, lat, lng: ', id, lat, lng);
+
+    const result = await driverLocationService.updateLocation({ driverId, lat, lng });
+
+    return res.status(SUCCESS.status).send(customResponse(SUCCESS, result))
+    
+  } catch (error) {
+    return next(error)
+  }
+}
+
 export default {
   show,
+  updateLocation,
 }
