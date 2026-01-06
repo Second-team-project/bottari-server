@@ -7,14 +7,14 @@ import driverRepository from "../../repositories/driver.repository.js";
 import db from "../../models/index.js"
 import bcrypt from 'bcrypt';
 import { Op } from "sequelize";
-const { Driver } = db;
+const { Driver, Delivery } = db;
 
 /**
  * 기사 목록 페이지네이션(검색 추가)
  * @returns
  */
 async function pagination(params) {
-  const { page, driverName, carNumber, email, accountId, phone, notes } = params;
+  const { page, driverName, carNumber, email, accountId, phone } = params;
   // 검색 조건 생성
   const where = {};
 
@@ -22,6 +22,7 @@ async function pagination(params) {
   if (carNumber) where.carNumber = { [Op.like]: `%${carNumber}%` };
   if (accountId) where.accountId = { [Op.like]: `%${accountId}%` };
   if (phone) where.phone = { [Op.like]: `%${phone}%` };
+  if (email) where.email = { [Op.like]: `%${email}%` };
 
   const limit = 20;
   const offset = limit * (page - 1);
@@ -33,7 +34,7 @@ async function pagination(params) {
  * 기사 상세 조회
  */
 async function show(id) {
-  return await driverRepository.findByPk(null, id);
+  return await driverRepository.findByPkWithReserv(null, id);
 }
 
 /**
