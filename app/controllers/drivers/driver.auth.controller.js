@@ -64,10 +64,30 @@ async function driverReissue(req, res, next) {
   }
 }
 
+async function driverlogout(req, res, next) {
+  try {
+    // 요청 객체에서 유저 ID 추출
+    const driverId = req.user.id;
+
+    // DB에서 해당 유저의 Refresh Token 무효화
+    await driverAuthService.invalidateRefreshToken(driverId);
+
+    // 브라우저 쿠키 삭제 (cookie.util.js 활용)
+    cookieUtil.clearCookieRefreshToken(res);
+
+    return res.status(SUCCESS.status).json(customResponse(
+      SUCCESS, { msg: "로그아웃 되었습니다." }
+    ));
+  } catch (error) {
+    next(error);
+  }
+};
+
 // --------------
 // export
 // --------------
 export default {
   driverLogin,
   driverReissue,
+  driverlogout
 };
