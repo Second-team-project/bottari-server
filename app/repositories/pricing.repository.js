@@ -24,9 +24,10 @@ async function findAll(t = null) {
  * @param {*} param1 
  * @returns 
  */
-async function create(t = null, { itemType, itemSize, itemWeight, basePrice }) {
+async function create(t = null, { serviceType, itemType, itemSize, itemWeight, basePrice }) {
   return await Pricing.create(
     { 
+      serviceType,
       itemType, 
       itemSize, 
       itemWeight, 
@@ -44,9 +45,10 @@ async function create(t = null, { itemType, itemSize, itemWeight, basePrice }) {
  * @param {*} param1 
  * @returns 
  */
-async function update(t = null, { id, itemType, itemSize, itemWeight, basePrice }) {
+async function update(t = null, { id, serviceType, itemType, itemSize, itemWeight, basePrice }) {
   return await Pricing.update(
     {
+      serviceType,
       itemType, 
       itemSize, 
       itemWeight, 

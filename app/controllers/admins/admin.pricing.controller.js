@@ -37,6 +37,7 @@ async function index(req, res, next) {
 async function store(req, res, next) {
   try {
     const data = req.body;
+    console.log('controller-data: ', data);
 
     const result = await pricingService.store({
       serviceType: data.serviceType,
