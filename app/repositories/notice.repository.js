@@ -3,8 +3,9 @@
  * @description Notice Repository
  * 251222 v1.0.0 김민현 init
  */
+
 import db from '../models/index.js';
-const { sequelize, Notice } = db;
+const { Notice, Admin } = db;
 
 /**
  * 공지사항 게시글 페이지네이션
@@ -14,15 +15,22 @@ const { sequelize, Notice } = db;
  */
 async function pagination(t = null, data) {
   return await Notice.findAndCountAll({
-      order: [
-        ['createdAt', 'DESC'],
-        ['updatedAt', 'DESC'],
-        ['id', 'ASC'],
-      ],
-      limit: data.limit,
-      offset: data.offset,
-      transaction: t,
-    });
+    include: [
+      {
+        model: Admin,
+        as: 'noticeAdmin',
+        attributes: ['adminName'],
+      }
+    ],
+    order: [
+      ['createdAt', 'DESC'],
+      ['updatedAt', 'DESC'],
+      ['id', 'ASC'],
+    ],
+    limit: data.limit,
+    offset: data.offset,
+    transaction: t,
+  });
 }
 
 /**
