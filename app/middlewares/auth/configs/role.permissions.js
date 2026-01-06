@@ -45,6 +45,7 @@ const ROLE_PERMISSIONS = {
     // ===== driver Page
     { path: /^\/api\/driver\/attendance\/toggle$/, types: [DRIVER] },
     { path: /^\/api\/driver\/location$/, types: [DRIVER] },
+    { path: /^\/api\/driver\/auth\/logout$/, types: [DRIVER] },
     // ===== common Page - 알림 구독
     { path: /^\/api\/common\/subscriptions$/, types: [USER_TYPE.MEMBER, USER_TYPE.DRIVER, USER_TYPE.ADMIN] },
   ],
@@ -60,6 +61,7 @@ const ROLE_PERMISSIONS = {
     { path: /^\/api\/admin\/reservations\/[0-9]+$/, types: [ADMIN] },
     // ===== driver Page
     { path: /^\/api\/driver\/profile\/edit$/, types: [DRIVER] },
+    { path: /^\/api\/driver\/deliveries\/state$/, types: [DRIVER] },
   ],
   DELETE: [
     // ===== admin Page

@@ -10,6 +10,7 @@ import jwtUtil from '../../utils/jwt/jwt.util.js';
 import db from '../../models/index.js'
 import driverRepository from '../../repositories/driver.repository.js';
 import customError from '../../errors/custom.error.js';
+import Driver from '../../models/Driver.js';
 
 /**
  * 로그인
@@ -92,7 +93,12 @@ async function driverReissue(token) {
   });
 }
 
+const invalidateRefreshToken = async (driverId) => {
+  return await driverRepository.driverLogout(null, driverId);
+};
+
 export default {
   driverLogin,
   driverReissue,
+  invalidateRefreshToken
 }

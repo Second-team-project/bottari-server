@@ -45,6 +45,23 @@ async function findByPk(t = null, id) {
 }
 
 /**
+ * 기사 로그아웃
+ */
+async function driverLogout(t= null, id) {
+  return await Driver.update(
+    {
+      refreshToken: null,
+    },
+    {
+      where: {
+        id: id
+      },
+      transaction: t
+    }
+  );
+}
+
+/**
  * 휴대폰 번호로 기사 검색(중복 체크용)
  */
 async function findByPhone(t = null, phone) {
@@ -99,6 +116,7 @@ export default {
   findByAccountId,
   save,
   findByPk,
+  driverLogout,
   findByPhone,
   pagination,
   create,
