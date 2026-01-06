@@ -135,7 +135,7 @@ const resId = body('resId')
 const currentState = body('currentState')
   .exists()
   .withMessage('현재 상태 값이 필요합니다.')
-  .isIn(['PICKING_UP', 'IN_PROGRESS'])
+  .isIn(['RESERVED', 'PICKING_UP', 'IN_PROGRESS'])
   .withMessage('변경 가능한 상태가 아니거나 완료된 예약 건입니다.')
 ;
 

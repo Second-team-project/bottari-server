@@ -99,6 +99,7 @@ async function getAssignedDeliveries(driverId) {
  */
 async function updateDeliveryState(reservationId, currentState) {
   const stateFlow = {
+    'RESERVED' : 'PICKING_UP',
     'PICKING_UP': 'IN_PROGRESS',
     'IN_PROGRESS': 'COMPLETED'
   };
