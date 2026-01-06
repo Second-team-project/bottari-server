@@ -36,6 +36,7 @@ import adminStatsRouter from './routes/admin/admin.stats.router.js';
 import adminDriversRouter from './routes/admin/admin.drivers.router.js';
 import adminStoreEmpsRouter from './routes/admin/admin.storeEmps.router.js';
 import adminPricingRouter from './routes/admin/admin.pricing.router.js';
+import adminAdditionalPricingRouter from './routes/admin/admin.additionalPricing.router.js';
 
 // ===== handlers import
 import errorHandler from './app/errors/error.handler.js';
@@ -133,6 +134,7 @@ app.use('/api/admin/drivers', adminDriversRouter);
 app.use('/api/admin/store-emps', adminStoreEmpsRouter);
 // 요금
 app.use('/api/admin/pricing', adminPricingRouter);
+app.use('/api/admin/pricing/additional', adminAdditionalPricingRouter);
 
 // ------------------------------------------
 // ||     404 처리

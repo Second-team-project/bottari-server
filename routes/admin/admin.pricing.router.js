@@ -12,6 +12,8 @@ import pricingController from '../../app/controllers/admins/admin.pricing.contro
 const adminPricingRouter = express.Router();
 
 adminPricingRouter.get('/', pricingController.index);
-adminPricingRouter.get('/additional', pricingController.indexAdditional);
+adminPricingRouter.post('/', pricingController.store);
+adminPricingRouter.put('/:id', pricingController.update);
+adminPricingRouter.delete('/:id', pricingController.destroy);
 
 export default adminPricingRouter;
