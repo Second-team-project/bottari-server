@@ -6,14 +6,16 @@
 
 import express from 'express';
 // ===== validators
+import { storeValidator, updateValidator, destroyValidator } from '../../app/middlewares/validations/validators/pricing/admin.pricing.validator.js';
+import validationHandler from '../../app/middlewares/validations/validation.handler.js';
 // ===== controllers
 import pricingController from '../../app/controllers/admins/admin.pricing.controller.js';
 
 const adminPricingRouter = express.Router();
 
 adminPricingRouter.get('/', pricingController.index);
-adminPricingRouter.post('/', pricingController.store);
-adminPricingRouter.put('/:id', pricingController.update);
-adminPricingRouter.delete('/:id', pricingController.destroy);
+adminPricingRouter.post('/', storeValidator, validationHandler, pricingController.store);
+adminPricingRouter.put('/:id', updateValidator, validationHandler, pricingController.update);
+adminPricingRouter.delete('/:id', destroyValidator, validationHandler, pricingController.destroy);
 
 export default adminPricingRouter;
