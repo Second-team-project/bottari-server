@@ -99,8 +99,12 @@ async function getDailyStats() {
 
     // 루프 돌려서 데이터 가공
     for (const reservation of reservations) {
+
       // 총 예약 건수 카운트
       totalReservations++;
+
+      // 요금이 없으면 0으로 표시
+      const price = reservation.price ? Number(reservation.price) : 0;
 
       // 예약 코드(code)에 따른 배송/보관 카운트
       const code = reservation.code || '';
@@ -116,12 +120,12 @@ async function getDailyStats() {
       switch (reservation.state) {
         case RESERVATION_STATE.CANCELLED:
           cancelledReservations++;
-          lostRevenue += Number(reservation.price);
+          lostRevenue += price;
           break;
 
         case RESERVATION_STATE.COMPLETED:
           // 매출 누적
-          totalRevenue += Number(reservation.price);
+          totalRevenue += price;
           
           // 완료 카운트
           if(code.startsWith('D')) {

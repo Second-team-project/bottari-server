@@ -36,6 +36,7 @@ import adminStatsRouter from './routes/admin/admin.stats.router.js';
 import adminDriversRouter from './routes/admin/admin.drivers.router.js';
 import adminStoreEmpsRouter from './routes/admin/admin.storeEmps.router.js';
 import adminPricingRouter from './routes/admin/admin.pricing.router.js';
+import adminAdditionalPricingRouter from './routes/admin/admin.additionalPricing.router.js';
 
 // ===== handlers import
 import errorHandler from './app/errors/error.handler.js';
@@ -75,6 +76,10 @@ db.sequelize.authenticate()
 app.use(process.env.ACCESS_FILE_REVIEW_IMAGE_PATH, express.static(path.resolve(process.env.FILE_REVIEW_IMAGE_PATH)));
 // 가이드 이미지
 app.use(process.env.ACCESS_FILE_GUIDE_IMAGE_PATH, express.static(path.resolve(process.env.FILE_GUIDE_IMAGE_PATH)));
+// 공지사항 이미지
+app.use(process.env.ACCESS_FILE_NOTICE_IMAGE_PATH, express.static(path.resolve(process.env.FILE_NOTICE_IMAGE_PATH)));
+// FAQ 이미지
+app.use(process.env.ACCESS_FILE_FAQ_IMAGE_PATH, express.static(path.resolve(process.env.FILE_FAQ_IMAGE_PATH)));
 
 // ------------------------------------------
 // ||     라우터 정의
@@ -133,6 +138,7 @@ app.use('/api/admin/drivers', adminDriversRouter);
 app.use('/api/admin/store-emps', adminStoreEmpsRouter);
 // 요금
 app.use('/api/admin/pricing', adminPricingRouter);
+app.use('/api/admin/pricing/additional', adminAdditionalPricingRouter);
 
 // ------------------------------------------
 // ||     404 처리
