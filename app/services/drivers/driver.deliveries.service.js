@@ -6,6 +6,8 @@
 
 import dayjs from "dayjs";
 import driverAssignmentRepository from "../../repositories/driverAssignment.repository.js";
+import reservationRepository from "../../repositories/reservation.repository.js";
+import subscriptionService from "../subscription.service.js";
 
 /**
  * 배정 내역 조회 후 프론트엔드용 데이터 가공
@@ -107,6 +109,48 @@ async function updateDeliveryState(reservationId, currentState) {
   const nextState = stateFlow[currentState];
 
   await driverAssignmentRepository.updateReservationState(null, reservationId, nextState);
+
+  // 푸시 알림 발송 로직 (비동기로 실행하되 await를 쓰지 않아 응답 속도 유지)
+  try {
+    // 해당 예약 정보를 조회하여 고객(userId) 찾기
+    const userId = await reservationRepository.findUserIdByPk(null, reservationId)
+    
+    if (userId) {
+      let pushTitle = "[보따리 배송 알림]";
+      let pushBody = "";
+
+      // 상태별 메시지 설정
+      switch (nextState) {
+        case 'PICKING_UP':
+          pushBody = "기사님이 고객님의 보따리 픽업을 위해 이동 중입니다.";
+          break;
+        case 'IN_PROGRESS':
+          pushBody = "기사님이 보따리 픽업을 완료하여 배송을 시작했습니다.";
+          break;
+        case 'COMPLETED':
+          pushBody = "보따리 배송이 완료되었습니다. 이용해 주셔서 감사합니다!";
+          break;
+      }
+
+      if (pushBody) {
+        // pushService 호출 (대상Id, 타입, 데이터)
+        // 비동기 처리를 위해 .catch만 붙여서 백그라운드에서 실행되게 함
+        subscriptionService.sendPushNotification(userId, 'MEMBER', {
+          title: pushTitle,
+          body: pushBody,
+          url: "/reserve/list"
+        })
+        .catch(
+          // TODO : 시간 날 때 로그 남기는 테이블 추가해서 성공 실패 기록하게 하기
+          err => console.error('Push Notification Error:', err)
+        );
+      }
+    }
+  } catch (error) {
+    // 푸시 과정에서 에러가 나도 배송 상태 변경 응답은 나가야 하므로 로그만 남김
+    console.error('Push data fetching error:', error);
+  }
+
   return { nextState };
 }
 

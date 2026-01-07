@@ -39,8 +39,41 @@ async function register({ endpoint, p256dh, auth, device, loggedInUser, }) {
   const result = await pushRepository.upsert(null, payload);
 
   return result;
-}
+};
+
+/**
+ * 메세지 발송 로직(메세지를 보내야 할 서비스에서 함수 호출로 사용)
+ */
+async function sendPushNotification(targetId, userType, messageData) {
+  // DB에서 해당 유저의 모든 구독 정보 조회 (Repository 활용)
+  const subscriptions = await pushRepository.findAllByUserId(targetId, userType);
+
+  // 구독 정보가 없을 시 바로 리턴
+  if (!subscriptions || subscriptions.length === 0) {
+    return;
+  }
+
+  // 메시지 발송
+  const sendPromises = subscriptions.map(sub => {
+    return webpush.sendNotification(
+      {
+        endpoint: sub.endpoint,
+        keys: {
+          p256dh: sub.p256dh,
+          auth: sub.auth
+        }
+      },
+      JSON.stringify(messageData)
+    ).catch(err => {
+      if (err.statusCode === 410) sub.destroy(); // 차단된 유저는 DB에서 삭제
+    });
+  });
+
+  // 모든 발송 작업이 끝날 때까지 대기
+  await Promise.all(sendPromises);
+};
 
 export default {
   register,
+  sendPushNotification
 }

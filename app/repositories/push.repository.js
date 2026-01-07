@@ -16,6 +16,18 @@ async function upsert(t = null, data) {
   );
 }
 
+async function findAllByUserId(id, type) {
+  // 유저 타입에 따라 검색 조건 설정 (userId, driverId 등)
+  const whereClause = {};
+
+  if (type === 'MEMBER') whereClause.userId = id;
+  if (type === 'DRIVER') whereClause.driverId = id;
+  if (type === 'ADMIN') whereClause.adminId = id;
+  
+  return await Push.findAll({ where: whereClause });
+}
+
 export default {
   upsert,
+  findAllByUserId
 }
