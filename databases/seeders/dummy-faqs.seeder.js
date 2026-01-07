@@ -6,7 +6,7 @@
 import db from '../../app/models/index.js';
 import { fakerKO } from '@faker-js/faker';
 
-const { Sequelize, Notice, Admin } = db;
+const { Sequelize, Notice, Admin, FAQ } = db;
 
 /** @type {import('sequelize-cli').Migration} */
 export default {
@@ -19,15 +19,16 @@ export default {
     );
 
     // 메모리에 배열 생성
-    const notices = [];
+    const faqs = [];
 
     // 관리자별 게시글 데이터 생성
     for (const admin of admins) {
       for(let i = 0; i < 10; i++) {
         const date = fakerKO.date.between({ from: '2025-11-01', to: Date.now()});
 
-        notices.push({
+        faqs.push({
           adminId: admin.id,
+          category: "test",
           title: fakerKO.lorem.sentence({ min: 3, max: 6 }),
           content: fakerKO.lorem.text().substring(0, 100),
           img: fakerKO.image.url(),
@@ -37,12 +38,12 @@ export default {
       }
     }
     // 3. 한 번에 DB에 저장 (Bulk Insert)
-    if (notices.length > 0) {
-      await Notice.bulkCreate(notices);
+    if (faqs.length > 0) {
+      await FAQ.bulkCreate(faqs);
     }
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Notices', null, {});
+    await queryInterface.bulkDelete('FAQ', null, {});
   }
 };

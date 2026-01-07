@@ -74,6 +74,33 @@ async function findByPhone(t = null, phone) {
 }
 
 /**
+ * 기사 상세 조회 (배정된 예약 건수 포함)
+ */
+async function findByPkWithReserv(t = null, id) {
+  return await Driver.findByPk(
+    id, {
+    attributes: {
+      include: [
+        // Reservation 테이블의 id를 카운트 -> 'totalDeliveries'라는 이름으로 반환
+        db.sequelize.literal('COUNT(`driversReservations`.`id`)'), 
+      'deliveryCount'
+      ]
+    },
+    include: [{
+      model: Reservation,
+      as: 'driversReservations',
+      attributes: [], // 예약 상세 정보는 필요 없음(개수만 필요)
+      through: {
+        attributes: [] // 중간 테이블(DriverAssignment) 정보도 안 가져옴
+      },
+      where: { status: 'completed' } // 배송 완료된 건만 가져옴
+    }],
+    group: ['Driver.id'], // 집계 함수(COUNT) 사용 시 필수
+    transaction: t
+  });
+}
+
+/**
  * 기사 관리 페이지네이션
  * @param {import("sequelize").Transaction|null} t 
  * @param {{limit: number, offset: number}}
@@ -81,6 +108,23 @@ async function findByPhone(t = null, phone) {
  */
 async function pagination(t = null, { limit, offset, where }) {
   return await Driver.findAndCountAll({
+    attributes: {
+      include: [
+        [
+          db.sequelize.literal(`(
+            SELECT COUNT(*)
+            FROM deliveries AS d
+            INNER JOIN reservations AS r
+            ON d.reserv_id = r.id
+            WHERE
+              d.id = Driver.id
+              AND d.deleted_at IS NULL
+              AND r.state = 'COMPLETED'
+          )`),
+          'deliveryCount'
+        ]
+      ]
+    },
     where: where,
     order: [
       ['createdAt', 'DESC'],
@@ -121,4 +165,5 @@ export default {
   pagination,
   create,
   destroy,
+  findByPkWithReserv,
 }
