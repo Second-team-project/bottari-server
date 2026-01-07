@@ -35,6 +35,7 @@ export default {
         admin_id: 1,
         title: "[EVENT] 보따리 오픈 기념 보따리 스티커 증정 이벤트",
         content: "보따리 서비스가 시작되며, 이벤트를 진행합니다.\n 보따리를 이용해주시는 모든 고객님께 우리의 '보따리' 스티커를 보내드립니다!\n - 후기 작성을 위해서는 로그인이 필요합니다.\n - 서비스 이용 완료 시 스티커를 증정 해드립니다.\n - 해당 '보따리 스티커'는 추후 판매 예정 상품입니다.\n",
+        img: '/files/notice/bottari-notice-sticker.PNG',
         created_at: new Date(),
         updated_at: new Date(),
       },
