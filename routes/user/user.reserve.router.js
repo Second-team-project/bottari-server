@@ -8,21 +8,19 @@ import express from 'express';
 // ===== controller
 import reserveController from '../../app/controllers/user/reserve.controller.js';
 // ===== validator
-import storageDraftValidator from '../../app/middlewares/validations/validators/reserve/storage.draft.validator.js';
+import { draftDeliveryValidator, draftStorageValidator } from '../../app/middlewares/validations/validators/reserve/user.draft.validator.js';
+import { userCancelValidator, guestCancelValidator } from '../../app/middlewares/validations/validators/reserve/user.cancel.validator.js';
+import guestLookupValidator from '../../app/middlewares/validations/validators/reserve/guest.lookup.validator.js';
 import validationHandler from '../../app/middlewares/validations/validation.handler.js';
-import deliveryDraftValidator from '../../app/middlewares/validations/validators/reserve/delivery.draft.validator.js';
 // ===== middleware
 import authMiddleware from '../../app/middlewares/auth/auth.middleware.js';
-import guestLookupValidator from '../../app/middlewares/validations/validators/reserve/guest.lookup.validator.js';
-import userCancelValidator from '../../app/middlewares/validations/validators/reserve/user.cancel.validator.js';
-import guestCancelValidator from '../../app/middlewares/validations/validators/reserve/guest.cancel.validator.js';
 
 
 const userReserveRouter = express.Router();
 
 // 결제 전 예약 데이터 생성
-userReserveRouter.post('/draft/delivery', deliveryDraftValidator, validationHandler, reserveController.deliveryDraft);
-userReserveRouter.post('/draft/storage', storageDraftValidator, validationHandler, reserveController.storageDraft);
+userReserveRouter.post('/draft/delivery', draftDeliveryValidator, validationHandler, reserveController.deliveryDraft);
+userReserveRouter.post('/draft/storage', draftStorageValidator, validationHandler, reserveController.storageDraft);
 // 결제 확인
 userReserveRouter.post('/confirm/payment', reserveController.confirmTossPayment);
 // 결제 완료

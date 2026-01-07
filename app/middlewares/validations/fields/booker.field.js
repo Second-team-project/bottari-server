@@ -17,7 +17,7 @@ const phone = body('phone')
   .customSanitizer(value => value === '' ? null : value)  // '' -> null 용
 ;
 
-  const email = body('email')
+const email = body('email')
   .trim()
   .notEmpty()
   .withMessage('이메일은 필수 항목입니다.')

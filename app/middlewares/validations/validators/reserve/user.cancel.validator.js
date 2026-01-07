@@ -7,6 +7,11 @@
 import reservationField from "../../fields/reservation.field.js";
 import bookerField from "../../fields/booker.field.js";
 
-export default [
+export const userCancelValidator = [
   reservationField.cancelCode, reservationField.cancelReason,
+];
+
+export const guestCancelValidator = [
+  reservationField.cancelCode, reservationField.cancelReason,
+  bookerField.lookupPassword,
 ];

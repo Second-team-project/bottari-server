@@ -25,22 +25,19 @@ const attributes = {
   minValue: {
     field: 'min_value',
     type: DataTypes.BIGINT,
-    allowNull: true,
-    defaultValue: null,
+    allowNull: false,
     comment: '최소 적용 거리/일수'
   },
   maxValue: {
     field: 'max_value',
     type: DataTypes.BIGINT,
-    allowNull: true,
-    defaultValue: null,
+    allowNull: false,
     comment: '최대 적용 거리/일수'
   },
   rate: {
     field: 'rate',
     type: DataTypes.BIGINT,
-    allowNull: true,
-    defaultValue: null,
+    allowNull: false,
     comment: '추가되는 비용의 비율(%)'
   },
   createdAt: {
