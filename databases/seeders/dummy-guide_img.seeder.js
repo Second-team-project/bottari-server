@@ -78,8 +78,8 @@ export default {
       {
         id: 7,
         type: "USAGE",
-        img: fakerKO.image.url(),
-        img_eng: fakerKO.image.url(),
+        img: '/files/guide/bottari-usage.PNG',
+        img_eng: '/files/guide/bottari-usage.PNG',
         active: "T",
         created_at: new Date(),
         updated_at: new Date(),
