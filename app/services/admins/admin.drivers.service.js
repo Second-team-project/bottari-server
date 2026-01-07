@@ -4,10 +4,8 @@
  * 251231 v1.0.0 김민현 init
  */
 import driverRepository from "../../repositories/driver.repository.js";
-import db from "../../models/index.js"
 import bcrypt from 'bcrypt';
 import { Op } from "sequelize";
-const { Driver, Delivery } = db;
 
 /**
  * 기사 목록 페이지네이션(검색 추가)
