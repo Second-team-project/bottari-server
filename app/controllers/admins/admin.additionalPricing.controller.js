@@ -1,16 +1,16 @@
 /**
- * @file app/controllers/pricing.controller.js
- * @description 요금 관련 컨트롤러
- * 20251224 N init
+ * @file app/controllers/admins/admin.additionalPricing.controller.js
+ * @description 추가 요금 관련 컨트롤러
+ * 20260106 N init
  */
 
 import { SUCCESS } from "../../../configs/responseCode.config.js";
 import customResponse from "../../utils/custom.response.util.js";
 // ===== services
-import pricingService from "../../services/admins/admin.pricing.service.js";
+import additionalPricingService from "../../services/admins/admin.additionalPricing.service.js";
 
 /**
- * 기본 요금 가져오기
+ * 추가 요금 전부 가져오기
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
@@ -18,7 +18,7 @@ import pricingService from "../../services/admins/admin.pricing.service.js";
  */
 async function index(req, res, next) {
   try {
-    const result = await pricingService.index();
+    const result = await additionalPricingService.index();
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result))
   } catch (error) {
@@ -26,9 +26,8 @@ async function index(req, res, next) {
   }
 }
 
-
 /**
- * 요금 생성
+ * 추가 요금 생성
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
@@ -37,14 +36,12 @@ async function index(req, res, next) {
 async function store(req, res, next) {
   try {
     const data = req.body;
-    console.log('controller-data: ', data);
 
-    const result = await pricingService.store({
+    const result = await additionalPricingService.store({
       serviceType: data.serviceType,
-      itemType: data.itemType,
-      itemSize: data.itemSize, 
-      itemWeight: data.itemWeight, 
-      basePrice: data.basePrice,
+      minValue: data.minValue, 
+      maxValue: data.maxValue, 
+      rate: data.rate,
     });
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result))
@@ -54,7 +51,7 @@ async function store(req, res, next) {
 }
 
 /**
- * 요금 추가
+ * 추가 요금 수정
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
@@ -65,13 +62,12 @@ async function update(req, res, next) {
     const id = req.params.id;
     const data = req.body;
 
-    const result = await pricingService.update({
+    const result = await additionalPricingService.update({
       id,
       serviceType: data.serviceType,
-      itemType: data.itemType,
-      itemSize: data.itemSize, 
-      itemWeight: data.itemWeight, 
-      basePrice: data.basePrice,
+      minValue: data.minValue, 
+      maxValue: data.maxValue, 
+      rate: data.rate,
     });
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result))
@@ -80,25 +76,17 @@ async function update(req, res, next) {
   }
 }
 
-/**
- * 요금 삭제
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
- * @returns 
- */
 async function destroy(req, res, next) {
   try {
     const id = req.params.id;
 
-    const result = await pricingService.destroy(id);
+    const result = await additionalPricingService.destroy(id);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result))
   } catch (error) {
     return next(error)
   }
 }
-
 
 export default {
   index,

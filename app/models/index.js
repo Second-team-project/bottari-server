@@ -32,6 +32,8 @@ import GuideImg from './GuideImg.js';
 import Pricing from './Pricing.js';
 import Store from './Store.js';
 import AdditionalPricing from './AdditionalPricing.js';
+import ChatRoom from './ChatRoom.js';
+import ChatMessage from './ChatMessage.js';
 
 const db = {}; // 생성할 모델들 모두 담음
 
@@ -84,7 +86,9 @@ db.GuideImg = GuideImg.init(sequelize);
 db.Pricing = Pricing.init(sequelize);
 db.AdditionalPricing = AdditionalPricing.init(sequelize);
 db.Store = Store.init(sequelize);
-
+// common
+db.ChatRoom = ChatRoom.init(sequelize);
+db.ChatMessage = ChatMessage.init(sequelize);
 
 
 // 모델 관계 설정
@@ -109,6 +113,10 @@ Admin.associate(db);
 Notice.associate(db);
 FAQ.associate(db);
 Store.associate(db);
+// common
+ChatRoom.associate(db);
+ChatMessage.associate(db);
+
 
 
 export default db;
