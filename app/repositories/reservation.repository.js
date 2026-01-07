@@ -6,7 +6,7 @@
 
 import { Op } from 'sequelize';
 import db from '../models/index.js';
-const { Reservation, User, Review, Luggage, Booker, Driver, Delivery, Storage, Store } = db;
+const { Reservation, User, Review, Luggage, Booker, Driver, Delivery, Storage, Store, DriverAssignment } = db;
 
 /**
  * 예약 정보 생성
@@ -300,6 +300,44 @@ async function findUserIdByPk(t = null, id) {
   });
 }
 
+/**
+ * DriverAssignment에 데이터 추가(기사 배정)
+ * @param {import("sequelize").Transaction|null} t 
+ * @param {{reservId: number, driverId: number}} data
+ */
+async function createAssigned(t = null, { reservId, driverId }) {
+  return await DriverAssignment.create(
+    {
+      reservId: reservId,
+      driverId: driverId,
+      state: 'ASSIGNED',
+      assignedAt: new Date(),
+      unassignedAt: null
+    },
+    { transaction: t }
+  );
+}
+
+/**
+ * DriverAssignment에 데이터 업데이트(기존 배정 해제)
+ * @param {import("sequelize").Transaction|null} t 
+ * @param {number} reservId 
+ */
+async function updateUnassigned(t = null, reservId) {
+  return await DriverAssignment.update(
+    {
+      unassignedAt: new Date(), 
+      state: 'CANCELED'         
+    },
+    {
+      where: {
+        reservId: reservId,
+        unassignedAt: null // 현재 활성화된 배정만 찾기
+      },
+      transaction: t
+    }
+  );
+}
 
 export default {
   create,
@@ -318,4 +356,7 @@ export default {
   destroy,
 
   findUserIdByPk,
+
+  createAssigned,
+  updateUnassigned,
 }
