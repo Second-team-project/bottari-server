@@ -19,7 +19,7 @@ const attributes = {
   title: {
     field: 'title',
     type: DataTypes.STRING(100),
-    allowNull: true,
+    allowNull: false,
     comment: '이미지 제목'
   },
   type: {
@@ -46,6 +46,12 @@ const attributes = {
     allowNull: false,
     defaultValue: 'T',
     comment: '활성화=T / 비활성화=F'
+  },
+  sortOrder: {
+    field: 'sort_order',
+    type: DataTypes.BIGINT,
+    allowNull: false,
+    comment: '출력 순서'
   },
   link: {
     field: 'link',
