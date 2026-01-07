@@ -21,7 +21,7 @@ const attributes = {
   title: {
     field: 'title',
     type: DataTypes.STRING(100),
-    allowNull: true,
+    allowNull: false,
     comment: '이미지 제목'
   },
   type: {
@@ -41,6 +41,12 @@ const attributes = {
     type: DataTypes.STRING(255),
     allowNull: true,
     comment: '이미지eng',
+  },
+  sortOrder: {
+    field: 'sort_order',
+    type: DataTypes.BIGINT,
+    allowNull: false,
+    comment: '출력 순서'
   },
   active: {
     field: 'active',
