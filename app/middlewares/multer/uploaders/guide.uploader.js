@@ -1,7 +1,7 @@
 /**
- * @file app/middlewares/multer/uploaders/review.uploader.js
- * @description 후기 이미지 업로더
- * 260102 N init
+ * @file app/middlewares/multer/uploaders/guide.uploader.js
+ * @description 배너 이미지 업로더
+ * 260107 N init
  */
 
 import multer from 'multer';
@@ -25,7 +25,7 @@ export default function(req, res, next) {
     storage: multer.diskStorage({
       // 1-1. destination: 저장할 폴더 위치 정하기
       destination(req, file, callback) {
-        const uploadPath = path.resolve(process.env.FILE_REVIEW_IMAGE_PATH);
+        const uploadPath = path.resolve(process.env.FILE_GUIDE_IMAGE_PATH);
         // 1-1-1. 해당 디렉토리 없으면 생성 처리
         if(!fs.existsSync(uploadPath)) {
           fs.mkdirSync(
@@ -41,11 +41,12 @@ export default function(req, res, next) {
       },
       // 1-2. filename: 파일 이름 짓기
       filename(req, file, callback) {
-        const uniqueFileName = `${dayjs().format('YYYYMMDD')}_${crypto.randomUUID()}`
+        const type = req.body.type?.toLowerCase() || 'unknown';
+        const uniqueFileName = `${type}_${dayjs().format('YYYYMMDD')}_${crypto.randomUUID()}`;
         const fileNameParts = file.originalname.split('.');
         const ext = fileNameParts[fileNameParts.length - 1].toLowerCase();
 
-        callback(null, `${uniqueFileName}.${ext}`)
+        callback(null, `${uniqueFileName}.${ext}`);
       }
     }),
     // 2. fileFilter : 파일 필터링 처리를 제어하는 프로퍼티 (validator로 불가능)
@@ -59,7 +60,7 @@ export default function(req, res, next) {
     },
     // 3. limits: 용량 제한
     limits: {
-      fileSize: parseInt(process.env.FILE_REVIEW_IMAGE_SIZE),
+      fileSize: parseInt(process.env.FILE_GUIDE_IMAGE_SIZE),
     },
   }).single('img');
 

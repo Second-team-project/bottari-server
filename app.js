@@ -11,13 +11,13 @@ import testRouter from './routes/test.route.js'
 
 // === common
 import filesRouter from './routes/files.router.js';
-import guideImgRouter from './routes/guide.router.js';
 
 // === user
 import userAuthRouter from './routes/user/user.auth.router.js';
 import userSearchRouter from './routes/user/user.search.router.js';
 import userReserveRouter from './routes/user/user.reserve.router.js';
 import userReviewRouter from './routes/user/user.review.router.js';
+import userGuideImgRouter from './routes/user/user.guide.router.js';
 
 // === driver
 import driverAuthRouter from './routes/drivers/driver.auth.router.js';
@@ -37,6 +37,7 @@ import adminStoreEmpsRouter from './routes/admin/admin.storeEmps.router.js';
 import adminPricingRouter from './routes/admin/admin.pricing.router.js';
 import adminAdditionalPricingRouter from './routes/admin/admin.additionalPricing.router.js';
 import adminStoreRouter from './routes/admin/admin.store.router.js';
+import adminguideImgRouter from './routes/admin/admin.guide.router.js';
 
 // ===== handlers import
 import errorHandler from './app/errors/error.handler.js';
@@ -90,8 +91,6 @@ app.use('/api/test', testRouter);
 // ===== 공용
 // 이미지 업로더
 app.use('/api/common/files', filesRouter);
-// 가이드 이미지
-app.use('/api/common/guide-img', guideImgRouter)
 // 푸시 알림 구독
 app.use('/api/common/subscriptions', subscriptionRouter);
 
@@ -104,6 +103,8 @@ app.use('/api/user/search', userSearchRouter);
 app.use('/api/user/reserve', userReserveRouter);
 // 리뷰
 app.use('/api/user/review', userReviewRouter);
+// 가이드 이미지
+app.use('/api/user/guide-img', userGuideImgRouter)
 
 
 // ===== driver용
@@ -139,6 +140,8 @@ app.use('/api/admin/pricing', adminPricingRouter);
 app.use('/api/admin/pricing/additional', adminAdditionalPricingRouter);
 // 보관소
 app.use('/api/admin/store', adminStoreRouter);
+// 가이드 이미지
+app.use('/api/admin/guide-img', adminguideImgRouter)
 
 // ------------------------------------------
 // ||     404 처리

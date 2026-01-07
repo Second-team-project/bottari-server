@@ -4,6 +4,7 @@
  * 251230 v1.0.0 김민현 init
  */
 import faqUploader from "./uploaders/faq.uploader.js";
+import guideUploader from "./uploaders/guide.uploader.js";
 import noticeUploader from "./uploaders/notice.uploader.js";
 import reviewUploader from "./uploaders/review.uploader.js";
 
@@ -11,4 +12,5 @@ export default {
   noticeUploader,
   faqUploader,
   reviewUploader,
+  guideUploader,
 }
