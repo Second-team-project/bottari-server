@@ -53,7 +53,8 @@ async function update(t = null, { id, serviceType, itemType, itemSize, itemWeigh
       itemSize, 
       itemWeight, 
       basePrice,
-    },{
+    },
+    {
       where: {
         id: id,
       },
