@@ -290,6 +290,16 @@ async function destroy(t = null, id) {
   });
 }
 
+/**
+ * 예약 ID로 userId만 조회
+ */
+async function findUserIdByPk(t = null, id) {
+  return await Reservation.findByPk(id, {
+    attributes: ['userId'],
+    transaction: t,
+  });
+}
+
 
 export default {
   create,
@@ -306,4 +316,6 @@ export default {
   findByPkJoinUser,
   updateByPk,
   destroy,
+
+  findUserIdByPk,
 }
