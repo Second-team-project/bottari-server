@@ -10,7 +10,6 @@ import db from './app/models/index.js';
 import testRouter from './routes/test.route.js'
 
 // === common
-import storeRouter from './routes/store.router.js';
 import filesRouter from './routes/files.router.js';
 import guideImgRouter from './routes/guide.router.js';
 
@@ -37,6 +36,7 @@ import adminDriversRouter from './routes/admin/admin.drivers.router.js';
 import adminStoreEmpsRouter from './routes/admin/admin.storeEmps.router.js';
 import adminPricingRouter from './routes/admin/admin.pricing.router.js';
 import adminAdditionalPricingRouter from './routes/admin/admin.additionalPricing.router.js';
+import adminStoreRouter from './routes/admin/admin.store.router.js';
 
 // ===== handlers import
 import errorHandler from './app/errors/error.handler.js';
@@ -88,8 +88,6 @@ app.use(process.env.ACCESS_FILE_FAQ_IMAGE_PATH, express.static(path.resolve(proc
 app.use('/api/test', testRouter);
 
 // ===== 공용
-// 보관소
-app.use('/api/common/store', storeRouter);
 // 이미지 업로더
 app.use('/api/common/files', filesRouter);
 // 가이드 이미지
@@ -139,6 +137,8 @@ app.use('/api/admin/store-emps', adminStoreEmpsRouter);
 // 요금
 app.use('/api/admin/pricing', adminPricingRouter);
 app.use('/api/admin/pricing/additional', adminAdditionalPricingRouter);
+// 보관소
+app.use('/api/admin/store', adminStoreRouter);
 
 // ------------------------------------------
 // ||     404 처리
