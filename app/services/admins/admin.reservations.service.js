@@ -117,29 +117,36 @@ async function create(data) {
 async function update(id, data) {
   return await db.sequelize.transaction(async t => {
     // 해당 예약 존재 여부 확인
-    const exists = await reservationRepository.findByPkJoinUser(t, id);
-    if (!exists) {
+    const reservation = await reservationRepository.findByPk(t, id);
+    if (!reservation) {
       throw new customError('해당 예약을 찾을 수 없습니다.', NOT_FOUND_ERROR);
     }
     
-    // 1. 예약 테이블 수정
-    const updateData = {
-      state: data.state,
-      price: data.price,
-      notes: data.notes
-    };
-    
-    // Repository에 updateById 함수가 필요합니다 (아래에서 만들 예정)
-    await reservationRepository.updateByPk(t, id, updateData);
+    // 기본 정보 수정
+    await reservationRepository.updateByPk(t, id, data);
 
+    // 기사 배정 로직
+    if (data.driverId !== undefined) {
+      
+      // 일단 기존에 배정된 기사가 있다면 '해제' 처리
+      await reservationRepository.updateUnassigned(t, id);
 
-    // 2. 짐 정보(Luggage) 수정
+      // 새로운 driverId가 있다면 '배정' 생성
+      if (data.driverId !== null) {
+        await reservationRepository.createAssigned(t, {
+          reservId: id,
+          driverId: data.driverId
+        });
+      }
+    }
+
+    // 짐 정보(Luggage) 수정
     // 프론트에서 짐 목록(items)을 보냈다면 실행
     if (data.items) {
-      // 2-1. 기존 짐 싹 지우기
+      // 기존 짐 싹 지우기
       await luggageRepository.destroyByReservId(t, id);
 
-      // 2-2. 새로운 짐 다시 넣기
+      // 새로운 짐 다시 넣기
       if (data.items.length > 0) {
         const newLuggages = data.items.map(item => ({
           reservId: id, // 현재 예약 ID 연결
@@ -152,11 +159,10 @@ async function update(id, data) {
       }
     }
 
-
-    // 3. 비회원 정보(Booker) 수정
+    // 비회원 정보(Booker) 수정
     // 프론트에서 비회원 정보(bookerInfo)를 보냈다면 실행
     if (data.bookerInfo) {
-      // 3-1. 이 예약번호(id)를 가진 Booker가 있는지 확인하고 업데이트
+      // 이 예약번호(id)를 가진 Booker가 있는지 확인하고 업데이트
       await bookerRepository.updateByReservId(t, id, {
         userName: data.bookerInfo.userName,
         phone: data.bookerInfo.phone,
@@ -164,7 +170,7 @@ async function update(id, data) {
       });
     }
 
-    // 4. 업데이트된 최신 정보를 다시 조회해서 반환
+    // 업데이트된 최신 정보를 다시 조회해서 반환
     return await reservationRepository.findByPkJoinUser(t, id);
   });
 }
