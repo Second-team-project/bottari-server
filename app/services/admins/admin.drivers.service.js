@@ -24,7 +24,7 @@ async function pagination(params) {
   if (phone) where.phone = { [Op.like]: `%${phone}%` };
   if (email) where.email = { [Op.like]: `%${email}%` };
 
-  const limit = 20;
+  const limit = 10;
   const offset = limit * (page - 1);
   
   return await driverRepository.pagination(null, { limit, offset, where });
