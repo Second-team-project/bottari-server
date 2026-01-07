@@ -209,6 +209,71 @@ export default {
         created_at: now,
         updated_at: now
       },
+      {
+        id: 15,
+        user_id: 1,
+        code: 'DM260101A1B2C',
+        state: 'COMPLETED',
+        price: 15000,
+        payment_key: 'payment_key_15',
+        payment_method: 'CARD',
+        approved_at: now,
+        notes: null,
+        created_at: now,
+        updated_at: now
+      },
+      {
+        id: 16,
+        user_id: 1,
+        code: 'DM260102D3E4F',
+        state: 'COMPLETED',
+        price: 18000,
+        payment_key: 'payment_key_16',
+        payment_method: 'CARD',
+        approved_at: now,
+        notes: null,
+        created_at: now,
+        updated_at: now
+      },
+      {
+        id: 17,
+        user_id: 1,
+        code: 'SM260103G5H6I',
+        state: 'COMPLETED',
+        price: 25000,
+        payment_key: 'payment_key_17',
+        payment_method: 'CARD',
+        approved_at: now,
+        notes: null,
+        created_at: now,
+        updated_at: now
+      },
+      {
+        id: 18,
+        user_id: 1,
+        code: 'DM260104J7K8L',
+        state: 'COMPLETED',
+        price: 12000,
+        payment_key: 'payment_key_18',
+        payment_method: 'CARD',
+        approved_at: now,
+        notes: null,
+        created_at: now,
+        updated_at: now
+      },
+      {
+        id: 19,
+        user_id: 1,
+        code: 'SM260105M9N0P',
+        state: 'COMPLETED',
+        price: 30000,
+        payment_key: 'payment_key_19',
+        payment_method: 'CARD',
+        approved_at: now,
+        notes: null,
+        created_at: now,
+        updated_at: now
+      },
     ]
 
     // 데이터 생성 : queryInterface.bulkInsert(tableName, records, options)
