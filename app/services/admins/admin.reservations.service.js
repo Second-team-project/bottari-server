@@ -10,6 +10,8 @@ import reservationRepository from "../../repositories/reservation.repository.js"
 import luggageRepository from "../../repositories/luggage.repository.js";
 import reserveCodeUtil from "../../utils/reserveCode/reserve.code.util.js";
 import bookerRepository from "../../repositories/booker.repository.js";
+import subscriptionService from "../subscription.service.js";
+import USER_TYPE from "../../../configs/user.type.enum.js";
 
 /**
  * 예약 목록 페이지네이션(검색 조건 처리 추가)
@@ -79,33 +81,51 @@ async function create(data) {
       price: data.price,
       notes: data.notes,
       code: reservationCode,
-      state: 'PENDING_PAYMENT',
+      state: data.state || 'PENDING_PAYMENT',
     };
-      const newReservation = await reservationRepository.create(t, createData);
 
-      if(data.items && data.items.length > 0) {
-        const luggageList = data.items.map(item => ({
-          reservId: newReservation.id,
-          itemType: item.type,
-          itemSize: item.size,
-          itemWeight: item.weight,
-          count: item.count || 1,
-        }));
+    const newReservation = await reservationRepository.create(t, createData);
 
-        await luggageRepository.bulkCreate(t, luggageList);
+    if(data.items && data.items.length > 0) {
+      const luggageList = data.items.map(item => ({
+        reservId: newReservation.id,
+        itemType: item.type,
+        itemSize: item.size,
+        itemWeight: item.weight,
+        count: item.count || 1,
+      }));
+
+      await luggageRepository.bulkCreate(t, luggageList);
+    }
+
+    // 비회원 저장
+    if (!data.userId && data.bookerInfo) {
+      await bookerRepository.create(t, {
+        reservId: newReservation.id,
+        userName: data.bookerInfo.userName,
+        email: data.bookerInfo.email,
+        phone: data.bookerInfo.phone,
+      });
+    }
+
+    t.afterCommit(() => {
+      // 회원이고, 상태가 'COMPLETED'일 때 알림
+      if (newReservation.userId && newReservation.state === 'COMPLETED') {
+        subscriptionService.sendPushNotification(
+          newReservation.userId, 
+          USER_TYPE.MEMBER,
+          { 
+            title: '보관 알림', 
+            message: '고객님의 짐이 안전하게 보관되었습니다.',
+            data: {
+              targetUrl: `/reserve/list'`
+            }
+          }
+        ).catch(err => console.error('Push Notification Error:', err));
       }
+    });
 
-      // 비회원 저장
-      if (!data.userId && data.bookerInfo) {
-        await bookerRepository.create(t, {
-          reservId: newReservation.id,
-          userName: data.bookerInfo.userName,
-          email: data.bookerInfo.email,
-          phone: data.bookerInfo.phone,
-        });
-      }
-
-      return newReservation;
+    return newReservation;
   });
 }
 
@@ -116,8 +136,12 @@ async function create(data) {
  */
 async function update(id, data) {
   return await db.sequelize.transaction(async t => {
+    // 알림 발송 작업 모아둘 배열
+    const notifications = [];
+
     // 해당 예약 존재 여부 확인
-    const reservation = await reservationRepository.findByPk(t, id);
+    const reservation = await reservationRepository.findByPkJoinUser(t, id);
+
     if (!reservation) {
       throw new customError('해당 예약을 찾을 수 없습니다.', NOT_FOUND_ERROR);
     }
@@ -125,17 +149,98 @@ async function update(id, data) {
     // 기본 정보 수정
     await reservationRepository.updateByPk(t, id, data);
 
+    // 유저에게 보관 완료 알림
+    if(data.state !== reservation.state) {
+      if (data.state === 'COMPLETED') {
+        notifications.push(async () => {
+          await subscriptionService.sendPushNotification(
+            reservation.userId, 
+            USER_TYPE.MEMBER, 
+            { title: '보관 알림',
+              message: '고객님의 짐이 안전하게 보관되었습니다.',
+              data: {
+                targetUrl: `/reserve/list'`
+              }
+            }
+          );
+        });
+      }
+    }
+
     // 기사 배정 로직
     if (data.driverId !== undefined) {
+
+      // 기존의 배정된 기사 확인
+      const AssignedDriver = reservation.reservationDriver && reservation.reservationDriver[0];
       
       // 일단 기존에 배정된 기사가 있다면 '해제' 처리
       await reservationRepository.updateUnassigned(t, id);
+
+      // 기존 기사에게 배정 취소 알림
+      if (AssignedDriver) {
+        notifications.push(async () => {
+          await subscriptionService.sendPushNotification(
+            AssignedDriver.id, 
+            USER_TYPE.DRIVER, 
+            { title: '배정 취소',
+              message: '배정이 취소되었습니다.',
+              data: {
+                targetUrl: '/main'
+              }
+            }
+          );
+        });
+
+        // 유저에게도 '기사 배정 취소' 알림
+        if (data.driverId === null) {
+          notifications.push(async () => {
+            await subscriptionService.sendPushNotification(
+              reservation.userId, 
+              USER_TYPE.MEMBER, 
+              { title: '배정 취소',
+                message: '담당 기사 배정이 취소되었습니다.',
+                data: {
+                  targetUrl: '/reserve/list'
+                }
+              }
+            );
+          });
+        }
+      }
 
       // 새로운 driverId가 있다면 '배정' 생성
       if (data.driverId !== null) {
         await reservationRepository.createAssigned(t, {
           reservId: id,
           driverId: data.driverId
+        });
+
+        // 새 기사에게 신규 배정 알림
+        notifications.push(async () => {
+          await subscriptionService.sendPushNotification(
+            data.driverId, 
+            USER_TYPE.DRIVER, 
+            { title: '배차 알림',
+              message: '새로운 예약이 배정되었습니다.',
+              data: {
+                targetUrl: '/main'
+              }
+            }
+          );
+        });
+
+        // 유저에게 '기사 배정 완료' 알림
+        notifications.push(async () => {
+          await subscriptionService.sendPushNotification(
+            reservation.userId, 
+            USER_TYPE.MEMBER, 
+            { title: '기사 배정',
+              message: '담당 기사님이 배정되었습니다.',
+              data: {
+                targetUrl: `/reserve/list'`
+              }
+            }
+          );
         });
       }
     }
@@ -170,6 +275,7 @@ async function update(id, data) {
       });
     }
 
+    await Promise.allSettled(notifications);
     // 업데이트된 최신 정보를 다시 조회해서 반환
     return await reservationRepository.findByPkJoinUser(t, id);
   });

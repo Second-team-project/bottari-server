@@ -122,6 +122,16 @@ async function pagination(t = null, { limit, offset, where }) {
               AND r.state = 'COMPLETED'
           )`),
           'deliveryCount'
+        ],
+        [
+          db.sequelize.literal(`(
+            SELECT state
+            FROM driver_attendance_logs
+            WHERE driver_id = Driver.id
+            ORDER BY created_at DESC
+            LIMIT 1
+          )`),
+          'attendanceState'
         ]
       ]
     },

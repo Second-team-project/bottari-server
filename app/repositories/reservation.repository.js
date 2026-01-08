@@ -235,7 +235,7 @@ async function findByPkJoinUser(t = null, id) {
         },
         {
           model: Driver,
-          as: 'reservationDriver',
+          as: 'reservationsDrivers',
           attributes: ['driverName', 'phone', 'carNumber'],
           required: false,
         },
@@ -249,12 +249,12 @@ async function findByPkJoinUser(t = null, id) {
           model: Storage,
           as: 'reservIdStorages',
           required: false,
-          attributes: ['storeId', 'startedAt', 'endedAt'],
+          attributes: ['id', 'storeId', 'startedAt', 'endedAt'],
           include: [
             {
               model: Store,
               as: 'storageStore',
-              attributes: ['storeName', 'address'], 
+              attributes: ['storeName', 'addr'], 
               required: false,
             }
           ]
