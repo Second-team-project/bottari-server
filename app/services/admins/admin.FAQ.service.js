@@ -12,11 +12,17 @@ import FAQRepository from "../../repositories/FAQ.repository.js";
  * FAQ 페이지네이션
  * @returns {Promise<Array<import("../../models/FAQ.js").FAQ>}
  */
-async function pagination(page) {
+async function pagination({ page, category }) {
   const limit = 20;
   const offset = limit * (page - 1);
+
+  // WHERE 조건 생성
+  const where = {};
+  if (category && category !== '전체') {
+    where.category = category;
+  }
   
-  return await FAQRepository.pagination(null, { limit, offset });
+  return await FAQRepository.pagination(null, { limit, offset, where });
 }
 
 /**
@@ -44,7 +50,7 @@ async function create(data) {
  * @param {string} params.content
  * @param {string|null} params.image
  */
-async function update({ adminId, FAQId, title, content, image }) {
+async function update({ adminId, FAQId, category, title, content, img }) {
   return await db.sequelize.transaction(async t => {
     const faq = await FAQRepository.findByPk(t, FAQId);
 
@@ -54,13 +60,14 @@ async function update({ adminId, FAQId, title, content, image }) {
 
     // 수정할 데이터 준비
     const updateData = {
+      category,
       title,
       content,
     };
 
     // 이미지가 새로 업로드된 경우에만 데이터에 포함 (업로드 안 하면 기존 이미지 유지)
-    if (image) {
-      updateData.image = image;
+    if (img) {
+      updateData.img = img;
     }
 
     // 업데이트 실행

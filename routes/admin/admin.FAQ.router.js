@@ -12,13 +12,14 @@ import showValidator from '../../app/middlewares/validations/validators/faq/show
 import storeValidator from '../../app/middlewares/validations/validators/faq/store.validator.js';
 import updateValidator from '../../app/middlewares/validations/validators/faq/update.validator.js';
 import destroyValidator from '../../app/middlewares/validations/validators/faq/destroy.validator.js';
+import multerMiddleware from '../../app/middlewares/multer/multer.middleware.js';
 
 const adminFAQRouter = express.Router();
 
 adminFAQRouter.get('/', indexValidator, validationHandler, adminFAQController.index);
 adminFAQRouter.get('/:id', authMiddleware, showValidator, validationHandler, adminFAQController.show);
-adminFAQRouter.post('/', authMiddleware, storeValidator, validationHandler, adminFAQController.store);
-adminFAQRouter.put('/:id', authMiddleware, updateValidator, validationHandler, adminFAQController.update);
+adminFAQRouter.post('/', authMiddleware, multerMiddleware.faqUploader, storeValidator, validationHandler, adminFAQController.store);
+adminFAQRouter.put('/:id', authMiddleware, multerMiddleware.faqUploader, updateValidator, validationHandler, adminFAQController.update);
 adminFAQRouter.delete('/:id', authMiddleware, destroyValidator, validationHandler, adminFAQController.destroy);
 
 export default adminFAQRouter;
