@@ -18,6 +18,8 @@ import userSearchRouter from './routes/user/user.search.router.js';
 import userReserveRouter from './routes/user/user.reserve.router.js';
 import userReviewRouter from './routes/user/user.review.router.js';
 import userGuideImgRouter from './routes/user/user.guide.router.js';
+import userNoticesRouter from './routes/user/user.notices.router.js';
+import userFAQRouter from './routes/user/user.FAQ.router.js';
 
 // === driver
 import driverAuthRouter from './routes/drivers/driver.auth.router.js';
@@ -105,6 +107,10 @@ app.use('/api/user/reserve', userReserveRouter);
 app.use('/api/user/review', userReviewRouter);
 // 가이드 이미지
 app.use('/api/user/guide-img', userGuideImgRouter)
+// 공지사항
+app.use('/api/user/notices', userNoticesRouter);
+// FAQ
+app.use('/api/user/faq', userFAQRouter);
 
 
 // ===== driver용
