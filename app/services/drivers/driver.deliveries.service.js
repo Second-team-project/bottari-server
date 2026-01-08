@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import driverAssignmentRepository from "../../repositories/driverAssignment.repository.js";
 import reservationRepository from "../../repositories/reservation.repository.js";
 import subscriptionService from "../subscription.service.js";
+import USER_TYPE from "../../../configs/user.type.enum.js";
 
 /**
  * 배정 내역 조회 후 프론트엔드용 데이터 가공
@@ -113,9 +114,9 @@ async function updateDeliveryState(reservationId, currentState) {
   // 푸시 알림 발송 로직 (비동기로 실행하되 await를 쓰지 않아 응답 속도 유지)
   try {
     // 해당 예약 정보를 조회하여 고객(userId) 찾기
-    const userId = await reservationRepository.findUserIdByPk(null, reservationId)
+    const userResult = await reservationRepository.findUserIdByPk(null, reservationId)
     
-    if (userId) {
+    if (userResult) {
       let pushTitle = "[보따리 배송 알림]";
       let pushBody = "";
 
@@ -132,13 +133,15 @@ async function updateDeliveryState(reservationId, currentState) {
           break;
       }
 
-      if (pushBody) {
+      if (userResult && userResult.userId) {
         // pushService 호출 (대상Id, 타입, 데이터)
         // 비동기 처리를 위해 .catch만 붙여서 백그라운드에서 실행되게 함
-        subscriptionService.sendPushNotification(userId, 'MEMBER', {
+        subscriptionService.sendPushNotification(userResult.userId, USER_TYPE.MEMBER, {
           title: pushTitle,
-          body: pushBody,
-          url: "/reserve/list"
+          message: pushBody,
+          data: {
+            targetUrl: "/reserve/list",
+          }
         })
         .catch(
           // TODO : 시간 날 때 로그 남기는 테이블 추가해서 성공 실패 기록하게 하기
