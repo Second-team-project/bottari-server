@@ -18,7 +18,8 @@ async function create(t = null, data) {
       userId: data.userId,
       code: data.code ,
       state: "PENDING_PAYMENT",
-      price: data.price
+      price: data.price,
+      notes: data.notes,
     },
     {
       transaction: t

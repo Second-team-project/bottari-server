@@ -47,6 +47,7 @@ async function reservationDraft(t, data) {
       price: parseInt(data.price),
       notes: data.notes,
     }
+    // console.log('service-reserveStateData: ', reserveStateData);
 
     const reserveStateResult = await reservationRepository.create(t, reserveStateData)
 
@@ -100,6 +101,7 @@ async function storageDraft(data) {
         startedAt: data.startedAt,
         endedAt: data.endedAt,
         storeId: parseInt(data.storeId),
+        notes: data.notes
       }
       // 2-2. storage 데이터 생성
       const reserveStorageResult = await storageRepository.create(t, storageData);
@@ -135,6 +137,7 @@ async function deliveryDraft(data) {
         startedAt: data.startedAt,
         startedAddr: startedAddr,
         endedAddr: endedAddr,
+        notes: data.notes,
       }
       // 2-2. delivery 데이터 생성
       const reserveDeliveryResult = await deliveryRepository.create(t, deliveryData);
@@ -296,6 +299,7 @@ async function completePayment(reserveCode) {
   
   return {
     id: reservation.id,
+    userName: booker.userName,
     code: reservation.code,
     notes: reservation.notes,
     ...detail,
@@ -464,6 +468,7 @@ async function guestCancel({ password, code, reason }) {
 export default {
   storageDraft,
   deliveryDraft,
+
   confirmTossPayment,
   completePayment,
   userReservation,
