@@ -15,7 +15,9 @@ async function getAssignedDeliveries(req, res, next) {
   try {
     const driverId = req.user.id;
 
-    const result = await driverDeliveriesService.getAssignedDeliveries(driverId);
+    const { date } = req.query;
+
+    const result = await driverDeliveriesService.getAssignedDeliveries(driverId, date);
     
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch (error) {
