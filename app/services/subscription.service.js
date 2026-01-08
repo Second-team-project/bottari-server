@@ -79,7 +79,7 @@ async function sendPushNotification(targetId, userType, messageData) {
   });
 
   // 모든 발송 작업이 끝날 때까지 대기
-  await Promise.all(sendPromises);
+  await Promise.allSettled(sendPromises);
 };
 
 export default {

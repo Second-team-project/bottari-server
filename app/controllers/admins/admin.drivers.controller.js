@@ -40,7 +40,7 @@ async function index(req, res, next) {
 
     const responseData = {
       page: params.page,
-      limit: 10,
+      limit: 20,
       count: count,
       drivers: rows,
     }

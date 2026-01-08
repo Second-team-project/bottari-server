@@ -109,7 +109,7 @@ async function update(req, res, next) {
       notes,        // 관리자 메모
       items,        // 짐 목록
       bookerInfo,   // 비회원 정보
-      type,  // 예약 종류
+      driverId,     // 배정된 기사
     } = req.body;
 
     const data = {
@@ -118,7 +118,7 @@ async function update(req, res, next) {
       notes,
       items,
       bookerInfo,
-      type,
+      driverId,
     };
 
     const result = await adminReservationsService.update(id, data);
