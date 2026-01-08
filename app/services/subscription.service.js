@@ -44,8 +44,16 @@ async function register({ endpoint, p256dh, auth, device, loggedInUser, }) {
 
 /**
  * 메세지 발송 로직(메세지를 보내야 할 서비스에서 함수 호출로 사용)
+ * @param {number} targetId 
+ * @param {string} userType - USER_TYPE Enum 사용
+ * @param {{title: string, massege: string, data: { targetUrl: string }}} messageData 
  */
 async function sendPushNotification(targetId, userType, messageData) {
+  // GUEST 타입이나 유저 타입에 정의되지 않은 대상은 푸시 발송 대상에서 제외
+  if (!userType || userType === USER_TYPE.GUEST) {
+    return;
+  }
+
   // DB에서 해당 유저의 모든 구독 정보 조회 (Repository 활용)
   const subscriptions = await pushRepository.findAllByUserId(targetId, userType);
 
