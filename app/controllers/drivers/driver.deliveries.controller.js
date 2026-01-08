@@ -29,9 +29,11 @@ async function getAssignedDeliveries(req, res, next) {
 async function updateDeliveryState(req, res, next) {
   try {
     const { resId, currentState } = req.body;
+
+    const driverId = req.user.id;
     
     // 서비스 호출하여 상태 변경 로직 수행
-    const result = await driverDeliveriesService.updateDeliveryState(resId, currentState);
+    const result = await driverDeliveriesService.updateDeliveryState(driverId, resId, currentState);
     
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch (error) {
