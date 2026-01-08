@@ -9,6 +9,9 @@ import driverAssignmentRepository from "../../repositories/driverAssignment.repo
 import reservationRepository from "../../repositories/reservation.repository.js";
 import subscriptionService from "../subscription.service.js";
 import USER_TYPE from "../../../configs/user.type.enum.js";
+import customError from "../../errors/custom.error.js";
+import { NOT_ATTENDANCE_ERROR } from "../../../configs/responseCode.config.js";
+import driverAttendanceLogRepository from "../../repositories/driverAttendanceLog.repository.js";
 
 /**
  * 배정 내역 조회 후 프론트엔드용 데이터 가공
@@ -100,7 +103,14 @@ async function getAssignedDeliveries(driverId) {
 /**
  * 배송 상태 단계별 변경
  */
-async function updateDeliveryState(reservationId, currentState) {
+async function updateDeliveryState(driverId, reservationId, currentState) {
+  // 출근 상태 확인
+  const activeLog = await driverAttendanceLogRepository.findActiveAttendanceLog(null, driverId);
+
+  if (!activeLog || activeLog.state !== "CLOCKED_IN") {
+    throw customError("출근 상태가 아님", NOT_ATTENDANCE_ERROR);
+  }
+
   const stateFlow = {
     'RESERVED' : 'PICKING_UP',
     'PICKING_UP': 'IN_PROGRESS',

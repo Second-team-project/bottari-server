@@ -258,6 +258,39 @@ const NO_ASSIGNMENT_ERROR = {
 }
 Object.freeze(NO_ASSIGNMENT_ERROR);
 
+/**
+ * 출근 전일 때 예약의 상태를 변경하려 할 때
+ */
+const NOT_ATTENDANCE_ERROR = {
+  code: 'E61',
+  msg: 'Not Attendance Error',
+  info: '출근 상태가 아닙니다. 출근 후 다시 시도해주세요.',
+  status: 403
+}
+Object.freeze(NOT_ATTENDANCE_ERROR);
+
+/**
+ * 출근 전일 때 퇴근하려고 할 때
+ */
+const NOT_CLOCKED_IN_ERROR = {
+  code: 'E61',
+  msg: 'Not CLOCKED IN Error',
+  info: '출근 전 입니다. 출근 후 퇴근하실 수 있습니다.',
+  status: 400
+}
+Object.freeze(NOT_CLOCKED_IN_ERROR);
+
+/**
+ * 퇴근 전일 때 출근하려고 할 때
+ */
+const NOT_CLOCKED_OUT_ERROR = {
+  code: 'E61',
+  msg: 'Not CLOCKED OUT Error',
+  info: '퇴근 전 입니다. 퇴근 후 퇴근하실 수 있습니다.',
+  status: 400
+}
+Object.freeze(NOT_CLOCKED_OUT_ERROR);
+
 
 
 
@@ -317,6 +350,9 @@ export {
 
   // 60 - 기사 관련
   NO_ASSIGNMENT_ERROR,
+  NOT_ATTENDANCE_ERROR,
+  NOT_CLOCKED_IN_ERROR,
+  NOT_CLOCKED_OUT_ERROR,
 
   SYSTEM_ERROR,
   DB_ERROR,

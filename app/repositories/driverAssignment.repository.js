@@ -4,9 +4,10 @@
  * 251230 v1.0.0 김위민 init
  */
 
-import { Op } from 'sequelize'; // Op 추가
+import { Op, where } from 'sequelize'; // Op 추가
 import dayjs from 'dayjs';
 import db from '../models/index.js';
+import DriverAttendanceLog from '../models/DriverAttendanceLog.js';
 const { DriverAssignment, Delivery, Reservation, Booker, Luggage } = db;
 
 /**
@@ -100,5 +101,5 @@ async function updateReservationState(t = null, reservationId, nextState) {
 export default {
   findTodayAssignedByDriverId,
   countCompletedDeliveries,
-  updateReservationState
+  updateReservationState,
 };
