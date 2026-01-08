@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import cookieParser from 'cookie-parser';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 //
 import './configs/env.config.js';
 import db from './app/models/index.js';
@@ -44,7 +46,9 @@ import adminguideImgRouter from './routes/admin/admin.guide.router.js';
 // ===== handlers import
 import errorHandler from './app/errors/error.handler.js';
 import subscriptionRouter from './routes/subscription.router.js';
+import { initChatSocket } from './app/utils/socket/socket.js';
 
+// express 애플리케이션 객체 생성
 const app = express();
 
 app.use(express.json());
@@ -59,6 +63,17 @@ app.use(express.urlencoded({ extended: true }));  // toss
 //   credentials: true                 // 쿠기 정보 주고 받음
 //   }));
 // }
+
+// ------------------------------------------
+// ||     Socket.IO 서버 생성
+// ------------------------------------------
+const server = createServer(app); // 서버 생성 (HTTP 모듈)
+const io = new Server(server, {   // 웹소켓 요청(ws://) -> io (Socket.io)가 가로채서 처리
+  cors: {
+    origin: [ process.env.APP_USER_URL, process.env.APP_ADMIN_URL],  // 클라이언트 주소
+    credentials: true  // 쿠키 헤더 설정
+  }
+});
 
 // ------------------------------------------
 // ||     DB 연결 확인
@@ -176,9 +191,13 @@ app.get(/^(?!\/files).*/, (req, res) => {
 // 에러 핸들러 등록
 app.use(errorHandler);
 
+// 소켓 이벤트 핸들러 등록
+initChatSocket(io);
+
 // ------------------------------------------
 // ||     서버 실행
 // ------------------------------------------
-app.listen(parseInt(process.env.APP_PORT), () => {
+// 위에서 생성한 소켓 서버로 실행
+server.listen(parseInt(process.env.APP_PORT), () => {
   console.log(`🚀 서버 실행: http://localhost:${process.env.APP_PORT}`);
 });
