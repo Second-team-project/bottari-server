@@ -16,18 +16,25 @@ import driverAttendanceLogRepository from "../../repositories/driverAttendanceLo
 /**
  * 배정 내역 조회 후 프론트엔드용 데이터 가공
  */
-async function getAssignedDeliveries(driverId) {
-  // 오늘 기준 시간 설정
-  const todayStart = dayjs().startOf('day').toDate();
-  const todayEnd = dayjs().endOf('day').toDate();
+async function getAssignedDeliveries(driverId, date) {
+  // 리스트 조회용 날짜 (선택한 날짜가 없으면 오늘)
+  const targetDate = date ? dayjs(date) : dayjs();
+
+  const listStart = targetDate.startOf('day').toDate();
+  const listEnd = targetDate.endOf('day').toDate();
   
-  // 이번 달 기준 시간 설정
+  // 실적 계산용 날짜 (무조건 '진짜 오늘'로 고정)
+  const realTodayStart = dayjs().startOf('day').toDate();
+  const realTodayEnd = dayjs().endOf('day').toDate();
+  
   const monthStart = dayjs().startOf('month').toDate();
   const monthEnd = dayjs().endOf('month').toDate();
 
   const [assignments, todayCount, monthCount] = await Promise.all([
-    driverAssignmentRepository.findTodayAssignedByDriverId(null, driverId),
-    driverAssignmentRepository.countCompletedDeliveries(driverId, todayStart, todayEnd),
+    // 리스트는 선택한 날짜(targetDate) 기준 범위로 조회
+    driverAssignmentRepository.findTodayAssignedByDriverId(null, driverId, listStart, listEnd),
+    // 실적은 현재(realToday) 기준 범위로 조회
+    driverAssignmentRepository.countCompletedDeliveries(driverId, realTodayStart, realTodayEnd),
     driverAssignmentRepository.countCompletedDeliveries(driverId, monthStart, monthEnd)
   ]);
 
