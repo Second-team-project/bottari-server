@@ -6,6 +6,7 @@
 
 import USER_TYPE from '../../configs/user.type.enum.js';
 import pushRepository from '../repositories/push.repository.js';
+import webpush from '../../configs/webpush.config.js';
 
 async function register({ endpoint, p256dh, auth, device, loggedInUser, }) {
   // 저장 할 데이터 형식
@@ -54,7 +55,7 @@ async function sendPushNotification(targetId, userType, messageData) {
   }
 
   // 메시지 발송
-  const sendPromises = subscriptions.map(sub => {
+  const sendPromises = subscriptions.map(async sub => {
     return webpush.sendNotification(
       {
         endpoint: sub.endpoint,
