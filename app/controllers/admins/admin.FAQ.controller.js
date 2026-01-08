@@ -17,8 +17,9 @@ import customResponse from '../../utils/custom.response.util.js';
 async function index(req, res, next) {
   try {
     const page = req.query?.page ? parseInt(req.query?.page) : 1; // 쿼리든 세그먼트는 기본적으로 문자열로 옴.
+    const category = req.query.category
 
-    const { count, rows } = await adminFAQService.pagination(page);
+    const { count, rows } = await adminFAQService.pagination({ page, category });
 
     const responseData = {
       page: page,
@@ -60,13 +61,14 @@ async function show(req, res, next) {
 async function store(req, res, next) {
   try {
     // req.file이 있으면 경로 저장, 없으면 null
-    const imagePath = req.body.image || null;
+    // const imagePath = req.body.image || null;
 
     const data = {
       adminId: req.user.id, // <= auth middleware에서 세팅한 값
+      category: req.body.category,
       title: req.body.title,
       content: req.body.content,
-      image: imagePath,
+      img: req.file ? `${process.env.APP_URL}${process.env.ACCESS_FILE_FAQ_IMAGE_PATH}/${req.file.filename}` : null,
     };
 
     const result = await adminFAQService.create(data);
@@ -82,13 +84,14 @@ async function store(req, res, next) {
  */
 async function update(req, res, next) {
   try {
-    const imagePath = req.body.image || null;
+    // const imagePath = req.body.image || null;
 
     const data = {
       FAQId: req.params.id, // URL 파라미터의 게시글 ID
+      category: req.body.category,
       title: req.body.title,
       content: req.body.content,
-      image: imagePath, 
+      img: req.file ? `${process.env.APP_URL}${process.env.ACCESS_FILE_FAQ_IMAGE_PATH}/${req.file.filename}` : null,
     };
 
     const result = await adminFAQService.update(data);
