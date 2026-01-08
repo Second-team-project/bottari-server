@@ -21,6 +21,7 @@ async function deliveryDraft(req, res, next) {
   try {
     // 1. 클라이언트 데이터 확인
     const data = req.body;
+    console.log('controller :', data);
 
     // 2. 서비스 호출
     const result = await reserveService.deliveryDraft(data);
@@ -88,7 +89,7 @@ async function completePayment(req, res, next) {
   try {
     // 1. 클라이언트 데이터 확인 : 파라미터
     const reserveCode = req.params.reserveCode;
-    console.log('controller-params: ', reserveCode)
+    // console.log('controller-params: ', reserveCode)
     // 2. 서비스 호출 : 예약 코드로 예약 정보 조회
     const result = await reserveService.completePayment(reserveCode);
     console.log('reserveController-result: ', result)
@@ -198,6 +199,7 @@ async function guestCancel(req, res, next) {
 export default {
   deliveryDraft,
   storageDraft,
+
   confirmTossPayment,
   completePayment,
   userReservation,
