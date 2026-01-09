@@ -62,7 +62,7 @@ export default function(req, res, next) {
       // FAQ용 사이즈 환경변수 사용
       fileSize: parseInt(process.env.FILE_FAQ_IMAGE_SIZE)
     }
-  }).single('image');
+  }).single('img'); //DB 컬럼명과 통일 
 
   // 예외 처리
   upload(req, res, err => {

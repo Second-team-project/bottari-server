@@ -9,7 +9,7 @@ const { sequelize, FAQ } = db;
 /**
  * FAQ 페이지네이션
  * @param {import("sequelize").Transaction|null} t 
- * @param {{limit: number, offset: number}} data 
+ * @param {{limit: number, offset: number, where: object}} data 
  * @returns {Promise<Array<import("../models/FAQ.js").FAQ>}
  */
 async function pagination(t = null, data) {
@@ -21,6 +21,7 @@ async function pagination(t = null, data) {
       ],
       limit: data.limit,
       offset: data.offset,
+      where: data.where, // 빈 객체: 전체 조회 / 값 있으면: 조건
       transaction: t,
     });
 }
