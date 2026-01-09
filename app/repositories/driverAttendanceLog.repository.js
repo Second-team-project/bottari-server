@@ -35,8 +35,20 @@ async function save(t = null, logInstance) {
   return await logInstance.save({ transaction: t });
 }
 
+/**
+ * 해당 기사의 가장 마지막 출근 기록
+ */
+async function findActiveAttendanceLog(t = null, driverId) {
+  return await DriverAttendanceLog.findOne({
+    attributes: ['state'],
+    where: { driverId },
+    order: [['createdAt', 'DESC']],
+  })
+}
+
 export default {
   findLastActiveLog,
   createLog,
-  save
+  save,
+  findActiveAttendanceLog
 };
