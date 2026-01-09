@@ -6,7 +6,7 @@
 
 import db from '../../models/index.js';
 import customError from '../../errors/custom.error.js';
-import { BAD_REQUEST_ERROR } from '../../../configs/responseCode.config.js';
+import { NOT_CLOCKED_IN_ERROR, NOT_CLOCKED_OUT_ERROR } from '../../../configs/responseCode.config.js';
 import driverAttendanceLogRepository from '../../repositories/driverAttendanceLog.repository.js';
 
 /**
@@ -29,7 +29,7 @@ async function toggleAttendance(driverId, nextState) {
     // 1. 출근 처리
     if (nextState === 'CLOCKED_IN') {
       const existingLog = await driverAttendanceLogRepository.findLastActiveLog(t, driverId);
-      if (existingLog) throw customError('이미 출근 처리된 상태입니다.', BAD_REQUEST_ERROR);
+      if (existingLog) throw customError('퇴근 기록을 찾을 수 없습니다.', NOT_CLOCKED_OUT_ERROR);
 
       return await driverAttendanceLogRepository.createLog(t, {
         driverId,
@@ -41,7 +41,7 @@ async function toggleAttendance(driverId, nextState) {
     // 2. 퇴근 처리
     else if (nextState === 'CLOCKED_OUT') {
       const activeLog = await driverAttendanceLogRepository.findLastActiveLog(t, driverId);
-      if (!activeLog) throw customError('출근 기록을 찾을 수 없습니다.', BAD_REQUEST_ERROR);
+      if (!activeLog) throw customError('출근 기록을 찾을 수 없습니다.', NOT_CLOCKED_IN_ERROR);
 
       activeLog.clockOutAt = new Date();
       activeLog.state = 'CLOCKED_OUT';
