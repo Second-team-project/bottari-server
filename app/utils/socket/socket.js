@@ -1,4 +1,4 @@
-import db from "../../models";
+import db from "../../models/index.js";
 
 //                              ↱ app.js에서 io 객체를 받아옴
 export const initChatSocket = (io) => {
