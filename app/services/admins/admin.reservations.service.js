@@ -12,6 +12,7 @@ import reserveCodeUtil from "../../utils/reserveCode/reserve.code.util.js";
 import bookerRepository from "../../repositories/booker.repository.js";
 import subscriptionService from "../subscription.service.js";
 import USER_TYPE from "../../../configs/user.type.enum.js";
+import bcrypt from 'bcrypt';
 
 /**
  * 예약 목록 페이지네이션(검색 조건 처리 추가)
@@ -267,12 +268,20 @@ async function update(id, data) {
     // 비회원 정보(Booker) 수정
     // 프론트에서 비회원 정보(bookerInfo)를 보냈다면 실행
     if (data.bookerInfo) {
-      // 이 예약번호(id)를 가진 Booker가 있는지 확인하고 업데이트
-      await bookerRepository.updateByReservId(t, id, {
+      const bookerUpdateData = {
         userName: data.bookerInfo.userName,
         phone: data.bookerInfo.phone,
         email: data.bookerInfo.email
-      });
+      };
+
+      // 비밀번호 암호화
+      if (data.bookerInfo.password) {
+          // 암호화 후 passwordHash 컬럼에 저장
+          bookerUpdateData.passwordHash = await bcrypt.hash(data.bookerInfo.password, 10);
+      }
+
+      // DB 업데이트
+      await bookerRepository.updateByReservId(t, id, bookerUpdateData);
     }
 
     await Promise.allSettled(notifications);

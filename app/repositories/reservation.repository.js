@@ -200,6 +200,19 @@ async function pagination(t = null, { limit, offset, filters }) {
           ? { userName: { [Op.like]: `%${filters.keyword}%` } } 
           : undefined
       },
+      {
+        model: Booker,
+        as: 'reservIdBookers',
+        attributes: ['userName', 'email', 'phone'],
+        required: false,
+      },
+      {
+        model: Driver,
+        as: 'reservationsDrivers',
+        attributes: ['driverName'],
+        required: false,
+        through: { attributes: [] } // 중간 테이블(DriverAssignment) 정보는 제외
+      }
     ],
     distinct: true, // include와 limit을 같이 쓸 때 정확한 개수를 세기 위해 필수
     transaction: t
