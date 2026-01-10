@@ -121,6 +121,18 @@ const REISSUE_ERROR = {
 };
 Object.freeze(REISSUE_ERROR);
 
+/**
+ * 자단된 사용자
+ * @type {ResponseCodeConfig}
+ */
+const BANNED_MEMBER = {
+  code: 'E09',
+  msg: 'Banned Member Error',
+  info: '차단된 사용자 입니다.',
+  status: 403
+};
+Object.freeze(BANNED_MEMBER);
+
 
 // =======================================================================
 
@@ -333,6 +345,7 @@ export {
   CONFLICT_REGIST_ERROR,
   UNMATCHING_USER_ERROR,
   REISSUE_ERROR,
+  BANNED_MEMBER,
 
   // 20 - 전역
   NOT_FOUND_ERROR,
