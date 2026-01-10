@@ -6,19 +6,20 @@
 
 import express from 'express';
 // ===== middlewares
+import authMiddleware from '../../app/middlewares/auth/auth.middleware.js';
 import multerMiddleware from '../../app/middlewares/multer/multer.middleware.js';
 // === validators
 import { storeValidator, updateValidator, updateOrderValidator, destroyValidator } from '../../app/middlewares/validations/validators/guideImg/guideImg.validator.js'
 import validationHandler from '../../app/middlewares/validations/validation.handler.js';
 // ===== controllers
-import guideImgController from '../../app/controllers/admins/admin.guideImg.controller.js';
+import adminGuideImgController from '../../app/controllers/admins/admin.guideImg.controller.js';
 
-const guideImgRouter = express.Router();
+const adminGuideImgRouter = express.Router();
 
-guideImgRouter.get('/', guideImgController.index);
-guideImgRouter.post('/', multerMiddleware.guideUploader, storeValidator, validationHandler, guideImgController.store);
-guideImgRouter.put('/:id', multerMiddleware.guideUploader, updateValidator, validationHandler, guideImgController.update);
-guideImgRouter.patch('/:id', updateOrderValidator, validationHandler, guideImgController.updateOrder);
-guideImgRouter.delete('/:id', destroyValidator, validationHandler, guideImgController.destroy);
+adminGuideImgRouter.get('/', authMiddleware, adminGuideImgController.index);
+adminGuideImgRouter.post('/', authMiddleware, multerMiddleware.guideUploader, storeValidator, validationHandler, adminGuideImgController.store);
+adminGuideImgRouter.put('/:id', authMiddleware, multerMiddleware.guideUploader, updateValidator, validationHandler, adminGuideImgController.update);
+adminGuideImgRouter.patch('/:id', authMiddleware, updateOrderValidator, validationHandler, adminGuideImgController.updateOrder);
+adminGuideImgRouter.delete('/:id', authMiddleware, destroyValidator, validationHandler, adminGuideImgController.destroy);
 
-export default guideImgRouter;
+export default adminGuideImgRouter;
