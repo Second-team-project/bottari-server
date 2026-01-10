@@ -8,7 +8,7 @@ import axios from 'axios';
 import bcrypt from 'bcrypt';
 import db from '../../models/index.js';
 // config
-import { NOT_REGISTERED_ERROR, REISSUE_ERROR } from '../../../configs/responseCode.config.js';
+import { BANNED_MEMBER, NOT_REGISTERED_ERROR, REISSUE_ERROR } from '../../../configs/responseCode.config.js';
 import PROVIDER from '../../middlewares/auth/configs/provider.enum.js';
 import USER_TYPE from '../../../configs/user.type.enum.js';
 // repository
@@ -44,6 +44,10 @@ async function reissue(token) {
     // 유저 정보 획득
     const user = await userRepository.findByPk(t, userId);
 
+    // 유저 차단 확인
+    if(user.status === "BANNED") {
+      throw customError('차단된 회원', BANNED_MEMBER);
+    }
     // 토큰 일치 검증
     if(token !== user.refreshToken) {
       throw customError('리프레시 토큰 불일치', REISSUE_ERROR);
@@ -118,8 +122,12 @@ async function socialKakao(code) {
         provider: PROVIDER.KAKAO,
       };
       user = await userRepository.create(t, data);
-
+      
     } else {
+      // 유저 차단 확인
+      if(user.status === "BANNED") {
+        throw customError('차단된 회원', BANNED_MEMBER);
+      }
       // 3-2. provider 확인하고 카카오 아니면 변경
       if(user.provider !== PROVIDER.KAKAO) {
         user.provider = PROVIDER.KAKAO;

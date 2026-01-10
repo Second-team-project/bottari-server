@@ -30,7 +30,7 @@ const id = param('id')
 const title = body('title')
   .trim()
   .notEmpty()
-  .withMessage('내용은 필수 항목입니다.');
+  .withMessage('제목은 필수 항목입니다.');
 
 // 게시글 내용
 const content = body('content')
