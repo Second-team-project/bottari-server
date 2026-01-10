@@ -54,7 +54,7 @@ const attributes = {
     type: DataTypes.STRING(20),
     allowNull: false,
     defaultValue: 'ACTIVE',
-    comment: '유저 상태 : 활성화=ACTIVE / 차단=BANNED',
+    comment: '유저 상태 : 활성화=ACTIVE / 차단=BLOCKED / 탈퇴=WITHDRAWN',
   },
   adminMemo: {
     field: 'admin_memo',

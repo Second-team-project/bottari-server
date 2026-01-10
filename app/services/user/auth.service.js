@@ -45,7 +45,7 @@ async function reissue(token) {
     const user = await userRepository.findByPk(t, userId);
 
     // 유저 차단 확인
-    if(user.status === "BANNED") {
+    if(user.status === "BLOCKED") {
       throw customError('차단된 회원', BANNED_MEMBER);
     }
     // 토큰 일치 검증
@@ -125,11 +125,15 @@ async function socialKakao(code) {
       
     } else {
       // 유저 차단 확인
-      if(user.status === "BANNED") {
+      if(user.status === "BLOCKED") {
         throw customError('차단된 회원', BANNED_MEMBER);
       }
+      // 유저 탈퇴 확인
+      if(user.status === "WITHDRAWN") {
+        user.status = 'ACTIVE';
+      }
       // 3-2. provider 확인하고 카카오 아니면 변경
-      if(user.provider !== PROVIDER.KAKAO) {
+      if(user.provider !== PROVIDER.KAKAO || user.userName !== nick) {
         user.provider = PROVIDER.KAKAO;
         user.userName = nick;
       }

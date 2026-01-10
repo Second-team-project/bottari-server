@@ -126,7 +126,7 @@ Object.freeze(REISSUE_ERROR);
  * @type {ResponseCodeConfig}
  */
 const BANNED_MEMBER = {
-  code: 'E09',
+  code: 'E10',
   msg: 'Banned Member Error',
   info: '차단된 사용자 입니다.',
   status: 403
