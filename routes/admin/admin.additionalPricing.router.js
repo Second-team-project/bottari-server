@@ -5,17 +5,19 @@
  */
 
 import express from 'express';
-// ===== validators
+// ===== middlewares
+import authMiddleware from '../../app/middlewares/auth/auth.middleware.js';
+// === validators
 import { storeValidator, updateValidator, destroyValidator } from '../../app/middlewares/validations/validators/additionalPricing/additionalPricing.validator.js';
 import validationHandler from '../../app/middlewares/validations/validation.handler.js';
 // ===== controllers
-import additionalPricingController from '../../app/controllers/admins/admin.additionalPricing.controller.js';
+import adminAdditionalPricingController from '../../app/controllers/admins/admin.additionalPricing.controller.js';
 
 const adminAdditionalPricingRouter = express.Router();
 
-adminAdditionalPricingRouter.get('/', additionalPricingController.index);
-adminAdditionalPricingRouter.post('/', storeValidator, validationHandler, additionalPricingController.store);
-adminAdditionalPricingRouter.put('/:id', updateValidator, validationHandler, additionalPricingController.update);
-adminAdditionalPricingRouter.delete('/:id', destroyValidator, validationHandler, additionalPricingController.destroy);
+adminAdditionalPricingRouter.get('/', authMiddleware, adminAdditionalPricingController.index);
+adminAdditionalPricingRouter.post('/', authMiddleware, storeValidator, validationHandler, adminAdditionalPricingController.store);
+adminAdditionalPricingRouter.put('/:id', authMiddleware, updateValidator, validationHandler, adminAdditionalPricingController.update);
+adminAdditionalPricingRouter.delete('/:id', authMiddleware, destroyValidator, validationHandler, adminAdditionalPricingController.destroy);
 
 export default adminAdditionalPricingRouter;

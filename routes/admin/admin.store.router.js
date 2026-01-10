@@ -5,17 +5,19 @@
  */
 
 import express from 'express';
-// ===== validators
+// ===== middlewares
+import authMiddleware from '../../app/middlewares/auth/auth.middleware.js';
+// === validators
 import { storeValidator, updateValidator, destroyValidator } from '../../app/middlewares/validations/validators/store/store.validator.js';
 import validationHandler from '../../app/middlewares/validations/validation.handler.js';
 // ===== controllers
-import storeController from '../../app/controllers/admins/admin.store.controller.js';
+import adminStoreController from '../../app/controllers/admins/admin.store.controller.js';
 
-const storeRouter = express.Router();
+const adminStoreRouter = express.Router();
 
-storeRouter.get('/', storeController.index);
-storeRouter.post('/', storeValidator, validationHandler, storeController.store);
-storeRouter.put('/:id', updateValidator, validationHandler, storeController.update);
-storeRouter.delete('/:id', destroyValidator, validationHandler, storeController.destroy);
+adminStoreRouter.get('/', authMiddleware, adminStoreController.index);
+adminStoreRouter.post('/', authMiddleware, storeValidator, validationHandler, adminStoreController.store);
+adminStoreRouter.put('/:id', authMiddleware, updateValidator, validationHandler, adminStoreController.update);
+adminStoreRouter.delete('/:id', authMiddleware, destroyValidator, validationHandler, adminStoreController.destroy);
 
-export default storeRouter;
+export default adminStoreRouter;
