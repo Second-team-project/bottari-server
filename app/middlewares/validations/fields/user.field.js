@@ -104,7 +104,7 @@ const status = body('status')
   .notEmpty()
   .withMessage('유저 상태는 필수입니다.')
   .bail()
-  .isIn(['ACTIVE', 'BANNED'])
+  .isIn(['ACTIVE', 'BLOCKED', 'WITHDRAWN'])
   .withMessage('유효하지 않은 상태 타입입니다.')
 ;
 
