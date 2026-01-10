@@ -47,7 +47,7 @@ async function create(data) {
  * @param {string} params.content
  * @param {string|null} params.image
  */
-async function update({ adminId, noticeId, title, content, image }) {
+async function update({ adminId, noticeId, title, content, img }) {
   return await db.sequelize.transaction(async t => {
     // 1. 게시글 존재 및 작성자 확인
     const notice = await noticeRepository.findByPk(t, noticeId);
@@ -67,8 +67,8 @@ async function update({ adminId, noticeId, title, content, image }) {
     };
 
     // 이미지가 새로 업로드된 경우에만 데이터에 포함 (업로드 안 하면 기존 이미지 유지)
-    if (image) {
-      updateData.image = image;
+    if (img) {
+      updateData.img = img;
     }
 
     // 3. 업데이트 실행
