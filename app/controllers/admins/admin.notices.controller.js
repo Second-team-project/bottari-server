@@ -92,7 +92,7 @@ async function update(req, res, next) {
       noticeId: req.params.id, // URL 파라미터의 게시글 ID
       title: req.body.title,
       content: req.body.content,
-      image: imagePath, 
+      img: imagePath, 
     };
 
     const result = await adminNoticesService.update(data);
