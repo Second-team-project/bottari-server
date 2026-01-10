@@ -23,7 +23,7 @@ export default {
 
     // 관리자별 게시글 데이터 생성
     for (const admin of admins) {
-      for(let i = 0; i < 10; i++) {
+      for(let i = 0; i < 30; i++) {
         const date = fakerKO.date.between({ from: '2025-11-01', to: Date.now()});
 
         faqs.push({
