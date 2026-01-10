@@ -28,7 +28,7 @@ const attributes = {
     field: 'category',
     type: DataTypes.STRING(100),
     allowNull: false,
-    comment: '카테고리'
+    comment: '카테고리 : 예약, 배송, 보관, 결제/환불, 이용, 계정, 기타'
   },
   title: {
     field: 'title',

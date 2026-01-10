@@ -49,6 +49,19 @@ const attributes = {
     allowNull: true,
     comment: '리프레시 토큰',
   },
+  status: {
+    field: 'status',
+    type: DataTypes.STRING(20),
+    allowNull: false,
+    defaultValue: 'ACTIVE',
+    comment: '유저 상태 : 활성화=ACTIVE / 차단=BANNED',
+  },
+  adminMemo: {
+    field: 'admin_memo',
+    type: DataTypes.STRING(2000),
+    allowNull: true,
+    comment: '관리자 메모',
+  },
   createdAt: {
     field: 'created_at',
     type: DataTypes.DATE,

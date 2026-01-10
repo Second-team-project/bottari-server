@@ -13,6 +13,7 @@ import testRouter from './routes/test.route.js'
 
 // === common
 import filesRouter from './routes/files.router.js';
+import subscriptionRouter from './routes/subscription.router.js';
 
 // === user
 import userAuthRouter from './routes/user/user.auth.router.js';
@@ -42,10 +43,13 @@ import adminPricingRouter from './routes/admin/admin.pricing.router.js';
 import adminAdditionalPricingRouter from './routes/admin/admin.additionalPricing.router.js';
 import adminStoreRouter from './routes/admin/admin.store.router.js';
 import adminguideImgRouter from './routes/admin/admin.guide.router.js';
+import adminUsersRouter from './routes/admin/admin.users.router.js';
+
+// === chat
+import chatRouter from './routes/chat.router.js';
 
 // ===== handlers import
 import errorHandler from './app/errors/error.handler.js';
-import subscriptionRouter from './routes/subscription.router.js';
 import { initChatSocket } from './app/utils/socket/socket.js';
 
 // express 애플리케이션 객체 생성
@@ -110,6 +114,8 @@ app.use('/api/test', testRouter);
 app.use('/api/common/files', filesRouter);
 // 푸시 알림 구독
 app.use('/api/common/subscriptions', subscriptionRouter);
+// 채팅
+app.use('/api/chat', chatRouter);
 
 // ===== user용
 // 소셜 로그인
@@ -163,6 +169,9 @@ app.use('/api/admin/pricing/additional', adminAdditionalPricingRouter);
 app.use('/api/admin/store', adminStoreRouter);
 // 가이드 이미지
 app.use('/api/admin/guide-img', adminguideImgRouter)
+// 유저 관리
+app.use('/api/admin/users', adminUsersRouter)
+
 
 // ------------------------------------------
 // ||     404 처리
