@@ -202,8 +202,10 @@ export default {
 
   confirmTossPayment,
   completePayment,
+  
   userReservation,
   guestReservation,
+
   userCancel,
   guestCancel,
 }

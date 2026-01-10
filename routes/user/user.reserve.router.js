@@ -10,6 +10,7 @@ import reserveController from '../../app/controllers/user/reserve.controller.js'
 // ===== validator
 import { draftDeliveryValidator, draftStorageValidator } from '../../app/middlewares/validations/validators/reserve/user.draft.validator.js';
 import { userCancelValidator, guestCancelValidator } from '../../app/middlewares/validations/validators/reserve/user.cancel.validator.js';
+import { completePaymentValidator, confirmTossPaymentValidator } from '../../app/middlewares/validations/validators/reserve/reservation.validator.js';
 import guestLookupValidator from '../../app/middlewares/validations/validators/reserve/guest.lookup.validator.js';
 import validationHandler from '../../app/middlewares/validations/validation.handler.js';
 // ===== middleware
@@ -22,9 +23,9 @@ const userReserveRouter = express.Router();
 userReserveRouter.post('/draft/delivery', draftDeliveryValidator, validationHandler, reserveController.deliveryDraft);
 userReserveRouter.post('/draft/storage', draftStorageValidator, validationHandler, reserveController.storageDraft);
 // 결제 확인
-userReserveRouter.post('/confirm/payment', reserveController.confirmTossPayment);
+userReserveRouter.post('/confirm/payment', confirmTossPaymentValidator, validationHandler, reserveController.confirmTossPayment);
 // 결제 완료
-userReserveRouter.get('/complete/:reserveCode', reserveController.completePayment);
+userReserveRouter.get('/complete/:reserveCode', completePaymentValidator, validationHandler, reserveController.completePayment);
 // 예약 조회
 userReserveRouter.get('/', authMiddleware, reserveController.userReservation);
 userReserveRouter.post('/guest', guestLookupValidator, validationHandler, reserveController.guestReservation);

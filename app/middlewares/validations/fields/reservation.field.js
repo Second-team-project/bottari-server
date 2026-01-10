@@ -58,9 +58,44 @@ const notes = body('notes')
   .customSanitizer(value => value === '' ? null : value)  // '' -> null 용
 ;
 
+// ===== 결제 승인용
+const paymentKey = body('paymentKey')
+  .trim()
+  .notEmpty()
+  .withMessage('결제 키는 필수 항목입니다.')
+;
+
+const orderId = body('orderId')
+  .trim()
+  .notEmpty()
+  .withMessage('주문 코드는 필수 항목입니다.')
+  .bail()
+  .matches(/^[DS][MG]\d{6}[2-9A-Z]{5}$/)
+  .withMessage('유효하지 않은 주문 코드 형식입니다.')
+;
+
+const amount = body('amount')
+  .trim()
+  .notEmpty()
+  .withMessage('결제 금액은 필수 항목입니다.')
+  .bail()
+  .isInt()
+  .withMessage('결제 금액은 숫자여야 합니다.')
+  .toInt()
+;
+
 // ===== 예약 조회 페이지 용
 
 const code = body('code')
+  .trim()
+  .notEmpty()
+  .withMessage('예약 코드는 필수 항목입니다.')
+  .bail()
+  .matches(/^[DS][MG]\d{6}[2-9A-Z]{5}$/)
+  .withMessage('유효하지 않은 예약 코드 형식입니다.')
+;
+
+const reserveCode = param('reserveCode')
   .trim()
   .notEmpty()
   .withMessage('예약 코드는 필수 항목입니다.')
@@ -147,8 +182,13 @@ export default {
   userType,
   price,
   notes,
+  // 결제 승인용
+  paymentKey,
+  orderId,
+  amount,
   // 조회용
   code,
+  reserveCode,
   // 취소
   cancelCode,
   cancelReason,
