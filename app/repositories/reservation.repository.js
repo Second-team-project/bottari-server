@@ -113,18 +113,21 @@ async function findByCode(t = null, reservCode) {
 }
 
 /**
- * user_id 로 전체 조회
+ * user_id 로 페이지네이션, PENDING_PAYMENT 불러오지 않음
  * @returns 
  */
-async function findAllByUserId(t = null, userId) {
-  return await Reservation.findAll(
+async function findAllByUserId(t = null, { id, offset, limit }) {
+  return await Reservation.findAndCountAll(
     {
       where: {
-        userId: userId,
+        userId: id,
+        state: { [Op.ne]: 'PENDING_PAYMENT' }
       },
       order: [
         ['createdAt', 'DESC']
       ],
+      limit,
+      offset,
       transaction: t
     }
   )
