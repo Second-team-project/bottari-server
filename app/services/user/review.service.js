@@ -38,17 +38,17 @@ async function index(data = {}) {
     img: item.img,
     createdAt: item.createdAt,
 
-    writer: item.reviewBooker ? {
-      userId: item.reviewBooker.userId,
-      userName: item.reviewBooker.userName,
-      email: item.reviewBooker.email,
+    writer: item.reviewUser ? {
+      userId: item.userId,
+      userName: item.reviewUser.userName,
+      email: item.reviewUser.email,
     } : null
 
   }))
 
   return {
     list: filteredResult,
-    totalCount: count,
+    count: count,
     currentPage: page,
     totalPage: Math.ceil(count / limit),
   };

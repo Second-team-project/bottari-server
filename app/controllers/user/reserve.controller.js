@@ -110,8 +110,10 @@ async function completePayment(req, res, next) {
 async function userReservation(req, res, next) {
   try {
     const id = req.user.id;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
 
-    const result = await reserveService.userReservation(id);
+    const result = await reserveService.userReservation({ id, page, limit });
     
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch (error) {
