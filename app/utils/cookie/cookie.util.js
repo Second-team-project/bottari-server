@@ -117,8 +117,48 @@ function clearCookieRefreshToken(res) {
   );
 }
 
+/**
+ * 쿠키에 AccessToken 설정 (비회원용)
+ * @param {import("express").Response} res
+ * @param {string} accessToken
+ */
+function setCookieAccessToken(res, accessToken) {
+  setCookie(
+    res,
+    process.env.JWT_ACCESS_TOKEN_COOKIE_NAME || 'accessToken',
+    accessToken,
+    parseInt(process.env.JWT_ACCESS_TOKEN_EXPIRY),
+    true,
+    true,
+  )
+}
+
+/**
+ * 쿠키에서 AccessToken 획득 (비회원용)
+ * @param {import("express").Request} req
+ */
+function getCookieAccessToken(req) {
+  return getCookie(req, process.env.JWT_ACCESS_TOKEN_COOKIE_NAME || 'accessToken');
+}
+
+/**
+ * 쿠키에서 AccessToken 제거 (비회원용)
+ * @param {import("express").Response} res
+ */
+function clearCookieAccessToken(res) {
+  clearCookie(
+    res,
+    process.env.JWT_ACCESS_TOKEN_COOKIE_NAME || 'accessToken',
+    true,
+    true,
+  );
+}
+
 export default {
   setCookieRefreshToken,
   getCookieRefreshToken,
   clearCookieRefreshToken,
+  setCookieAccessToken,
+  getCookieAccessToken,
+  clearCookieAccessToken,
 }
