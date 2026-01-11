@@ -102,6 +102,8 @@ app.use(process.env.ACCESS_FILE_GUIDE_IMAGE_PATH, express.static(path.resolve(pr
 app.use(process.env.ACCESS_FILE_NOTICE_IMAGE_PATH, express.static(path.resolve(process.env.FILE_NOTICE_IMAGE_PATH)));
 // FAQ 이미지
 app.use(process.env.ACCESS_FILE_FAQ_IMAGE_PATH, express.static(path.resolve(process.env.FILE_FAQ_IMAGE_PATH)));
+// 채팅 이미지
+app.use(process.env.ACCESS_FILE_CHAT_IMAGE_PATH, express.static(path.resolve(process.env.FILE_CHAT_IMAGE_PATH)));
 
 // ------------------------------------------
 // ||     라우터 정의
