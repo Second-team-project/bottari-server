@@ -5,7 +5,7 @@
  */
 
 // config
-import { BAD_REQUEST_ERROR, REISSUE_ERROR, SUCCESS } from "../../../configs/responseCode.config.js";
+import { BAD_REQUEST_ERROR, BANNED_MEMBER, REISSUE_ERROR, SUCCESS } from "../../../configs/responseCode.config.js";
 import customError from "../../errors/custom.error.js";
 import PROVIDER from "../../middlewares/auth/configs/provider.enum.js";
 // service
@@ -97,6 +97,13 @@ async function socialCallback(req, res, next) {
       return res.redirect(process.env.SOCIAL_CLIENT_CALLBACK_URL);
       
   } catch (error) {
+    // "차단된 회원" 에러인 경우 -> 리다이렉트 (클라이언트용)
+    // error.codeInfo가 있고, 그 코드가 BANNED_MEMBER.code와 같다면
+    if (error.codeInfo && error.codeInfo.code === BANNED_MEMBER.code) {
+      const message = encodeURIComponent(error.message);
+      return res.redirect(`${process.env.SOCIAL_CLIENT_CALLBACK_URL}?error=${message}`);
+    }
+    // 그 외 에러
     next(error)
   }
 }

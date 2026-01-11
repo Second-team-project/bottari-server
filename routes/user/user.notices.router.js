@@ -5,11 +5,14 @@
  */
 
 import express from 'express';
+import showValidator from '../../app/middlewares/validations/validators/notices/show.validator.js';
+
 import noticesController from '../../app/controllers/user/user.notices.controller.js';
+import validationHandler from '../../app/middlewares/validations/validation.handler.js';
 
 const userNoticesRouter = express.Router();
 
 userNoticesRouter.get('/', noticesController.index);
-userNoticesRouter.get('/:id', noticesController.show);
+userNoticesRouter.get('/:id', showValidator, validationHandler, noticesController.show);
 
 export default userNoticesRouter;

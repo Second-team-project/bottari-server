@@ -72,7 +72,7 @@ async function update(req, res, next) {
       id,
       title: data?.title,
       type: data?.type,
-      img: file?.path,  // 파일 없으면 undefined → 서비스에서 기존값 유지
+      img: file ? `${process.env.APP_URL}${process.env.ACCESS_FILE_GUIDE_IMAGE_PATH}/${file.filename}` : undefined,
       imgEng: data?.imgEng,
       active: data?.active,
       link: data?.link

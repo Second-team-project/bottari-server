@@ -274,6 +274,36 @@ async function getLuggageList(t, reservId) {
 }
 
 // ========================================================
+// ||   공통 함수 : 비회원 인증 (예약코드 + 비밀번호 확인)     ||
+// ========================================================
+
+/**
+ * 비회원 인증 - 예약코드와 비밀번호로 검증
+ * @param {{ code: string, password: string }} data
+ * @returns {{ reservation, booker }}
+ */
+async function verifyGuest({ code, password }) {
+  // 1. 예약코드로 reservation 조회
+  const reservation = await reservationRepository.findByCode(null, code);
+  if (!reservation) {
+    throw customError('예약 코드 미존재', GUEST_AUTH_ERROR);
+  }
+  if (reservation.userId) {
+    throw customError('회원 예약 내역입니다', MEMBER_RESERVATION_ERROR);
+  }
+
+  // 2. booker 조회
+  const booker = await bookerRepository.findByReservId(null, reservation.id);
+
+  // 3. 비밀번호 확인
+  if (!bcrypt.compareSync(password, booker.passwordHash)) {
+    throw customError('비밀번호 틀림', GUEST_AUTH_ERROR);
+  }
+
+  return { reservation, booker };
+}
+
+// ========================================================
 // ||   본 로직 : 예약완료 후 예약코드로 정보 보여주기용 조회   ||
 // ========================================================
 
@@ -310,16 +340,22 @@ async function completePayment(reserveCode) {
 // ===============================
 // ||     조회 페이지에서 조회     ||
 // ===== USER 조회
-async function userReservation(id) {
-  // 단순 조회 -> 트랜잭션 사용x
+async function userReservation({ id, page, limit }) {
+  const offset = limit * (page - 1);
 
   // 1. 예약 정보 조회 : userId 사용
-  const reservations = await reservationRepository.findAllByUserId(null, id);
-  if (!reservations || reservations.length === 0) return [];
+  const reservations = await reservationRepository.findAllByUserId(null, { id, offset, limit });
+  if (!reservations.rows || reservations.rows.length === 0) {
+    return {
+      list: [],
+      count: 0,
+      page: page
+    };
+  }
 
   // 2. 예약자 정보 조회 : reservId 사용
   // Promise.all - 병렬처리
-  return await Promise.all(reservations.map(async (resv) => {
+  const list =  await Promise.all(reservations.rows.map(async (resv) => {
     const detail = await getDetailByReservId(null, resv.code, resv.id);
     const luggages = await getLuggageList(null, resv.id);
 
@@ -333,38 +369,28 @@ async function userReservation(id) {
       luggageList: luggages
     };
   }))
+
+  return {
+    list,
+    count : reservations.count,
+    page: page,
+  }
 }
 
 // ===== GUEST 조회
 async function guestReservation(data) {
-  // 1. reserveCode 조회
-  const reservation = await reservationRepository.findByCode(null, data.code);
-  if(!reservation) {
-    throw customError('예약 코드 미존재', GUEST_AUTH_ERROR)
-  }
-  if (reservation.userId) {
-    throw customError('회원 예약 내역입니다', MEMBER_RESERVATION_ERROR)
-  }
-  console.log('service-reservation: ', reservation);
+  // 1. 비회원 인증
+  const { reservation, booker } = await verifyGuest(data);
 
-  // 2. 예약자 정보 조회 : reservId 사용
-  const booker = await bookerRepository.findByReservId(null, reservation.id);
-  console.log('controller-booker: ', booker)
-  if(!bcrypt.compareSync(data.password, booker.passwordHash)) {
-    throw customError('비밀번호 틀림', GUEST_AUTH_ERROR);
-  }
-  console.log('service-booker: ', booker);
-
-  // 3. 배송/보관 정보 조회 : reservId 사용
+  // 2. 배송/보관 정보 조회 : reservId 사용
   const detail = await getDetailByReservId(null, data.code, reservation.id);
-  console.log('service-detail: ', detail);
 
-  // 4. 짐 정보 조회 : reservId 사용
+  // 3. 짐 정보 조회 : reservId 사용
   const luggages = await getLuggageList(null, reservation.id);
-  console.log('service-luggages: ', luggages);
-  
+
   return {
     id: reservation.id,
+    bookerId: booker.id,
     code: data.code,
     price: reservation.price,
     state: reservation.state,
@@ -443,18 +469,10 @@ async function userCancel({ userId, code, reason }) {
 // ===== GUEST 예약 취소
 async function guestCancel({ password, code, reason }) {
   return await db.sequelize.transaction(async t => {
-    // 1. 예약 정보 조회 : code 사용
-    const reservation = await reservationRepository.findByCode(t, code);
+    // 1. 비회원 인증
+    const { reservation } = await verifyGuest({ code, password });
 
-    // 2. 예약자 정보 조회 : reservId 사용
-    const booker = await bookerRepository.findByReservId(t, reservation.id);
-    console.log('service-booker: ', booker);
-    // 2-1. 비밀번호 틀렸을 경우
-    if(!bcrypt.compareSync(password, booker.passwordHash)) {
-      throw customError('비밀번호 틀림', GUEST_AUTH_ERROR);
-    }
-
-    // 2-2. 예약 상태 체크 : 'RESERVED' 만 취소 가능
+    // 2. 예약 상태 체크 : 'RESERVED' 만 취소 가능
     if(reservation.state !== 'RESERVED') {
       throw customError('취소 불가 상태', RESERVATION_NOT_CANCELLABLE)
     }
@@ -471,8 +489,13 @@ export default {
 
   confirmTossPayment,
   completePayment,
+
   userReservation,
   guestReservation,
+
   userCancel,
   guestCancel,
+
+  // 비회원 인증
+  verifyGuest,
 }

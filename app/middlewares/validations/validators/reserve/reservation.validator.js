@@ -7,3 +7,13 @@
 import reservationField from "../../fields/reservation.field.js";
 
 export default [ reservationField.type, reservationField.userId, reservationField.userType ];
+
+export const completePaymentValidator = [
+  reservationField.reserveCode,
+]
+
+export const confirmTossPaymentValidator = [
+  reservationField.paymentKey,
+  reservationField.orderId,
+  reservationField.amount,
+]

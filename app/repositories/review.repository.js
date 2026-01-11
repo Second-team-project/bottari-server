@@ -5,7 +5,7 @@
  */
 
 import db from '../models/index.js';
-const { Review, Booker } = db;
+const { Review, Booker, User } = db;
 
 /**
  * 후기 목록 불러오기
@@ -25,8 +25,9 @@ async function pagination(t = null, { limit, offset }) {
       offset: offset,
       include: [
         {
-          model: Booker,
-          as: 'reviewBooker',
+          model: User,
+          as: 'reviewUser',
+          attributes: ['id', 'userName', 'email']
         }
       ],
       transaction: t,
