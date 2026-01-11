@@ -61,7 +61,7 @@ export default {
         reserv_id: 18,
         title: '픽업 할 때 기사님이',
         content: '너무 친절하셨어요.',
-        img: '/files/review/review-test-5.jpg',
+        img: '/files/review/review-test-5.png',
         created_at: new Date(),
         updated_at: new Date()
       },
