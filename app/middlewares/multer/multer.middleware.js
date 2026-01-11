@@ -3,6 +3,7 @@
  * @description multer 미들웨어(업로더를 모아서 내보내기)
  * 251230 v1.0.0 김민현 init
  */
+import chatUploader from "./uploaders/chat.uploader.js";
 import faqUploader from "./uploaders/faq.uploader.js";
 import guideUploader from "./uploaders/guide.uploader.js";
 import noticeUploader from "./uploaders/notice.uploader.js";
@@ -13,4 +14,5 @@ export default {
   faqUploader,
   reviewUploader,
   guideUploader,
+  chatUploader,
 }
