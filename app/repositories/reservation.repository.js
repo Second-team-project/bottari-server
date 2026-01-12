@@ -4,7 +4,7 @@
  * 251222 v1.0.0 N init
  */
 
-import { Op } from 'sequelize';
+import { Op, Sequelize } from 'sequelize';
 import db from '../models/index.js';
 const { Reservation, User, Review, Luggage, Booker, Driver, Delivery, Storage, Store, DriverAssignment } = db;
 
@@ -184,6 +184,16 @@ async function pagination(t = null, { limit, offset, filters }) {
         [Op.between]: [filters.startDate, filters.endDate]
       };
     }
+
+    // 2-4. 예약자명 검색 (회원 OR 비회원)
+    if (filters.searchType === 'userName' && filters.keyword) {
+      where[Op.or] = [
+        // 회원 테이블에서 이름 검색
+        { '$reservationUser.user_name$': { [Op.like]: `%${filters.keyword}%` } },
+        // 비회원 테이블에서 이름 검색
+        { '$reservIdBookers.user_name$': { [Op.like]: `%${filters.keyword}%` } }
+      ];
+    }
   }
 
   // 3. 쿼리 실행
@@ -192,16 +202,13 @@ async function pagination(t = null, { limit, offset, filters }) {
     order: [['createdAt', 'DESC']],
     limit: limit,
     offset: offset,
+    subQuery: false,
     include: [
       {
         model: User,
         as: 'reservationUser',
         attributes: ['userName', 'email', 'phone'],
         required: false, 
-        // 2-4. 예약자 이름(회원) 검색 조건
-        where: (filters && filters.searchType === 'userName' && filters.keyword) 
-          ? { userName: { [Op.like]: `%${filters.keyword}%` } } 
-          : undefined
       },
       {
         model: Booker,
