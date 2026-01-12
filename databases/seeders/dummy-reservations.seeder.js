@@ -17,6 +17,17 @@ export default {
     let idCounter = 1;
 
     const commonStates = ['RESERVED', 'PICKING_UP', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED'];
+    
+    // 요청 사항 문구 리스트
+    const deliveryRequests = [
+      "문 앞에 놔주세요.",
+      "도착 전 연락 부탁드립니다.",
+      "깨질 수 있으니 주의해주세요.",
+      "조심히 다뤄주세요.",
+      "짐이 조금 무거워요.",
+      "호텔에 맡겨주세요.",
+      "배송 완료 후 문자 주세요."
+    ];
 
     // 생성 헬퍼
     const generateGroup = (type, isMember, count) => {
@@ -46,7 +57,7 @@ export default {
           payment_key: isPending ? null : `payment_key_${idCounter}`,
           payment_method: isPending ? null : 'CARD',
           approved_at: isPending ? null : dateObj,
-          notes: faker.datatype.boolean(0.7) ? faker.lorem.sentence() : null,
+          notes: faker.datatype.boolean(0.7) ? faker.helpers.arrayElement(deliveryRequests) : null,
           created_at: dateObj,
           updated_at: new Date()
         });
