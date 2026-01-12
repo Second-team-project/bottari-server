@@ -101,11 +101,7 @@ async function socialKakao(code) {
 
   const kakaoId = resultUser.data.id;
   const email = resultUser.data.kakao_account.email;
-  // TODO : user profile 받을지 말지
-  // const profile = resultUser.data.kakao_account.profile.thumbnail_image_url;
-    //   ↳ 카카오 서버로 부터 다운로드 받아서 profile 폴더에 보관해야함
   const nick = resultUser.data.kakao_account.profile.nickname;
-  // console.log('사용자 정보:', kakaoId, email, profile, nick)
   
   // 트랜잭션
   const refreshToken = await db.sequelize.transaction(async t => {

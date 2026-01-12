@@ -9,9 +9,6 @@ const dummyUser = {
 
 try {
   const accessToken = jwtUtil.generateAccessToken(dummyUser);
-  console.log('\n===== [TEST ACCESS TOKEN] =====');
-  console.log(accessToken);
-  console.log('===============================\n');
 } catch (error) {
   console.error('토큰 생성 실패:', error);
 }

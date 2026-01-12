@@ -8,11 +8,10 @@ import cors from 'cors';
 import customError from '../../errors/custom.error.js';
 import { FORBIDDEN_ERROR } from '../../../configs/responseCode.config.js';
 
-// TODO: 프론트 주소로 변경
 const allowedOrigins = [
-  'https://app1.green-meerkat.kro.kr',
-  'https://app2.green-meerkat.kro.kr',
-  'https://app3.green-meerkat.kro.kr',
+  'https://user-mu-sand.vercel.app',
+  'https://driver-ashy.vercel.app',
+  'https://admin-two-ecru-70.vercel.app',
 ];
 
 export default cors({

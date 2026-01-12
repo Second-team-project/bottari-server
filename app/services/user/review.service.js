@@ -107,7 +107,6 @@ async function destroy({ id, userId }) {
       
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
-        console.log(`파일 삭제 성공: ${filename}`);
       }
     } catch (err) {
       // 파일 삭제 실패는 로그만 남기고 넘깁니다. (이미 DB는 지워졌으므로)

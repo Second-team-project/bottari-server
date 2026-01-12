@@ -20,7 +20,6 @@ async function index(req, res, next) {
   try {
     const page = req.query?.page ? parseInt(req.query?.page) : 1;
     const { status, searchType, keyword } = req.query;
-    console.log('constoller-page, status, searchType, keyword: ', page, status, searchType, keyword)
 
     const { count, rows } = await adminUsersService.pagination({ page, status, searchType, keyword });
 

@@ -93,9 +93,6 @@ async function store(req, res, next) {
       code,
     };
 
-    // 데이터가 잘 들어왔는지 로그로 확인 (디버깅용) TODO : 추후 삭제
-    console.log("Controller Store Data:", data);
-
     const result = await adminStoreEmpsService.create(data);
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
