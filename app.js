@@ -51,22 +51,15 @@ import chatRouter from './routes/chat.router.js';
 // ===== handlers import
 import errorHandler from './app/errors/error.handler.js';
 import { initChatSocket } from './app/utils/socket/socket.js';
+import corsMiddleware from './app/middlewares/cors/cors.middleware.js';
 
 // express 애플리케이션 객체 생성
 const app = express();
 
+app.use(corsMiddleware);
 app.use(express.json());
 app.use(cookieParser());  // cookie 파서
 app.use(express.urlencoded({ extended: true }));  // toss
-
-// 개발 환경에서만 CORS 허용
-// TODO 클라이언트 프록시로 변경할 것
-// if (process.env.APP_MODE === 'dev') {
-//   app.use(cors({
-//   origin: 'http://localhost:5173',  // 프론트 주소 명시
-//   credentials: true                 // 쿠기 정보 주고 받음
-//   }));
-// }
 
 // ------------------------------------------
 // ||     Socket.IO 서버 생성
