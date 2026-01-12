@@ -63,13 +63,9 @@ async function update({ adminId, FAQId, category, title, content, img }) {
       category,
       title,
       content,
+      img: (img === null || typeof img === 'string') ? img : notice.img
     };
-
-    // 이미지가 새로 업로드된 경우에만 데이터에 포함 (업로드 안 하면 기존 이미지 유지)
-    if (img) {
-      updateData.img = img;
-    }
-
+    
     // 업데이트 실행
     await FAQRepository.update(t, FAQId, updateData);
     
