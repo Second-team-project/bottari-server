@@ -63,8 +63,6 @@ async function store(req, res, next) {
 
     const { title, content, image } = req.body;
 
-    console.log(req.body);
-
     const data = {
       adminId: adminId,
       title: title,

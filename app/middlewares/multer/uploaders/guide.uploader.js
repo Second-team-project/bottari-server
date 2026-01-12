@@ -71,10 +71,6 @@ export default function(req, res, next) {
       next(customError(err.message, BAD_FILE_ERROR));
     }
 
-    console.log('--- Multer 통과 ---');
-    console.log('파일:', req.file);
-    console.log('바디:', req.body);
-
     next()
   })
 }

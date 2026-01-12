@@ -31,14 +31,6 @@ async function subscribe(req, res, next) {
 
     const loggedInUser = req.user;
 
-    console.log('controller-sendData: ', {
-      endpoint,
-      p256dh,
-      auth,
-      device: userAgent,
-      loggedInUser,
-    })
-
     const result = await subscriptionService.register({
       endpoint,
       p256dh,

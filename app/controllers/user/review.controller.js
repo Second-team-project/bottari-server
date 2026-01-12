@@ -73,9 +73,6 @@ async function create(req, res, next) {
       img = `${process.env.APP_URL}${process.env.ACCESS_FILE_REVIEW_IMAGE_PATH}/${req.file.filename}`;
     }
 
-    console.log('controller-data: ', data)
-    console.log('controller-file: ', img)
-
     const result = await reviewService.create({
       userId: userId,
       reservId: data.reservId,
@@ -101,7 +98,6 @@ async function destroy(req, res, next) {
   try {
     const userId = req.user.id;
     const id = req.params.id;
-    console.log('controller-userId: ', userId, 'id: ', id)
 
     const result = await reviewService.destroy({ id, userId });
 

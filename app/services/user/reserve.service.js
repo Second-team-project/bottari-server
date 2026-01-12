@@ -47,7 +47,6 @@ async function reservationDraft(t, data) {
       price: parseInt(data.price),
       notes: data.notes,
     }
-    // console.log('service-reserveStateData: ', reserveStateData);
 
     const reserveStateResult = await reservationRepository.create(t, reserveStateData)
 
@@ -162,8 +161,6 @@ async function deliveryDraft(data) {
  */
 async function confirmTossPayment(data) {
   return await db.sequelize.transaction(async t => {
-
-    // console.log('service-payment-data : ', data)
     
     // 1. 결제 승인 요청
     // 토스페이먼츠 API는 시크릿 키를 사용자 ID로 사용하고, 비밀번호는 사용하지 않습니다.
@@ -172,7 +169,6 @@ async function confirmTossPayment(data) {
 
     // 1-1. 예약 상태 & 결제 금액 체크
     const confirmData = await reservationRepository.findByCode(t, data.orderId)
-    // console.log('service-결제금액체크: ', confirmData)
 
     if (confirmData.state !== 'PENDING_PAYMENT') {
       throw customError('이미 처리된 결제입니다', ALREADY_PAID_ERROR)
@@ -197,8 +193,6 @@ async function confirmTossPayment(data) {
         },
       }
     )
-
-    // console.log('service-tossResponse: ', tossResponse)
 
     // 2. 결제 승인 데이터 저장 & 예약 상태 업데이트
     // 2-1. 결제 승인 데이터 담기
@@ -243,10 +237,8 @@ async function getDetailByReservId(t, code, reservId) {
   }
   if(code.startsWith('S')) {
     const data = await storageRepository.findByReservId(t, reservId);
-    console.log('service-data: ', data)
 
     const store = await storeRepository.findByPk(t, data.storeId);
-    console.log('service-store: ', store)
     return {
       startedAt: data.startedAt,
       endedAt: data.endedAt,
@@ -314,18 +306,15 @@ async function completePayment(reserveCode) {
   // 단순 조회 -> 트랜잭션 사용x
   // 1. 예약 정보 조회 : reserveCode 사용
   const reservation = await reservationRepository.findByCode(null, reserveCode);
-  console.log('service-reservation: ', reservation.id)
 
   // 2. 예약자 정보 조회 : reservId 사용
   const booker = await bookerRepository.findByReservId(null, reservation.id);
 
   // 3. 배송/보관 정보 조회 : reservId 사용
   const detail = await getDetailByReservId(null, reserveCode, reservation.id);
-  console.log('reserveService-detail: ', detail)
   
   // 4. 짐 정보 조회 : reservId 사용
   const luggages = await getLuggageList(null, reservation.id);
-  console.log('reserveService-luggages: ', luggages)
   
   return {
     id: reservation.id,
@@ -420,14 +409,12 @@ async function tossPaymentCancel(t, { reservId, paymentKey, reason }) {
       },
     }
   )
-  console.log('service-transactionKey: ', tossResponse.data.cancels[0].transactionKey);
 
   const reservationResult = await reservationRepository.updateToCancel(t, {
     id: reservId, 
     state: 'CANCELLED',
     reason: reason
   })
-  console.log('service: ', reservationResult)
 
 }
 
@@ -439,7 +426,6 @@ async function userCancel({ userId, code, reason }) {
       
       // 1. 예약 정보 조회 : code 사용
       const reservation = await reservationRepository.findByCode(t, code);
-      console.log('service-reservation: ', reservation)
       
       // 1-1. 예약 상태 체크 : 'RESERVED' 만 취소 가능
       if(reservation.state !== 'RESERVED') {
@@ -454,12 +440,6 @@ async function userCancel({ userId, code, reason }) {
       await tossPaymentCancel(t, { reservId: reservation.id, paymentKey: reservation.paymentKey, reason })
     
     } catch (error) {
-       if (error.response) {
-        console.log('Status:', error.response.status);
-        console.log('Data:', error.response.data);
-      } else {
-        console.log('Error Message:', error.message);
-      }
       throw customError('결제 취소 중 오류가 발생했습니다.', TOSS_PAYMENT_ERROR);
     }
 

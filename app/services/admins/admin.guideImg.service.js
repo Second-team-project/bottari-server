@@ -26,7 +26,6 @@ async function store({ title, type, img, imgEng, active, sortOrder, link }) {
   return await db.sequelize.transaction(async t => {
     // order 최대값
     const maxOrder = await guideImgRepository.max(t, type) || 0;
-    console.log('service: ', type)
 
     const result = await guideImgRepository.create(t, { title, type, img, imgEng, active, sortOrder: sortOrder || (maxOrder + 1), link });
   

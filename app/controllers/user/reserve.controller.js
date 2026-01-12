@@ -21,7 +21,6 @@ async function deliveryDraft(req, res, next) {
   try {
     // 1. 클라이언트 데이터 확인
     const data = req.body;
-    console.log('controller :', data);
 
     // 2. 서비스 호출
     const result = await reserveService.deliveryDraft(data);
@@ -43,11 +42,9 @@ async function storageDraft(req, res, next) {
   try {
     // 1. 클라이언트 데이터 확인
     const data = req.body;
-    // console.log('controller-클라이언트에서 받은 데이터: ', data)
     
     // 2. 서비스 호출
     const result = await reserveService.storageDraft(data);
-    // console.log('controller-서비스에서 완료한 데이터: ', result)
 
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result))
@@ -70,7 +67,6 @@ async function confirmTossPayment(req, res, next) {
 
     // 2. 서비스 호출 : 금액, 예약 코드로 예약 정보 검증
     const result = await reserveService.confirmTossPayment({ paymentKey, orderId, amount });
-    // console.log('controller-toss: ', result)
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
     
@@ -89,10 +85,8 @@ async function completePayment(req, res, next) {
   try {
     // 1. 클라이언트 데이터 확인 : 파라미터
     const reserveCode = req.params.reserveCode;
-    // console.log('controller-params: ', reserveCode)
     // 2. 서비스 호출 : 예약 코드로 예약 정보 조회
     const result = await reserveService.completePayment(reserveCode);
-    console.log('reserveController-result: ', result)
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, result));
   } catch (error) {
@@ -131,7 +125,6 @@ async function userReservation(req, res, next) {
 async function guestReservation(req, res, next) {
   try {
     const data = req.body;
-    console.log('contoller-guestData: ', data);
 
     const result = await reserveService.guestReservation(data);
     
@@ -153,13 +146,6 @@ async function userCancel(req, res, next) {
     const id = req.user.id;
     const data = req.body;
     const code = req.params.code;
-    console.log('contoller-data: ', id, data, code);
-
-    console.log({
-      userId: id,
-      code: code,
-      reason: data.reason,
-    })
 
     const result = await reserveService.userCancel({
       userId: id,
@@ -184,7 +170,6 @@ async function guestCancel(req, res, next) {
   try {
     const data = req.body;
     const code = req.params.code;
-    console.log('contoller-guestData: ', data, code);
 
     const result = await reserveService.guestCancel({
       password: data.password,

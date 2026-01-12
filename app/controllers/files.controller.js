@@ -22,7 +22,6 @@ async function chatImg(req, res, next) {
       throw customError('파일 없음: ', BAD_FILE_ERROR)
     }
     const img = `${process.env.APP_URL}${process.env.ACCESS_FILE_CHAT_IMAGE_PATH}/${req?.file.filename}`;
-    console.log('controller-file: ', img)
 
     return res.status(SUCCESS.status).send(customResponse(SUCCESS, img))
   } catch (error) {

@@ -18,14 +18,12 @@ import driverLocationLogRepository from "../../repositories/driverLocationLog.re
  */
 async function show(reservId) {
   const driverAssignment = await driverAssignmetRepository.findByReservId(null, reservId);
-  console.log('service-driverAssignment: ', driverAssignment);
 
   if (!driverAssignment) {
     throw customError('배정 정보 없음', NO_ASSIGNMENT_ERROR);
   };
 
   const driverLocation = await driverLocationRepository.findByDriverId(null, driverAssignment.driverId);
-  console.log('service-driverLocation: ', driverLocation);
 
   return {
     driverId: driverAssignment.driverId,
