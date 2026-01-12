@@ -115,9 +115,11 @@ async function pagination(t = null, { limit, offset, where }) {
             SELECT COUNT(*)
             FROM deliveries AS d
             INNER JOIN reservations AS r
-            ON d.reserv_id = r.id
+              ON d.reserv_id = r.id
+            INNER JOIN driver_assignments AS da 
+              ON r.id = da.reserv_id
             WHERE
-              d.id = Driver.id
+              da.driver_id = Driver.id 
               AND d.deleted_at IS NULL
               AND r.state = 'COMPLETED'
           )`),
