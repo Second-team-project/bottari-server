@@ -109,10 +109,27 @@ async function destroy(id) {
   return await driverRepository.destroy(null, id);
 }
 
+/**
+ * 기사 전체 목록 조회
+ */
+async function getAllDrivers(params) {
+  const { driverName, carNumber, email, accountId, phone } = params;
+  const where = {};
+
+  if (driverName) where.driverName = { [Op.like]: `%${driverName}%` };
+  if (carNumber) where.carNumber = { [Op.like]: `%${carNumber}%` };
+  if (accountId) where.accountId = { [Op.like]: `%${accountId}%` };
+  if (phone) where.phone = { [Op.like]: `%${phone}%` };
+  if (email) where.email = { [Op.like]: `%${email}%` };
+
+  return await driverRepository.findAll(null, { where });
+}
+
 export default {
   pagination,
   show,
   create,
   update,
-  destroy
+  destroy,
+  getAllDrivers
 };
