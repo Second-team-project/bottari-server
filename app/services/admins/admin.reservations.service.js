@@ -160,7 +160,7 @@ async function update(id, data) {
             { title: '보관 알림',
               message: '고객님의 짐이 보관되었습니다.',
               data: {
-                targetUrl: `/reserve/list'`
+                targetUrl: `/reserve/list`
               }
             }
           );
@@ -255,7 +255,7 @@ async function update(id, data) {
             { title: '기사 배정',
               message: '담당 기사님이 배정되었습니다.',
               data: {
-                targetUrl: `/reserve/list'`
+                targetUrl: `/reserve/list`
               }
             }
           );
