@@ -119,7 +119,7 @@ async function create(data) {
             title: '보관 알림', 
             message: '고객님의 짐이 안전하게 보관되었습니다.',
             data: {
-              targetUrl: `/reserve/list'`
+              targetUrl: `/reserve/list`
             }
           }
         ).catch(err => console.error('Push Notification Error:', err));
@@ -301,7 +301,7 @@ async function update(id, data) {
       await bookerRepository.updateByReservId(t, id, bookerUpdateData);
     }
 
-    // await Promise.allSettled(notifications);
+    await Promise.allSettled(notifications.map(fn => fn()));
     // 업데이트된 최신 정보를 다시 조회해서 반환
     return await reservationRepository.findByPkJoinUser(t, id);
   });
