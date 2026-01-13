@@ -20,7 +20,7 @@ export default {
       users.push({
         userName: fakerKO.person.fullName(),
         email: fakerKO.internet.email(), // Faker가 알아서 랜덤 이메일 생성 (중복 확률 낮음)
-        phone: fakerKO.phone.number('010-####-####'),
+        phone: `010${fakerKO.string.numeric(8)}`,
         // 필요하다면 추가 컬럼 설정 (예: snsId, provider 등)
         provider: 'KAKAO', 
         status: 'ACTIVE',
