@@ -23,7 +23,8 @@ async function index(req, res, next) {
       email,
       phone,
       notes,
-      carNumber
+      carNumber,
+      attendanceState
     } = req.query;
 
     const params = {
@@ -33,7 +34,8 @@ async function index(req, res, next) {
       email,
       phone,
       notes,
-      carNumber
+      carNumber,
+      attendanceState
     };
 
     const { count, rows } = await adminDriversService.pagination(params);
