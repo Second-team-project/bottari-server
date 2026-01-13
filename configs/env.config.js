@@ -25,7 +25,6 @@ const filePath = envFileMap[env] || '.env';
 if (fs.existsSync(filePath)) {
   // 1-1. 해당 파일 읽을 것
   dotenv.config({ path: filePath });
-  console.log(`Loaded env: ${filePath}`);
 
   // 2. 'filePath' 파일이 없다면
 } else {

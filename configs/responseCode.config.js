@@ -32,7 +32,7 @@ Object.freeze(SUCCESS);
 const NOT_REGISTERED_ERROR = {
   code: 'E01',
   msg: 'Unauthorized Error',
-  info: '아이디나 비밀번호가 틀렸습니다.',
+  info: '아이디 또는 비밀번호가 올바르지 않습니다.',
   status: 400
 };
 Object.freeze(NOT_REGISTERED_ERROR);
@@ -89,13 +89,13 @@ Object.freeze(INVALID_TOKEN_ERROR);
  * 중복 가입 에러 코드 설정
  * @type {ResponseCodeConfig}
  */
-const CONFLICT_ERROR = {
+const CONFLICT_REGIST_ERROR = {
   code: 'E07',
-  msg: 'Conflict Error',
+  msg: 'Conflict Regist Error',
   info: '이미 가입 된 회원입니다.',
   status: 409
 };
-Object.freeze(CONFLICT_ERROR);
+Object.freeze(CONFLICT_REGIST_ERROR);
 
 /**
  * 권한 부족 에러 코드 설정
@@ -120,6 +120,22 @@ const REISSUE_ERROR = {
   status: 401
 };
 Object.freeze(REISSUE_ERROR);
+
+/**
+ * 자단된 사용자
+ * @type {ResponseCodeConfig}
+ */
+const BANNED_MEMBER = {
+  code: 'E10',
+  msg: 'Banned Member Error',
+  info: '차단된 사용자 입니다.',
+  status: 403
+};
+Object.freeze(BANNED_MEMBER);
+
+
+// =======================================================================
+
 
 /**
  * 전역 응답 코드 설정
@@ -158,6 +174,142 @@ const BAD_FILE_ERROR = {
 Object.freeze(BAD_FILE_ERROR);
 
 /**
+ * 데이터 충돌 에러
+ */
+const CONFLICT_ERROR = {
+  code: 'E23',
+  msg: 'Conflict Error',
+  info: '이미 존재하는 데이터입니다. 다시 시도해주세요.',
+  status: 409
+};
+Object.freeze(CONFLICT_ERROR);
+
+
+// =======================================================================
+
+
+/**
+ * 예약 코드 충돌로 진행 불가
+ */
+const RESERVE_CONFLICT_ERROR = {
+  code: 'E40',
+  msg: 'Reserve Conflict Error',
+  info: '예약 처리 중 문제가 발생했습니다. 다시 시도해주세요.',
+  status: 409
+};
+Object.freeze(RESERVE_CONFLICT_ERROR);
+
+/**
+ * 비회원 예약 조회 시 예약코드/비밀번호 매칭 실패
+ */
+const GUEST_AUTH_ERROR = {
+  code: 'E41',
+  msg: 'Not Reservation Error',
+  info: '예약코드 또는 비밀번호가 올바르지 않습니다.',
+  status: 401
+};
+Object.freeze(GUEST_AUTH_ERROR);
+
+/**
+ * 비회원으로 회원예약 조회 시도 시 에러
+ */
+const MEMBER_RESERVATION_ERROR = {
+  code: 'E42',
+  msg: 'Member Reservation Error',
+  info: '회원 예약 내역입니다. 로그인 후 이용해주세요.',
+  status: 403
+}
+Object.freeze(MEMBER_RESERVATION_ERROR);
+
+/**
+ * 쥐소하려는 예약이 '예약완료'외의 상태(진행중, 진행완료)일 때 에러
+ */
+const RESERVATION_NOT_CANCELLABLE = {
+  code: 'E43',
+  msg: 'Reservation not cancellable',
+  info: '취소할 수 없는 예약 상태입니다.',
+  status: 409
+}
+Object.freeze(RESERVATION_NOT_CANCELLABLE);
+
+/**
+ * 쥐소하려는 예약이 '예약완료'외의 상태(진행중, 진행완료)일 때 에러
+ */
+const TOSS_PAYMENT_ERROR = {
+  code: 'E44',
+  msg: 'Toss Payment Reservation Cancel Error',
+  info: '결제 취소 중 오류가 발생했습니다. -tossPayments',
+  status: 502
+}
+Object.freeze(TOSS_PAYMENT_ERROR);
+
+
+/**
+ * 이미 결제된 예약건 
+*/
+const ALREADY_PAID_ERROR = {
+  code: 'E45',
+  msg: 'Already Paid Error',
+  info: '이미 결제된 예약입니다.',
+  status: 409
+}
+Object.freeze(ALREADY_PAID_ERROR);
+
+
+// =======================================================================
+
+
+/**
+ * 이미 결제된 예약건 
+ */
+const NO_ASSIGNMENT_ERROR = {
+  code: 'E60',
+  msg: 'No Assignment Error',
+  info: '기사가 배정되지 않은 예약입니다.',
+  status: 404
+}
+Object.freeze(NO_ASSIGNMENT_ERROR);
+
+/**
+ * 출근 전일 때 예약의 상태를 변경하려 할 때
+ */
+const NOT_ATTENDANCE_ERROR = {
+  code: 'E61',
+  msg: 'Not Attendance Error',
+  info: '출근 상태가 아닙니다. 출근 후 다시 시도해주세요.',
+  status: 403
+}
+Object.freeze(NOT_ATTENDANCE_ERROR);
+
+/**
+ * 출근 전일 때 퇴근하려고 할 때
+ */
+const NOT_CLOCKED_IN_ERROR = {
+  code: 'E61',
+  msg: 'Not CLOCKED IN Error',
+  info: '출근 전 입니다. 출근 후 퇴근하실 수 있습니다.',
+  status: 400
+}
+Object.freeze(NOT_CLOCKED_IN_ERROR);
+
+/**
+ * 퇴근 전일 때 출근하려고 할 때
+ */
+const NOT_CLOCKED_OUT_ERROR = {
+  code: 'E61',
+  msg: 'Not CLOCKED OUT Error',
+  info: '퇴근 전 입니다. 퇴근 후 퇴근하실 수 있습니다.',
+  status: 400
+}
+Object.freeze(NOT_CLOCKED_OUT_ERROR);
+
+
+
+
+// =======================================================================
+
+
+/**
  * 시스템 에러 응답 코드 설정
  * @type {ResponseCodeConfig}
  */
@@ -183,18 +335,38 @@ Object.freeze(DB_ERROR);
 
 
 export {
+  // 01 - 로그인 관련
   SUCCESS,
   NOT_REGISTERED_ERROR,
   UNAUTHORIZED_ERROR,
   FORBIDDEN_ERROR,
   EXPIRED_TOKEN_ERROR,
   INVALID_TOKEN_ERROR,
-  CONFLICT_ERROR,
+  CONFLICT_REGIST_ERROR,
   UNMATCHING_USER_ERROR,
   REISSUE_ERROR,
+  BANNED_MEMBER,
+
+  // 20 - 전역
   NOT_FOUND_ERROR,
   BAD_REQUEST_ERROR,
   BAD_FILE_ERROR,
+  CONFLICT_ERROR,
+  
+  // 40 - 예약 관련
+  RESERVE_CONFLICT_ERROR,
+  GUEST_AUTH_ERROR,
+  MEMBER_RESERVATION_ERROR,
+  RESERVATION_NOT_CANCELLABLE,
+  ALREADY_PAID_ERROR,
+  TOSS_PAYMENT_ERROR,
+
+  // 60 - 기사 관련
+  NO_ASSIGNMENT_ERROR,
+  NOT_ATTENDANCE_ERROR,
+  NOT_CLOCKED_IN_ERROR,
+  NOT_CLOCKED_OUT_ERROR,
+
   SYSTEM_ERROR,
   DB_ERROR,
 };
