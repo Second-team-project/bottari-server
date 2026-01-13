@@ -1,0 +1,8 @@
+/**
+ * @file app/middlewares/validations/validators/notices/store.validator.js
+ * @description 공지사항 게시글 store 검사기
+ * 251222 v1.0.0 김민현 init
+ */
+import noticeField from "../../fields/notice.field.js";
+
+export default [noticeField.title, noticeField.content, noticeField.image];

@@ -1,0 +1,139 @@
+/**
+ * @file app/controllers/user/auth.controller.js
+ * @description 인증 관련 컨트롤러
+ * 20251217 N init
+ */
+
+// config
+import { BAD_REQUEST_ERROR, BANNED_MEMBER, REISSUE_ERROR, SUCCESS } from "../../../configs/responseCode.config.js";
+import customError from "../../errors/custom.error.js";
+import PROVIDER from "../../middlewares/auth/configs/provider.enum.js";
+// service
+import authService from "../../services/user/auth.service.js";
+// util
+import cookieUtil from "../../utils/cookie/cookie.util.js";
+import customResponse from "../../utils/custom.response.util.js";
+import socialKakaoUtil from "../../utils/social/social.kakao.util.js";
+
+
+/**
+ * 토큰 재발급 컨트롤러
+ * @param {import("express").Request} req - Request 객체
+ * @param {import("express").Response} res - Response 객체
+ * @param {import("express").NextFunction} next - NextFunction 객체
+*/
+async function reissue(req, res, next) {
+  try {
+    const token = cookieUtil.getCookieRefreshToken(req);
+    
+    // 토큰 존재 여부 확인
+    if(!token) {
+      throw customError('리프레시 토큰 없음', REISSUE_ERROR);
+    }
+
+    // 토큰 재발급 처리
+    const { accessToken, refreshToken, user } = await authService.reissue(token);
+    
+    // 쿠키에 리프레시 토큰 설정
+    cookieUtil.setCookieRefreshToken(res, refreshToken);
+    
+    return res.status(SUCCESS.status).send(customResponse(SUCCESS, { accessToken, user }))
+  } catch(error) {
+    return next(error)
+  }
+}
+
+/**
+ * 소셜 로그인 컨트롤러
+ * @param {import("express").Request} req - Request 객체
+ * @param {import("express").Response} res - Response 객체
+ * @param {import("express").NextFunction} next - NextFunction 객체
+*/
+async function social(req, res, next) {
+  // client에서 받은 요청을 server에서 kakao로 보냄 → 응답 불필요
+  try {
+    const provider = req.params.provider.toUpperCase();
+    
+    let url = '';
+    switch(provider) {
+      case PROVIDER.KAKAO:
+        url = socialKakaoUtil.getAuthorizeURL();
+        break;
+      }
+      
+      return res.redirect(url);
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * 소셜 로그인 콜백 컨트롤러
+ * @param {import("express").Request} req - Request 객체
+ * @param {import("express").Response} res - Response 객체
+ * @param {import("express").NextFunction} next - NextFunction 객체
+*/
+async function socialCallback(req, res, next) {
+  try {
+    const provider = req.params.provider.toUpperCase();
+    let refreshToken = null;
+    let code = null;
+    
+    switch(provider) {
+      case PROVIDER.KAKAO:
+        code = req.query?.code;
+        if(!code) {
+          throw customError('인가 코드 없음', BAD_REQUEST_ERROR);
+        }
+        refreshToken = await authService.socialKakao(code);
+        break;
+      }
+      
+      // Cookie에 RefreshToken 설정
+      cookieUtil.setCookieRefreshToken(res, refreshToken);
+      
+      // 클라이언트 - 카카오 로그인 요청 → 서버에서 카카오로 로그인 요청 → 카카오에서 클라이언트로 응답 :
+      // 클라이언트와 백엔드 연결은 이미 끊어짐 → redirect로 react 재구성 필요
+      return res.redirect(process.env.SOCIAL_CLIENT_CALLBACK_URL);
+      
+  } catch (error) {
+    // "차단된 회원" 에러인 경우 -> 리다이렉트 (클라이언트용)
+    // error.codeInfo가 있고, 그 코드가 BANNED_MEMBER.code와 같다면
+    if (error.codeInfo && error.codeInfo.code === BANNED_MEMBER.code) {
+      const message = encodeURIComponent(error.message);
+      return res.redirect(`${process.env.SOCIAL_CLIENT_CALLBACK_URL}?error=${message}`);
+    }
+    // 그 외 에러
+    next(error)
+  }
+}
+
+/**
+ * 로그아웃 컨트롤러 처리
+ * @param {import("express").Request} req - Request 객체
+ * @param {import("express").Response} res - Response 객체
+ * @param {import("express").NextFunction} next - NextFunction 객체 
+ * @returns
+ */
+async function logout(req, res, next) {
+  try {
+    const id = req.user.id;
+
+    // 로그아웃 서비스 호출
+    await authService.logout(id);
+
+    // cookie에 refreshToken 만료
+    cookieUtil.clearCookieRefreshToken(res);
+
+    return res.status(SUCCESS.status).send(customResponse(SUCCESS));
+  } catch(error) {
+    return next(error);
+  }
+}
+
+export default {
+  logout,
+  reissue,
+  social,
+  socialCallback,
+}
