@@ -18,6 +18,7 @@ const adminDriversRouter = express.Router();
 adminDriversRouter.use(authMiddleware);
 
 adminDriversRouter.get('/', indexValidator, validationHandler, adminDriversController.index);
+adminDriversRouter.get('/list', adminDriversController.listAll);
 adminDriversRouter.get('/:id', showValidator, validationHandler, adminDriversController.show);
 adminDriversRouter.post('/', storeValidator, validationHandler, adminDriversController.store);
 adminDriversRouter.put('/:id', updateValidator, validationHandler, adminDriversController.update);

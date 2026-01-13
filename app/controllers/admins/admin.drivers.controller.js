@@ -161,10 +161,32 @@ async function destroy(req, res, next) {
   }
 }
 
+/**
+ * 기사 전체 목록 조회 (전체 데이터)
+ */
+async function listAll(req, res, next) {
+  try {
+    const { driverName, accountId, email, phone, carNumber } = req.query;
+
+    const params = { driverName, accountId, email, phone, carNumber };
+    const drivers = await adminDriversService.getAllDrivers(params);
+
+    const responseData = {
+      count: drivers.length,
+      drivers: drivers,
+    };
+    
+    return res.status(SUCCESS.status).send(customResponse(SUCCESS, responseData));
+  } catch(error) {
+    return next(error);
+  }
+}
+
 export default {
   index,
   show,
   store,
   update,
   destroy,
+  listAll
 }
