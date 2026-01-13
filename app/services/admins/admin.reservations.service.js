@@ -284,7 +284,7 @@ async function update(id, data) {
       await bookerRepository.updateByReservId(t, id, bookerUpdateData);
     }
 
-    await Promise.allSettled(notifications);
+    // await Promise.allSettled(notifications);
     // 업데이트된 최신 정보를 다시 조회해서 반환
     return await reservationRepository.findByPkJoinUser(t, id);
   });

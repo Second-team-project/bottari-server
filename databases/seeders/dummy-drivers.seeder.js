@@ -79,7 +79,7 @@ export default {
     for (let i = 0; i < 50; i++) {
       records.push({
         driver_name: faker.person.lastName() + faker.person.firstName(),
-        phone: faker.phone.number('010-####-####'),
+        phone: `010${faker.string.numeric(8)}`,
         account_id: `driver${i + 1}`,
         password_hash: passwordHash, // 비밀번호 통일
         email: faker.internet.email(),
