@@ -152,15 +152,32 @@ async function update(id, data) {
 
     // 유저에게 보관 완료 알림
     if(data.state !== reservation.state) {
-      if (data.state === 'COMPLETED') {
+      if (data.state === 'RESERVED') {
         notifications.push(async () => {
           await subscriptionService.sendPushNotification(
             reservation.userId, 
             USER_TYPE.MEMBER, 
             { title: '보관 알림',
-              message: '고객님의 짐이 안전하게 보관되었습니다.',
+              message: '고객님의 짐이 보관되었습니다.',
               data: {
                 targetUrl: `/reserve/list'`
+              }
+            }
+          );
+        });
+      }
+
+      // 유저에게 '예약중'인 건을 '진행중'으로 바꿨을 때 알림
+      if (reservation.state === 'RESERVED' && data.state === 'IN_PROGRESS') {
+        notifications.push(async () => {
+          await subscriptionService.sendPushNotification(
+            reservation.userId,
+            USER_TYPE.MEMBER,
+            { 
+              title: '보관 알림',
+              message: '고객님의 짐을 보관중입니다.',
+              data: {
+                targetUrl: `/reserve/list`
               }
             }
           );
@@ -284,7 +301,7 @@ async function update(id, data) {
       await bookerRepository.updateByReservId(t, id, bookerUpdateData);
     }
 
-    await Promise.allSettled(notifications);
+    // await Promise.allSettled(notifications);
     // 업데이트된 최신 정보를 다시 조회해서 반환
     return await reservationRepository.findByPkJoinUser(t, id);
   });
