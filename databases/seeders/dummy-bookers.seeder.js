@@ -29,7 +29,7 @@ export default {
         reserv_id: i, // FK
         user_id: isMember ? 1 : null,
         user_name: faker.person.fullName(),
-        phone: faker.phone.number('010-####-####'),
+        phone: `010${faker.string.numeric(8)}`,
         email: isMember ? 'user1@test.com' : faker.internet.email(),
         password_hash: isMember ? null : passwordHash,
         created_at: now,

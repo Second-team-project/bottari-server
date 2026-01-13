@@ -35,7 +35,7 @@ import driverLocationRouter from './routes/drivers/driver.location.router.js';
 import adminAuthRouter from './routes/admin/admin.auth.router.js';
 import adminReservationRouter from './routes/admin/admin.reservations.router.js';
 import adminNoticesRouter from './routes/admin/admin.notices.router.js';
-import adminFAQRouter from './routes/admin/admin.FAQ.router.js';
+import adminFAQRouter from './routes/admin/admin.faq.router.js';
 import adminStatsRouter from './routes/admin/admin.stats.router.js';
 import adminDriversRouter from './routes/admin/admin.drivers.router.js';
 import adminStoreEmpsRouter from './routes/admin/admin.storeEmps.router.js';

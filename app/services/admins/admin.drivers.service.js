@@ -12,7 +12,7 @@ import { Op } from "sequelize";
  * @returns
  */
 async function pagination(params) {
-  const { page, driverName, carNumber, email, accountId, phone } = params;
+  const { page, driverName, carNumber, email, accountId, phone, attendanceState } = params;
   // 검색 조건 생성
   const where = {};
 
