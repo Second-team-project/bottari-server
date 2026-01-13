@@ -23,15 +23,11 @@ async function index(req, res, next) {
       state,      // 예약 상태
       startDate,  // 시작일
       endDate,    // 종료일
-      limit,      // 보여줄 목록 수
     } = req.query;
 
-    const pageNum = page ? parseInt(page) : 1;
-    const limitNum = limit ? parseInt(limit) : 20;
-
     const params = {
-      page: pageNum,
-      limit: limitNum,
+      page: page,
+      limit: 20,
       searchType,
       keyword,
       state,
@@ -42,8 +38,8 @@ async function index(req, res, next) {
     const { count, rows } = await adminReservationsService.pagination(params);
 
     const responseData = {
-      page: pageNum,
-      limit: limitNum,
+      page: page,
+      limit: 20,
       count: count,
       reservations: rows,
     }
