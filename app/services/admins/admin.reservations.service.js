@@ -150,8 +150,8 @@ async function update(id, data) {
     // 기본 정보 수정
     await reservationRepository.updateByPk(t, id, data);
 
-    // 유저에게 보관 완료 알림
-    if(data.state !== reservation.state) {
+    // 유저에게 보관 완료 알림 (state가 명시적으로 전달되었을 때만)
+    if(data.state && data.state !== reservation.state) {
       if (data.state === 'RESERVED') {
         notifications.push(async () => {
           await subscriptionService.sendPushNotification(
