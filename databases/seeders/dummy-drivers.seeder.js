@@ -10,7 +10,8 @@ const tableName = 'drivers';
 
 export default {
   async up (queryInterface, Sequelize) {
-    const records = [];
+    // 레코드 정보
+    const records = []
     const passwordHash = await bcrypt.hash('driver1234', 10);
     const now = new Date();
 
@@ -27,6 +28,7 @@ export default {
         updated_at: now,
       });
     }
+
 
     await queryInterface.bulkInsert(tableName, records, {});
   },
