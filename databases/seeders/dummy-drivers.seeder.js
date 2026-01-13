@@ -10,7 +10,69 @@ const tableName = 'drivers';
 
 export default {
   async up (queryInterface, Sequelize) {
-    const records = [];
+    // 레코드 정보
+    const records = [
+      {
+        driver_name: '김기사',
+        phone: '01011110001',
+        account_id: 'driver01',
+        password_hash: await bcrypt.hash('dri12312', 10),
+        email: 'driver01@test.com',
+        car_number: '12가3456',
+        notes: '베테랑 기사',
+        refresh_token: null,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        driver_name: '이운전',
+        phone: '01011110002',
+        account_id: 'driver02',
+        password_hash: await bcrypt.hash('dri12312', 10),
+        email: 'driver02@test.com',
+        car_number: '34나5678',
+        notes: null,
+        refresh_token: null,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        driver_name: '박배송',
+        phone: '01011110003',
+        account_id: 'driver03',
+        password_hash: await bcrypt.hash('dri12312', 10),
+        email: null,
+        car_number: '56다9012',
+        notes: '신규 기사',
+        refresh_token: null,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        driver_name: '최퀵',
+        phone: '01011110004',
+        account_id: 'driver04',
+        password_hash: await bcrypt.hash('dri12312', 10),
+        email: 'driver04@test.com',
+        car_number: '78라3456',
+        notes: '야간 근무 가능',
+        refresh_token: null,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        driver_name: '정라이더',
+        phone: '01011110005',
+        account_id: 'driver05',
+        password_hash: await bcrypt.hash('dri12312', 10),
+        email: 'driver05@test.com',
+        car_number: '90마7890',
+        notes: '장거리 운송 가능',
+        refresh_token: null,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    ]
     const passwordHash = await bcrypt.hash('driver1234', 10);
     const now = new Date();
 
@@ -27,6 +89,7 @@ export default {
         updated_at: now,
       });
     }
+
 
     await queryInterface.bulkInsert(tableName, records, {});
   },
