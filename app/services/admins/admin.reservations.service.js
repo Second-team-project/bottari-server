@@ -189,7 +189,7 @@ async function update(id, data) {
     if (data.driverId !== undefined) {
 
       // 기존의 배정된 기사 확인
-      const AssignedDriver = reservation.reservationDriver && reservation.reservationDriver[0];
+      const AssignedDriver = reservation.reservationsDrivers && reservation.reservationsDrivers[0];
       
       // 일단 기존에 배정된 기사가 있다면 '해제' 처리
       await reservationRepository.updateUnassigned(t, id);
