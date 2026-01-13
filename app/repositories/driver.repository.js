@@ -168,6 +168,48 @@ async function destroy(t = null, id) {
   });
 }
 
+/**
+ * 기사 전체 목록 조회 (페이지네이션 없음)
+ * @param {import("sequelize").Transaction|null} t 
+ * @param {object} where - 검색 조건
+ */
+async function findAll(t = null, { where = {} } = {}) {
+  return await Driver.findAll({
+    attributes: {
+      include: [
+        [
+          db.sequelize.literal(`(
+            SELECT COUNT(*)
+            FROM deliveries AS d
+            INNER JOIN reservations AS r ON d.reserv_id = r.id
+            INNER JOIN driver_assignments AS da ON r.id = da.reserv_id
+            WHERE da.driver_id = Driver.id 
+              AND d.deleted_at IS NULL
+              AND r.state = 'COMPLETED'
+          )`),
+          'deliveryCount'
+        ],
+        [
+          db.sequelize.literal(`(
+            SELECT state
+            FROM driver_attendance_logs
+            WHERE driver_id = Driver.id
+            ORDER BY created_at DESC
+            LIMIT 1
+          )`),
+          'attendanceState'
+        ]
+      ]
+    },
+    where: where,
+    order: [
+      ['createdAt', 'DESC'],
+      ['id', 'ASC'],
+    ],
+    transaction: t,
+  });
+}
+
 export default {
   findByAccountId,
   save,
@@ -178,4 +220,5 @@ export default {
   create,
   destroy,
   findByPkWithReserv,
+  findAll
 }
