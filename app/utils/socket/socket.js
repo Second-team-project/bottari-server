@@ -87,7 +87,7 @@ export const initChatSocket = (io) => {
 
               await subscriptionService.sendPushNotification(
                 room.userId,
-                'MEMBER.', // 받는 사람 타입
+                'MEMBER', // 받는 사람 타입
                 {
                   title: '1:1 상담 답장이 도착했어요.',
                   message: message.messageType === 'IMAGE' ? '사진을 보냈습니다.' : message.content, // "안녕하세요" or "사진을 보냈습니다"
