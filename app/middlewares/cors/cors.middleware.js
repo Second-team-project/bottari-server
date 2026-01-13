@@ -9,7 +9,7 @@ import customError from '../../errors/custom.error.js';
 import { FORBIDDEN_ERROR } from '../../../configs/responseCode.config.js';
 
 const allowedOrigins = [
-  'https://user-mu-sand.vercel.app',
+  process.env.APP_USER_URL,
   'https://driver-ashy.vercel.app',
   'https://admin-two-ecru-70.vercel.app',
 ];
