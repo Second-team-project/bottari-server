@@ -22,7 +22,7 @@ import bcrypt from 'bcrypt';
 async function pagination(params) {
   // 페이지 번호 처리
   const page = params.page ? parseInt(params.page) : 1;
-  const limit = params.limit || 20;
+  const limit = 20;
   const offset = limit * (page - 1);
 
   // 필터 객체 조립
