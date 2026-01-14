@@ -222,7 +222,24 @@ async function pagination(t = null, { limit, offset, filters }) {
         attributes: ['driverName'],
         required: false,
         through: { attributes: [] } // 중간 테이블(DriverAssignment) 정보는 제외
-      }
+      },
+      {
+        model: DriverAssignment,
+        as: 'reservIdDriverAssignments',
+        required: false,
+        where: {
+          state: 'ASSIGNED'
+        },
+        attributes: ['id', 'state'],
+        include: [
+          {
+            model: Driver,
+            as: 'driverAssignmentDriver',
+            attributes: ['id', 'driverName', 'phone', 'carNumber'],
+            required: true,
+          }
+        ]
+      },
     ],
     distinct: true, // include와 limit을 같이 쓸 때 정확한 개수를 세기 위해 필수
     transaction: t
@@ -261,6 +278,23 @@ async function findByPkJoinUser(t = null, id) {
           as: 'reservationsDrivers',
           attributes: ['id', 'driverName', 'phone', 'carNumber'],
           required: false,
+        },
+        {
+          model: DriverAssignment,
+          as: 'reservIdDriverAssignments',
+          required: false,
+          where: {
+            state: 'ASSIGNED'
+          },
+          attributes: ['id', 'state'],
+          include: [
+            {
+              model: Driver,
+              as: 'driverAssignmentDriver',
+              attributes: ['id', 'driverName', 'phone', 'carNumber'],
+              required: true,
+            }
+          ]
         },
         {
           model: Delivery,
@@ -351,7 +385,7 @@ async function updateUnassigned(t = null, reservId) {
   return await DriverAssignment.update(
     {
       unassignedAt: new Date(), 
-      state: 'CANCELED'         
+      state: 'UNASSIGNED'         
     },
     {
       where: {
