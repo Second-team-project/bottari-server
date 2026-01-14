@@ -119,7 +119,7 @@ async function create(data) {
             title: '보관 알림', 
             message: '고객님의 짐이 안전하게 보관되었습니다.',
             data: {
-              targetUrl: `/reserve/list'`
+              targetUrl: `/reserve/list`
             }
           }
         ).catch(err => console.error('Push Notification Error:', err));
@@ -150,8 +150,8 @@ async function update(id, data) {
     // 기본 정보 수정
     await reservationRepository.updateByPk(t, id, data);
 
-    // 유저에게 보관 완료 알림
-    if(data.state !== reservation.state) {
+    // 유저에게 보관 완료 알림 (state가 명시적으로 전달되었을 때만)
+    if(data.state && data.state !== reservation.state) {
       if (data.state === 'RESERVED') {
         notifications.push(async () => {
           await subscriptionService.sendPushNotification(
@@ -160,7 +160,7 @@ async function update(id, data) {
             { title: '보관 알림',
               message: '고객님의 짐이 보관되었습니다.',
               data: {
-                targetUrl: `/reserve/list'`
+                targetUrl: `/reserve/list`
               }
             }
           );
@@ -189,7 +189,7 @@ async function update(id, data) {
     if (data.driverId !== undefined) {
 
       // 기존의 배정된 기사 확인
-      const AssignedDriver = reservation.reservationDriver && reservation.reservationDriver[0];
+      const AssignedDriver = reservation.reservationsDrivers && reservation.reservationsDrivers[0];
       
       // 일단 기존에 배정된 기사가 있다면 '해제' 처리
       await reservationRepository.updateUnassigned(t, id);
@@ -255,7 +255,7 @@ async function update(id, data) {
             { title: '기사 배정',
               message: '담당 기사님이 배정되었습니다.',
               data: {
-                targetUrl: `/reserve/list'`
+                targetUrl: `/reserve/list`
               }
             }
           );
@@ -301,7 +301,7 @@ async function update(id, data) {
       await bookerRepository.updateByReservId(t, id, bookerUpdateData);
     }
 
-    // await Promise.allSettled(notifications);
+    await Promise.allSettled(notifications.map(fn => fn()));
     // 업데이트된 최신 정보를 다시 조회해서 반환
     return await reservationRepository.findByPkJoinUser(t, id);
   });

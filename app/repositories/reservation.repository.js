@@ -259,7 +259,7 @@ async function findByPkJoinUser(t = null, id) {
         {
           model: Driver,
           as: 'reservationsDrivers',
-          attributes: ['driverName', 'phone', 'carNumber'],
+          attributes: ['id', 'driverName', 'phone', 'carNumber'],
           required: false,
         },
         {

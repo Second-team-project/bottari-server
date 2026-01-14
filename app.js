@@ -22,12 +22,12 @@ import userReserveRouter from './routes/user/user.reserve.router.js';
 import userReviewRouter from './routes/user/user.review.router.js';
 import userGuideImgRouter from './routes/user/user.guide.router.js';
 import userNoticesRouter from './routes/user/user.notices.router.js';
-import userFAQRouter from './routes/user/user.FAQ.router.js';
+import userFAQRouter from './routes/user/user.faq.router.js';
 
 // === driver
 import driverAuthRouter from './routes/drivers/driver.auth.router.js';
 import driverProfileRouter from './routes/drivers/driver.profile.router.js';
-import driverAttendanceRouter from './routes/drivers/driver.Attendance.router.js';
+import driverAttendanceRouter from './routes/drivers/driver.attendance.router.js';
 import driverDeliveriesRouter from './routes/drivers/driver.deliveries.router.js';
 import driverLocationRouter from './routes/drivers/driver.location.router.js';
 
