@@ -137,6 +137,9 @@ async function create(data) {
  */
 async function update(id, data) {
   return await db.sequelize.transaction(async t => {
+    if (data.driverId === '') {
+      data.driverId = null;
+    }
     // 알림 발송 작업 모아둘 배열
     const notifications = [];
 
@@ -146,6 +149,11 @@ async function update(id, data) {
     if (!reservation) {
       throw new customError('해당 예약을 찾을 수 없습니다.', NOT_FOUND_ERROR);
     }
+
+    const reservationUpdateData = {
+      state: data.state,
+      notes: data.notes,
+    };
     
     // 기본 정보 수정
     await reservationRepository.updateByPk(t, id, data);
