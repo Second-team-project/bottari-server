@@ -45,7 +45,7 @@ export default {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Notices', null, {});
+    await queryInterface.bulkDelete(tableName, null, {});
   }
 
 };
